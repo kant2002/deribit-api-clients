@@ -16,7 +16,6 @@ The access token is valid for a certain time, read more about the scope of acces
 * ASP.NET Core
 * C
 * Clojure
-* C
 * C++ Qt5
 * C++ REST SDK
 * C#
@@ -40,7 +39,7 @@ The access token is valid for a certain time, read more about the scope of acces
 Following are example code snippets on how to do authentication (using `client_credentials`) with the Python and PHP client libraries
 
 ##### Python
-```
+```python
     # Setup configuration instance
     conf = configuration.Configuration()
     # Setup unauthenticated client
@@ -62,7 +61,8 @@ Following are example code snippets on how to do authentication (using `client_c
     print(response['result']['address'])
 ```
 ##### PHP
-```
+```php
+  <?php
   $configuration = new Configuration();
   $publicApi = new PublicApi($client = null, $configuration);
   // Authenticate with API credentials
