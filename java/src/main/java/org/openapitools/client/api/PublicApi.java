@@ -1,0 +1,2973 @@
+/*
+ * Deribit API
+ * #Overview  Deribit provides three different interfaces to access the API:  * [JSON-RPC over Websocket](#json-rpc) * [JSON-RPC over HTTP](#json-rpc) * [FIX](#fix-api) (Financial Information eXchange)  With the API Console you can use and test the JSON-RPC API, both via HTTP and  via Websocket. To visit the API console, go to __Account > API tab >  API Console tab.__   ##Naming Deribit tradeable assets or instruments use the following system of naming:  |Kind|Examples|Template|Comments| |----|--------|--------|--------| |Future|<code>BTC-25MAR16</code>, <code>BTC-5AUG16</code>|<code>BTC-DMMMYY</code>|<code>BTC</code> is currency, <code>DMMMYY</code> is expiration date, <code>D</code> stands for day of month (1 or 2 digits), <code>MMM</code> - month (3 first letters in English), <code>YY</code> stands for year.| |Perpetual|<code>BTC-PERPETUAL</code>                        ||Perpetual contract for currency <code>BTC</code>.| |Option|<code>BTC-25MAR16-420-C</code>, <code>BTC-5AUG16-580-P</code>|<code>BTC-DMMMYY-STRIKE-K</code>|<code>STRIKE</code> is option strike price in USD. Template <code>K</code> is option kind: <code>C</code> for call options or <code>P</code> for put options.|   # JSON-RPC JSON-RPC is a light-weight remote procedure call (RPC) protocol. The  [JSON-RPC specification](https://www.jsonrpc.org/specification) defines the data structures that are used for the messages that are exchanged between client and server, as well as the rules around their processing. JSON-RPC uses JSON (RFC 4627) as data format.  JSON-RPC is transport agnostic: it does not specify which transport mechanism must be used. The Deribit API supports both Websocket (preferred) and HTTP (with limitations: subscriptions are not supported over HTTP).  ## Request messages > An example of a request message:  ```json {     \"jsonrpc\": \"2.0\",     \"id\": 8066,     \"method\": \"public/ticker\",     \"params\": {         \"instrument\": \"BTC-24AUG18-6500-P\"     } } ```  According to the JSON-RPC sepcification the requests must be JSON objects with the following fields.  |Name|Type|Description| |----|----|-----------| |jsonrpc|string|The version of the JSON-RPC spec: \"2.0\"| |id|integer or string|An identifier of the request. If it is included, then the response will contain the same identifier| |method|string|The method to be invoked| |params|object|The parameters values for the method. The field names must match with the expected parameter names. The parameters that are expected are described in the documentation for the methods, below.|  <aside class=\"warning\"> The JSON-RPC specification describes two features that are currently not supported by the API:  <ul> <li>Specification of parameter values by position</li> <li>Batch requests</li> </ul>  </aside>   ## Response messages > An example of a response message:  ```json {     \"jsonrpc\": \"2.0\",     \"id\": 5239,     \"testnet\": false,     \"result\": [         {             \"currency\": \"BTC\",             \"currencyLong\": \"Bitcoin\",             \"minConfirmation\": 2,             \"txFee\": 0.0006,             \"isActive\": true,             \"coinType\": \"BITCOIN\",             \"baseAddress\": null         }     ],     \"usIn\": 1535043730126248,     \"usOut\": 1535043730126250,     \"usDiff\": 2 } ```  The JSON-RPC API always responds with a JSON object with the following fields.   |Name|Type|Description| |----|----|-----------| |id|integer|This is the same id that was sent in the request.| |result|any|If successful, the result of the API call. The format for the result is described with each method.| |error|error object|Only present if there was an error invoking the method. The error object is described below.| |testnet|boolean|Indicates whether the API in use is actually the test API.  <code>false</code> for production server, <code>true</code> for test server.| |usIn|integer|The timestamp when the requests was received (microseconds since the Unix epoch)| |usOut|integer|The timestamp when the response was sent (microseconds since the Unix epoch)| |usDiff|integer|The number of microseconds that was spent handling the request|  <aside class=\"notice\"> The fields <code>testnet</code>, <code>usIn</code>, <code>usOut</code> and <code>usDiff</code> are not part of the JSON-RPC standard.  <p>In order not to clutter the examples they will generally be omitted from the example code.</p> </aside>  > An example of a response with an error:  ```json {     \"jsonrpc\": \"2.0\",     \"id\": 8163,     \"error\": {         \"code\": 11050,         \"message\": \"bad_request\"     },     \"testnet\": false,     \"usIn\": 1535037392434763,     \"usOut\": 1535037392448119,     \"usDiff\": 13356 } ``` In case of an error the response message will contain the error field, with as value an object with the following with the following fields:  |Name|Type|Description |----|----|-----------| |code|integer|A number that indicates the kind of error.| |message|string|A short description that indicates the kind of error.| |data|any|Additional data about the error. This field may be omitted.|  ## Notifications  > An example of a notification:  ```json {     \"jsonrpc\": \"2.0\",     \"method\": \"subscription\",     \"params\": {         \"channel\": \"deribit_price_index.btc_usd\",         \"data\": {             \"timestamp\": 1535098298227,             \"price\": 6521.17,             \"index_name\": \"btc_usd\"         }     } } ```  API users can subscribe to certain types of notifications. This means that they will receive JSON-RPC notification-messages from the server when certain events occur, such as changes to the index price or changes to the order book for a certain instrument.   The API methods [public/subscribe](#public-subscribe) and [private/subscribe](#private-subscribe) are used to set up a subscription. Since HTTP does not support the sending of messages from server to client, these methods are only availble when using the Websocket transport mechanism.  At the moment of subscription a \"channel\" must be specified. The channel determines the type of events that will be received.  See [Subscriptions](#subscriptions) for more details about the channels.  In accordance with the JSON-RPC specification, the format of a notification  is that of a request message without an <code>id</code> field. The value of the <code>method</code> field will always be <code>\"subscription\"</code>. The <code>params</code> field will always be an object with 2 members: <code>channel</code> and <code>data</code>. The value of the <code>channel</code> member is the name of the channel (a string). The value of the <code>data</code> member is an object that contains data  that is specific for the channel.   ## Authentication  > An example of a JSON request with token:  ```json {     \"id\": 5647,     \"method\": \"private/get_subaccounts\",     \"params\": {         \"access_token\": \"67SVutDoVZSzkUStHSuk51WntMNBJ5mh5DYZhwzpiqDF\"     } } ```  The API consists of `public` and `private` methods. The public methods do not require authentication. The private methods use OAuth 2.0 authentication. This means that a valid OAuth access token must be included in the request, which can get achived by calling method [public/auth](#public-auth).  When the token was assigned to the user, it should be passed along, with other request parameters, back to the server:  |Connection type|Access token placement |----|-----------| |**Websocket**|Inside request JSON parameters, as an `access_token` field| |**HTTP (REST)**|Header `Authorization: bearer ```Token``` ` value|  ### Additional authorization method - basic user credentials  <span style=\"color:red\"><b> ! Not recommended - however, it could be useful for quick testing API</b></span></br>  Every `private` method could be accessed by providing, inside HTTP `Authorization: Basic XXX` header, values with user `ClientId` and assigned `ClientSecret` (both values can be found on the API page on the Deribit website) encoded with `Base64`:  <code>Authorization: Basic BASE64(`ClientId` + `:` + `ClientSecret`)</code>   ### Additional authorization method - Deribit signature credentials  The Derbit service provides dedicated authorization method, which harness user generated signature to increase security level for passing request data. Generated value is passed inside `Authorization` header, coded as:  <code>Authorization: deri-hmac-sha256 id=```ClientId```,ts=```Timestamp```,sig=```Signature```,nonce=```Nonce```</code>  where:  |Deribit credential|Description |----|-----------| |*ClientId*|Can be found on the API page on the Deribit website| |*Timestamp*|Time when the request was generated - given as **miliseconds**. It's valid for **60 seconds** since generation, after that time any request with an old timestamp will be rejected.| |*Signature*|Value for signature calculated as described below | |*Nonce*|Single usage, user generated initialization vector for the server token|  The signature is generated by the following formula:  <code> Signature = HEX_STRING( HMAC-SHA256( ClientSecret, StringToSign ) );</code></br>  <code> StringToSign =  Timestamp + \"\\n\" + Nonce + \"\\n\" + RequestData;</code></br>  <code> RequestData =  UPPERCASE(HTTP_METHOD())  + \"\\n\" + URI() + \"\\n\" + RequestBody + \"\\n\";</code></br>   e.g. (using shell with ```openssl``` tool):  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientId=AAAAAAAAAAA</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientSecret=ABCD</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Timestamp=$( date +%s000 )</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Nonce=$( cat /dev/urandom | tr -dc 'a-z0-9' | head -c8 )</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;URI=\"/api/v2/private/get_account_summary?currency=BTC\"</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;HttpMethod=GET</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Body=\"\"</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Signature=$( echo -ne \"${Timestamp}\\n${Nonce}\\n${HttpMethod}\\n${URI}\\n${Body}\\n\" | openssl sha256 -r -hmac \"$ClientSecret\" | cut -f1 -d' ' )</code></br></br> <code>&nbsp;&nbsp;&nbsp;&nbsp;echo $Signature</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;shell output> ea40d5e5e4fae235ab22b61da98121fbf4acdc06db03d632e23c66bcccb90d2c  (**WARNING**: Exact value depends on current timestamp and client credentials</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;curl -s -X ${HttpMethod} -H \"Authorization: deri-hmac-sha256 id=${ClientId},ts=${Timestamp},nonce=${Nonce},sig=${Signature}\" \"https://www.deribit.com${URI}\"</code></br></br>    ### Additional authorization method - signature credentials (WebSocket API)  When connecting through Websocket, user can request for authorization using ```client_credential``` method, which requires providing following parameters (as a part of JSON request):  |JSON parameter|Description |----|-----------| |*grant_type*|Must be **client_signature**| |*client_id*|Can be found on the API page on the Deribit website| |*timestamp*|Time when the request was generated - given as **miliseconds**. It's valid for **60 seconds** since generation, after that time any request with an old timestamp will be rejected.| |*signature*|Value for signature calculated as described below | |*nonce*|Single usage, user generated initialization vector for the server token| |*data*|**Optional** field, which contains any user specific value|  The signature is generated by the following formula:  <code> StringToSign =  Timestamp + \"\\n\" + Nonce + \"\\n\" + Data;</code></br>  <code> Signature = HEX_STRING( HMAC-SHA256( ClientSecret, StringToSign ) );</code></br>   e.g. (using shell with ```openssl``` tool):  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientId=AAAAAAAAAAA</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientSecret=ABCD</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Timestamp=$( date +%s000 ) # e.g. 1554883365000 </code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Nonce=$( cat /dev/urandom | tr -dc 'a-z0-9' | head -c8 ) # e.g. fdbmmz79 </code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Data=\"\"</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Signature=$( echo -ne \"${Timestamp}\\n${Nonce}\\n${Data}\\n\" | openssl sha256 -r -hmac \"$ClientSecret\" | cut -f1 -d' ' )</code></br></br> <code>&nbsp;&nbsp;&nbsp;&nbsp;echo $Signature</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;shell output> e20c9cd5639d41f8bbc88f4d699c4baf94a4f0ee320e9a116b72743c449eb994  (**WARNING**: Exact value depends on current timestamp and client credentials</code></br></br>   You can also check the signature value using some online tools like, e.g: [https://codebeautify.org/hmac-generator](https://codebeautify.org/hmac-generator) (but don't forget about adding *newline* after each part of the hashed text and remember that you **should use** it only with your **test credentials**).   Here's a sample JSON request created using the values from the example above:  <code> {                            </br> &nbsp;&nbsp;\"jsonrpc\" : \"2.0\",         </br> &nbsp;&nbsp;\"id\" : 9929,               </br> &nbsp;&nbsp;\"method\" : \"public/auth\",  </br> &nbsp;&nbsp;\"params\" :                 </br> &nbsp;&nbsp;{                        </br> &nbsp;&nbsp;&nbsp;&nbsp;\"grant_type\" : \"client_signature\",   </br> &nbsp;&nbsp;&nbsp;&nbsp;\"client_id\" : \"AAAAAAAAAAA\",         </br> &nbsp;&nbsp;&nbsp;&nbsp;\"timestamp\": \"1554883365000\",        </br> &nbsp;&nbsp;&nbsp;&nbsp;\"nonce\": \"fdbmmz79\",                 </br> &nbsp;&nbsp;&nbsp;&nbsp;\"data\": \"\",                          </br> &nbsp;&nbsp;&nbsp;&nbsp;\"signature\" : \"e20c9cd5639d41f8bbc88f4d699c4baf94a4f0ee320e9a116b72743c449eb994\"  </br> &nbsp;&nbsp;}                        </br> }                            </br> </code>   ### Access scope  When asking for `access token` user can provide the required access level (called `scope`) which defines what type of functionality he/she wants to use, and whether requests are only going to check for some data or also to update them.  Scopes are required and checked for `private` methods, so if you plan to use only `public` information you can stay with values assigned by default.  |Scope|Description |----|-----------| |*account:read*|Access to **account** methods - read only data| |*account:read_write*|Access to **account** methods - allows to manage account settings, add subaccounts, etc.| |*trade:read*|Access to **trade** methods - read only data| |*trade:read_write*|Access to **trade** methods - required to create and modify orders| |*wallet:read*|Access to **wallet** methods - read only data| |*wallet:read_write*|Access to **wallet** methods - allows to withdraw, generate new deposit address, etc.| |*wallet:none*, *account:none*, *trade:none*|Blocked access to specified functionality|    <span style=\"color:red\">**NOTICE:**</span> Depending on choosing an authentication method (```grant type```) some scopes could be narrowed by the server. e.g. when ```grant_type = client_credentials``` and ```scope = wallet:read_write``` it's modified by the server as ```scope = wallet:read```\"   ## JSON-RPC over websocket Websocket is the prefered transport mechanism for the JSON-RPC API, because it is faster and because it can support [subscriptions](#subscriptions) and [cancel on disconnect](#private-enable_cancel_on_disconnect). The code examples that can be found next to each of the methods show how websockets can be used from Python or Javascript/node.js.  ## JSON-RPC over HTTP Besides websockets it is also possible to use the API via HTTP. The code examples for 'shell' show how this can be done using curl. Note that subscriptions and cancel on disconnect are not supported via HTTP.  #Methods 
+ *
+ * OpenAPI spec version: 2.0.0
+ * 
+ *
+ * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
+ * https://openapi-generator.tech
+ * Do not edit the class manually.
+ */
+
+
+package org.openapitools.client.api;
+
+import org.openapitools.client.ApiCallback;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.ApiResponse;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.Pair;
+import org.openapitools.client.ProgressRequestBody;
+import org.openapitools.client.ProgressResponseBody;
+
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+
+
+import java.math.BigDecimal;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class PublicApi {
+    private ApiClient localVarApiClient;
+
+    public PublicApi() {
+        this(Configuration.getDefaultApiClient());
+    }
+
+    public PublicApi(ApiClient apiClient) {
+        this.localVarApiClient = apiClient;
+    }
+
+    public ApiClient getApiClient() {
+        return localVarApiClient;
+    }
+
+    public void setApiClient(ApiClient apiClient) {
+        this.localVarApiClient = apiClient;
+    }
+
+    /**
+     * Build call for publicAuthGet
+     * @param grantType Method of authentication (required)
+     * @param username Required for grant type &#x60;password&#x60; (required)
+     * @param password Required for grant type &#x60;password&#x60; (required)
+     * @param clientId Required for grant type &#x60;client_credentials&#x60; and &#x60;client_signature&#x60; (required)
+     * @param clientSecret Required for grant type &#x60;client_credentials&#x60; (required)
+     * @param refreshToken Required for grant type &#x60;refresh_token&#x60; (required)
+     * @param timestamp Required for grant type &#x60;client_signature&#x60;, provides time when request has been generated (required)
+     * @param signature Required for grant type &#x60;client_signature&#x60;; it&#39;s a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with &#x60;SHA256&#x60; hash algorithm (required)
+     * @param nonce Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token (optional)
+     * @param state Will be passed back in the response (optional)
+     * @param scope Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicAuthGetCall(String grantType, String username, String password, String clientId, String clientSecret, String refreshToken, String timestamp, String signature, String nonce, String state, String scope, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/auth";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (grantType != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("grant_type", grantType));
+        }
+
+        if (username != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("username", username));
+        }
+
+        if (password != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("password", password));
+        }
+
+        if (clientId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_id", clientId));
+        }
+
+        if (clientSecret != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_secret", clientSecret));
+        }
+
+        if (refreshToken != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("refresh_token", refreshToken));
+        }
+
+        if (timestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("timestamp", timestamp));
+        }
+
+        if (signature != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("signature", signature));
+        }
+
+        if (nonce != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("nonce", nonce));
+        }
+
+        if (state != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("state", state));
+        }
+
+        if (scope != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("scope", scope));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicAuthGetValidateBeforeCall(String grantType, String username, String password, String clientId, String clientSecret, String refreshToken, String timestamp, String signature, String nonce, String state, String scope, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'grantType' is set
+        if (grantType == null) {
+            throw new ApiException("Missing the required parameter 'grantType' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'username' is set
+        if (username == null) {
+            throw new ApiException("Missing the required parameter 'username' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'password' is set
+        if (password == null) {
+            throw new ApiException("Missing the required parameter 'password' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'clientId' is set
+        if (clientId == null) {
+            throw new ApiException("Missing the required parameter 'clientId' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'clientSecret' is set
+        if (clientSecret == null) {
+            throw new ApiException("Missing the required parameter 'clientSecret' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'refreshToken' is set
+        if (refreshToken == null) {
+            throw new ApiException("Missing the required parameter 'refreshToken' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'timestamp' is set
+        if (timestamp == null) {
+            throw new ApiException("Missing the required parameter 'timestamp' when calling publicAuthGet(Async)");
+        }
+        
+        // verify the required parameter 'signature' is set
+        if (signature == null) {
+            throw new ApiException("Missing the required parameter 'signature' when calling publicAuthGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicAuthGetCall(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Authenticate
+     * Retrieve an Oauth access token, to be used for authentication of &#39;private&#39; requests.  Three methods of authentication are supported:  - &lt;code&gt;password&lt;/code&gt; - using email and and password as when logging on to the website - &lt;code&gt;client_credentials&lt;/code&gt; - using the access key and access secret that can be found on the API page on the website - &lt;code&gt;client_signature&lt;/code&gt; - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials) - &lt;code&gt;refresh_token&lt;/code&gt; - using a refresh token that was received from an earlier invocation  The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. 
+     * @param grantType Method of authentication (required)
+     * @param username Required for grant type &#x60;password&#x60; (required)
+     * @param password Required for grant type &#x60;password&#x60; (required)
+     * @param clientId Required for grant type &#x60;client_credentials&#x60; and &#x60;client_signature&#x60; (required)
+     * @param clientSecret Required for grant type &#x60;client_credentials&#x60; (required)
+     * @param refreshToken Required for grant type &#x60;refresh_token&#x60; (required)
+     * @param timestamp Required for grant type &#x60;client_signature&#x60;, provides time when request has been generated (required)
+     * @param signature Required for grant type &#x60;client_signature&#x60;; it&#39;s a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with &#x60;SHA256&#x60; hash algorithm (required)
+     * @param nonce Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token (optional)
+     * @param state Will be passed back in the response (optional)
+     * @param scope Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicAuthGet(String grantType, String username, String password, String clientId, String clientSecret, String refreshToken, String timestamp, String signature, String nonce, String state, String scope) throws ApiException {
+        ApiResponse<Object> localVarResp = publicAuthGetWithHttpInfo(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Authenticate
+     * Retrieve an Oauth access token, to be used for authentication of &#39;private&#39; requests.  Three methods of authentication are supported:  - &lt;code&gt;password&lt;/code&gt; - using email and and password as when logging on to the website - &lt;code&gt;client_credentials&lt;/code&gt; - using the access key and access secret that can be found on the API page on the website - &lt;code&gt;client_signature&lt;/code&gt; - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials) - &lt;code&gt;refresh_token&lt;/code&gt; - using a refresh token that was received from an earlier invocation  The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. 
+     * @param grantType Method of authentication (required)
+     * @param username Required for grant type &#x60;password&#x60; (required)
+     * @param password Required for grant type &#x60;password&#x60; (required)
+     * @param clientId Required for grant type &#x60;client_credentials&#x60; and &#x60;client_signature&#x60; (required)
+     * @param clientSecret Required for grant type &#x60;client_credentials&#x60; (required)
+     * @param refreshToken Required for grant type &#x60;refresh_token&#x60; (required)
+     * @param timestamp Required for grant type &#x60;client_signature&#x60;, provides time when request has been generated (required)
+     * @param signature Required for grant type &#x60;client_signature&#x60;; it&#39;s a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with &#x60;SHA256&#x60; hash algorithm (required)
+     * @param nonce Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token (optional)
+     * @param state Will be passed back in the response (optional)
+     * @param scope Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicAuthGetWithHttpInfo(String grantType, String username, String password, String clientId, String clientSecret, String refreshToken, String timestamp, String signature, String nonce, String state, String scope) throws ApiException {
+        okhttp3.Call localVarCall = publicAuthGetValidateBeforeCall(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Authenticate (asynchronously)
+     * Retrieve an Oauth access token, to be used for authentication of &#39;private&#39; requests.  Three methods of authentication are supported:  - &lt;code&gt;password&lt;/code&gt; - using email and and password as when logging on to the website - &lt;code&gt;client_credentials&lt;/code&gt; - using the access key and access secret that can be found on the API page on the website - &lt;code&gt;client_signature&lt;/code&gt; - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials) - &lt;code&gt;refresh_token&lt;/code&gt; - using a refresh token that was received from an earlier invocation  The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. 
+     * @param grantType Method of authentication (required)
+     * @param username Required for grant type &#x60;password&#x60; (required)
+     * @param password Required for grant type &#x60;password&#x60; (required)
+     * @param clientId Required for grant type &#x60;client_credentials&#x60; and &#x60;client_signature&#x60; (required)
+     * @param clientSecret Required for grant type &#x60;client_credentials&#x60; (required)
+     * @param refreshToken Required for grant type &#x60;refresh_token&#x60; (required)
+     * @param timestamp Required for grant type &#x60;client_signature&#x60;, provides time when request has been generated (required)
+     * @param signature Required for grant type &#x60;client_signature&#x60;; it&#39;s a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with &#x60;SHA256&#x60; hash algorithm (required)
+     * @param nonce Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token (optional)
+     * @param state Will be passed back in the response (optional)
+     * @param scope Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicAuthGetAsync(String grantType, String username, String password, String clientId, String clientSecret, String refreshToken, String timestamp, String signature, String nonce, String state, String scope, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicAuthGetValidateBeforeCall(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicDisableHeartbeatGet
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicDisableHeartbeatGetCall(final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/disable_heartbeat";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicDisableHeartbeatGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        
+
+        okhttp3.Call localVarCall = publicDisableHeartbeatGetCall(_callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Stop sending heartbeat messages.
+     * 
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicDisableHeartbeatGet() throws ApiException {
+        ApiResponse<Object> localVarResp = publicDisableHeartbeatGetWithHttpInfo();
+        return localVarResp.getData();
+    }
+
+    /**
+     * Stop sending heartbeat messages.
+     * 
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicDisableHeartbeatGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = publicDisableHeartbeatGetValidateBeforeCall(null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Stop sending heartbeat messages. (asynchronously)
+     * 
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicDisableHeartbeatGetAsync(final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicDisableHeartbeatGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetAnnouncementsGet
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetAnnouncementsGetCall(final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_announcements";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetAnnouncementsGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        
+
+        okhttp3.Call localVarCall = publicGetAnnouncementsGetCall(_callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves announcements from the last 30 days.
+     * 
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetAnnouncementsGet() throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetAnnouncementsGetWithHttpInfo();
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves announcements from the last 30 days.
+     * 
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetAnnouncementsGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = publicGetAnnouncementsGetValidateBeforeCall(null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves announcements from the last 30 days. (asynchronously)
+     * 
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetAnnouncementsGetAsync(final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetAnnouncementsGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetBookSummaryByCurrencyGet
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetBookSummaryByCurrencyGetCall(String currency, String kind, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_book_summary_by_currency";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        if (kind != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("kind", kind));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetBookSummaryByCurrencyGetValidateBeforeCall(String currency, String kind, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetBookSummaryByCurrencyGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetBookSummaryByCurrencyGetCall(currency, kind, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetBookSummaryByCurrencyGet(String currency, String kind) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetBookSummaryByCurrencyGetWithHttpInfo(currency, kind);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetBookSummaryByCurrencyGetWithHttpInfo(String currency, String kind) throws ApiException {
+        okhttp3.Call localVarCall = publicGetBookSummaryByCurrencyGetValidateBeforeCall(currency, kind, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind). (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetBookSummaryByCurrencyGetAsync(String currency, String kind, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetBookSummaryByCurrencyGetValidateBeforeCall(currency, kind, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetBookSummaryByInstrumentGet
+     * @param instrumentName Instrument name (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetBookSummaryByInstrumentGetCall(String instrumentName, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_book_summary_by_instrument";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetBookSummaryByInstrumentGetValidateBeforeCall(String instrumentName, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetBookSummaryByInstrumentGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetBookSummaryByInstrumentGetCall(instrumentName, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetBookSummaryByInstrumentGet(String instrumentName) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetBookSummaryByInstrumentGetWithHttpInfo(instrumentName);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetBookSummaryByInstrumentGetWithHttpInfo(String instrumentName) throws ApiException {
+        okhttp3.Call localVarCall = publicGetBookSummaryByInstrumentGetValidateBeforeCall(instrumentName, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetBookSummaryByInstrumentGetAsync(String instrumentName, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetBookSummaryByInstrumentGetValidateBeforeCall(instrumentName, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetContractSizeGet
+     * @param instrumentName Instrument name (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetContractSizeGetCall(String instrumentName, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_contract_size";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetContractSizeGetValidateBeforeCall(String instrumentName, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetContractSizeGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetContractSizeGetCall(instrumentName, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves contract size of provided instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetContractSizeGet(String instrumentName) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetContractSizeGetWithHttpInfo(instrumentName);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves contract size of provided instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetContractSizeGetWithHttpInfo(String instrumentName) throws ApiException {
+        okhttp3.Call localVarCall = publicGetContractSizeGetValidateBeforeCall(instrumentName, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves contract size of provided instrument. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetContractSizeGetAsync(String instrumentName, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetContractSizeGetValidateBeforeCall(instrumentName, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetCurrenciesGet
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetCurrenciesGetCall(final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_currencies";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetCurrenciesGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        
+
+        okhttp3.Call localVarCall = publicGetCurrenciesGetCall(_callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves all cryptocurrencies supported by the API.
+     * 
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetCurrenciesGet() throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetCurrenciesGetWithHttpInfo();
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves all cryptocurrencies supported by the API.
+     * 
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetCurrenciesGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = publicGetCurrenciesGetValidateBeforeCall(null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves all cryptocurrencies supported by the API. (asynchronously)
+     * 
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetCurrenciesGetAsync(final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetCurrenciesGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetFundingChartDataGet
+     * @param instrumentName Instrument name (required)
+     * @param length Specifies time period. &#x60;8h&#x60; - 8 hours, &#x60;24h&#x60; - 24 hours (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetFundingChartDataGetCall(String instrumentName, String length, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_funding_chart_data";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        if (length != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("length", length));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetFundingChartDataGetValidateBeforeCall(String instrumentName, String length, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetFundingChartDataGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetFundingChartDataGetCall(instrumentName, length, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieve the latest user trades that have occurred for PERPETUAL instruments in a specific currency symbol and within given time range.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param length Specifies time period. &#x60;8h&#x60; - 8 hours, &#x60;24h&#x60; - 24 hours (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetFundingChartDataGet(String instrumentName, String length) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetFundingChartDataGetWithHttpInfo(instrumentName, length);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieve the latest user trades that have occurred for PERPETUAL instruments in a specific currency symbol and within given time range.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param length Specifies time period. &#x60;8h&#x60; - 8 hours, &#x60;24h&#x60; - 24 hours (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetFundingChartDataGetWithHttpInfo(String instrumentName, String length) throws ApiException {
+        okhttp3.Call localVarCall = publicGetFundingChartDataGetValidateBeforeCall(instrumentName, length, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieve the latest user trades that have occurred for PERPETUAL instruments in a specific currency symbol and within given time range. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param length Specifies time period. &#x60;8h&#x60; - 8 hours, &#x60;24h&#x60; - 24 hours (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetFundingChartDataGetAsync(String instrumentName, String length, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetFundingChartDataGetValidateBeforeCall(instrumentName, length, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetHistoricalVolatilityGet
+     * @param currency The currency symbol (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetHistoricalVolatilityGetCall(String currency, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_historical_volatility";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetHistoricalVolatilityGetValidateBeforeCall(String currency, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetHistoricalVolatilityGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetHistoricalVolatilityGetCall(currency, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Provides information about historical volatility for given cryptocurrency.
+     * 
+     * @param currency The currency symbol (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetHistoricalVolatilityGet(String currency) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetHistoricalVolatilityGetWithHttpInfo(currency);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Provides information about historical volatility for given cryptocurrency.
+     * 
+     * @param currency The currency symbol (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetHistoricalVolatilityGetWithHttpInfo(String currency) throws ApiException {
+        okhttp3.Call localVarCall = publicGetHistoricalVolatilityGetValidateBeforeCall(currency, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Provides information about historical volatility for given cryptocurrency. (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetHistoricalVolatilityGetAsync(String currency, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetHistoricalVolatilityGetValidateBeforeCall(currency, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetIndexGet
+     * @param currency The currency symbol (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetIndexGetCall(String currency, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_index";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetIndexGetValidateBeforeCall(String currency, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetIndexGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetIndexGetCall(currency, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves the current index price for the instruments, for the selected currency.
+     * 
+     * @param currency The currency symbol (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetIndexGet(String currency) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetIndexGetWithHttpInfo(currency);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves the current index price for the instruments, for the selected currency.
+     * 
+     * @param currency The currency symbol (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetIndexGetWithHttpInfo(String currency) throws ApiException {
+        okhttp3.Call localVarCall = publicGetIndexGetValidateBeforeCall(currency, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves the current index price for the instruments, for the selected currency. (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetIndexGetAsync(String currency, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetIndexGetValidateBeforeCall(currency, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetInstrumentsGet
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param expired Set to true to show expired instruments instead of active ones. (optional, default to false)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetInstrumentsGetCall(String currency, String kind, Boolean expired, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_instruments";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        if (kind != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("kind", kind));
+        }
+
+        if (expired != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("expired", expired));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetInstrumentsGetValidateBeforeCall(String currency, String kind, Boolean expired, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetInstrumentsGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetInstrumentsGetCall(currency, kind, expired, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves available trading instruments. This method can be used to see which instruments are available for trading, or which instruments have existed historically.
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param expired Set to true to show expired instruments instead of active ones. (optional, default to false)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetInstrumentsGet(String currency, String kind, Boolean expired) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetInstrumentsGetWithHttpInfo(currency, kind, expired);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves available trading instruments. This method can be used to see which instruments are available for trading, or which instruments have existed historically.
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param expired Set to true to show expired instruments instead of active ones. (optional, default to false)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetInstrumentsGetWithHttpInfo(String currency, String kind, Boolean expired) throws ApiException {
+        okhttp3.Call localVarCall = publicGetInstrumentsGetValidateBeforeCall(currency, kind, expired, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves available trading instruments. This method can be used to see which instruments are available for trading, or which instruments have existed historically. (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param expired Set to true to show expired instruments instead of active ones. (optional, default to false)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetInstrumentsGetAsync(String currency, String kind, Boolean expired, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetInstrumentsGetValidateBeforeCall(currency, kind, expired, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetLastSettlementsByCurrencyGet
+     * @param currency The currency symbol (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetLastSettlementsByCurrencyGetCall(String currency, String type, Integer count, String continuation, Integer searchStartTimestamp, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_last_settlements_by_currency";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        if (type != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
+        }
+
+        if (count != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("count", count));
+        }
+
+        if (continuation != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("continuation", continuation));
+        }
+
+        if (searchStartTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("search_start_timestamp", searchStartTimestamp));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetLastSettlementsByCurrencyGetValidateBeforeCall(String currency, String type, Integer count, String continuation, Integer searchStartTimestamp, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetLastSettlementsByCurrencyGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetLastSettlementsByCurrencyGetCall(currency, type, count, continuation, searchStartTimestamp, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves historical settlement, delivery and bankruptcy events coming from all instruments within given currency.
+     * 
+     * @param currency The currency symbol (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetLastSettlementsByCurrencyGet(String currency, String type, Integer count, String continuation, Integer searchStartTimestamp) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetLastSettlementsByCurrencyGetWithHttpInfo(currency, type, count, continuation, searchStartTimestamp);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves historical settlement, delivery and bankruptcy events coming from all instruments within given currency.
+     * 
+     * @param currency The currency symbol (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetLastSettlementsByCurrencyGetWithHttpInfo(String currency, String type, Integer count, String continuation, Integer searchStartTimestamp) throws ApiException {
+        okhttp3.Call localVarCall = publicGetLastSettlementsByCurrencyGetValidateBeforeCall(currency, type, count, continuation, searchStartTimestamp, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves historical settlement, delivery and bankruptcy events coming from all instruments within given currency. (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetLastSettlementsByCurrencyGetAsync(String currency, String type, Integer count, String continuation, Integer searchStartTimestamp, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetLastSettlementsByCurrencyGetValidateBeforeCall(currency, type, count, continuation, searchStartTimestamp, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetLastSettlementsByInstrumentGet
+     * @param instrumentName Instrument name (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetLastSettlementsByInstrumentGetCall(String instrumentName, String type, Integer count, String continuation, Integer searchStartTimestamp, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_last_settlements_by_instrument";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        if (type != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("type", type));
+        }
+
+        if (count != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("count", count));
+        }
+
+        if (continuation != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("continuation", continuation));
+        }
+
+        if (searchStartTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("search_start_timestamp", searchStartTimestamp));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetLastSettlementsByInstrumentGetValidateBeforeCall(String instrumentName, String type, Integer count, String continuation, Integer searchStartTimestamp, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetLastSettlementsByInstrumentGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetLastSettlementsByInstrumentGetCall(instrumentName, type, count, continuation, searchStartTimestamp, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves historical public settlement, delivery and bankruptcy events filtered by instrument name.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetLastSettlementsByInstrumentGet(String instrumentName, String type, Integer count, String continuation, Integer searchStartTimestamp) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetLastSettlementsByInstrumentGetWithHttpInfo(instrumentName, type, count, continuation, searchStartTimestamp);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves historical public settlement, delivery and bankruptcy events filtered by instrument name.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetLastSettlementsByInstrumentGetWithHttpInfo(String instrumentName, String type, Integer count, String continuation, Integer searchStartTimestamp) throws ApiException {
+        okhttp3.Call localVarCall = publicGetLastSettlementsByInstrumentGetValidateBeforeCall(instrumentName, type, count, continuation, searchStartTimestamp, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves historical public settlement, delivery and bankruptcy events filtered by instrument name. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param type Settlement type (optional)
+     * @param count Number of requested items, default - &#x60;20&#x60; (optional)
+     * @param continuation Continuation token for pagination (optional)
+     * @param searchStartTimestamp The latest timestamp to return result for (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetLastSettlementsByInstrumentGetAsync(String instrumentName, String type, Integer count, String continuation, Integer searchStartTimestamp, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetLastSettlementsByInstrumentGetValidateBeforeCall(instrumentName, type, count, continuation, searchStartTimestamp, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetLastTradesByCurrencyAndTimeGet
+     * @param currency The currency symbol (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByCurrencyAndTimeGetCall(String currency, Integer startTimestamp, Integer endTimestamp, String kind, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_last_trades_by_currency_and_time";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        if (kind != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("kind", kind));
+        }
+
+        if (startTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("start_timestamp", startTimestamp));
+        }
+
+        if (endTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("end_timestamp", endTimestamp));
+        }
+
+        if (count != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("count", count));
+        }
+
+        if (includeOld != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("include_old", includeOld));
+        }
+
+        if (sorting != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sorting", sorting));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetLastTradesByCurrencyAndTimeGetValidateBeforeCall(String currency, Integer startTimestamp, Integer endTimestamp, String kind, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetLastTradesByCurrencyAndTimeGet(Async)");
+        }
+        
+        // verify the required parameter 'startTimestamp' is set
+        if (startTimestamp == null) {
+            throw new ApiException("Missing the required parameter 'startTimestamp' when calling publicGetLastTradesByCurrencyAndTimeGet(Async)");
+        }
+        
+        // verify the required parameter 'endTimestamp' is set
+        if (endTimestamp == null) {
+            throw new ApiException("Missing the required parameter 'endTimestamp' when calling publicGetLastTradesByCurrencyAndTimeGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetLastTradesByCurrencyAndTimeGetCall(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for instruments in a specific currency symbol and within given time range.
+     * 
+     * @param currency The currency symbol (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetLastTradesByCurrencyAndTimeGet(String currency, Integer startTimestamp, Integer endTimestamp, String kind, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetLastTradesByCurrencyAndTimeGetWithHttpInfo(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for instruments in a specific currency symbol and within given time range.
+     * 
+     * @param currency The currency symbol (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetLastTradesByCurrencyAndTimeGetWithHttpInfo(String currency, Integer startTimestamp, Integer endTimestamp, String kind, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        okhttp3.Call localVarCall = publicGetLastTradesByCurrencyAndTimeGetValidateBeforeCall(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for instruments in a specific currency symbol and within given time range. (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByCurrencyAndTimeGetAsync(String currency, Integer startTimestamp, Integer endTimestamp, String kind, Integer count, Boolean includeOld, String sorting, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetLastTradesByCurrencyAndTimeGetValidateBeforeCall(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetLastTradesByCurrencyGet
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param startId The ID number of the first trade to be returned (optional)
+     * @param endId The ID number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByCurrencyGetCall(String currency, String kind, String startId, String endId, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_last_trades_by_currency";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (currency != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("currency", currency));
+        }
+
+        if (kind != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("kind", kind));
+        }
+
+        if (startId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("start_id", startId));
+        }
+
+        if (endId != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("end_id", endId));
+        }
+
+        if (count != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("count", count));
+        }
+
+        if (includeOld != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("include_old", includeOld));
+        }
+
+        if (sorting != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sorting", sorting));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetLastTradesByCurrencyGetValidateBeforeCall(String currency, String kind, String startId, String endId, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'currency' is set
+        if (currency == null) {
+            throw new ApiException("Missing the required parameter 'currency' when calling publicGetLastTradesByCurrencyGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetLastTradesByCurrencyGetCall(currency, kind, startId, endId, count, includeOld, sorting, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for instruments in a specific currency symbol.
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param startId The ID number of the first trade to be returned (optional)
+     * @param endId The ID number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetLastTradesByCurrencyGet(String currency, String kind, String startId, String endId, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetLastTradesByCurrencyGetWithHttpInfo(currency, kind, startId, endId, count, includeOld, sorting);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for instruments in a specific currency symbol.
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param startId The ID number of the first trade to be returned (optional)
+     * @param endId The ID number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetLastTradesByCurrencyGetWithHttpInfo(String currency, String kind, String startId, String endId, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        okhttp3.Call localVarCall = publicGetLastTradesByCurrencyGetValidateBeforeCall(currency, kind, startId, endId, count, includeOld, sorting, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for instruments in a specific currency symbol. (asynchronously)
+     * 
+     * @param currency The currency symbol (required)
+     * @param kind Instrument kind, if not provided instruments of all kinds are considered (optional)
+     * @param startId The ID number of the first trade to be returned (optional)
+     * @param endId The ID number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByCurrencyGetAsync(String currency, String kind, String startId, String endId, Integer count, Boolean includeOld, String sorting, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetLastTradesByCurrencyGetValidateBeforeCall(currency, kind, startId, endId, count, includeOld, sorting, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetLastTradesByInstrumentAndTimeGet
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByInstrumentAndTimeGetCall(String instrumentName, Integer startTimestamp, Integer endTimestamp, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_last_trades_by_instrument_and_time";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        if (startTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("start_timestamp", startTimestamp));
+        }
+
+        if (endTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("end_timestamp", endTimestamp));
+        }
+
+        if (count != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("count", count));
+        }
+
+        if (includeOld != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("include_old", includeOld));
+        }
+
+        if (sorting != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sorting", sorting));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetLastTradesByInstrumentAndTimeGetValidateBeforeCall(String instrumentName, Integer startTimestamp, Integer endTimestamp, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetLastTradesByInstrumentAndTimeGet(Async)");
+        }
+        
+        // verify the required parameter 'startTimestamp' is set
+        if (startTimestamp == null) {
+            throw new ApiException("Missing the required parameter 'startTimestamp' when calling publicGetLastTradesByInstrumentAndTimeGet(Async)");
+        }
+        
+        // verify the required parameter 'endTimestamp' is set
+        if (endTimestamp == null) {
+            throw new ApiException("Missing the required parameter 'endTimestamp' when calling publicGetLastTradesByInstrumentAndTimeGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetLastTradesByInstrumentAndTimeGetCall(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for a specific instrument and within given time range.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetLastTradesByInstrumentAndTimeGet(String instrumentName, Integer startTimestamp, Integer endTimestamp, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetLastTradesByInstrumentAndTimeGetWithHttpInfo(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for a specific instrument and within given time range.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetLastTradesByInstrumentAndTimeGetWithHttpInfo(String instrumentName, Integer startTimestamp, Integer endTimestamp, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        okhttp3.Call localVarCall = publicGetLastTradesByInstrumentAndTimeGetValidateBeforeCall(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for a specific instrument and within given time range. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByInstrumentAndTimeGetAsync(String instrumentName, Integer startTimestamp, Integer endTimestamp, Integer count, Boolean includeOld, String sorting, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetLastTradesByInstrumentAndTimeGetValidateBeforeCall(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetLastTradesByInstrumentGet
+     * @param instrumentName Instrument name (required)
+     * @param startSeq The sequence number of the first trade to be returned (optional)
+     * @param endSeq The sequence number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByInstrumentGetCall(String instrumentName, Integer startSeq, Integer endSeq, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_last_trades_by_instrument";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        if (startSeq != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("start_seq", startSeq));
+        }
+
+        if (endSeq != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("end_seq", endSeq));
+        }
+
+        if (count != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("count", count));
+        }
+
+        if (includeOld != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("include_old", includeOld));
+        }
+
+        if (sorting != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("sorting", sorting));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetLastTradesByInstrumentGetValidateBeforeCall(String instrumentName, Integer startSeq, Integer endSeq, Integer count, Boolean includeOld, String sorting, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetLastTradesByInstrumentGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetLastTradesByInstrumentGetCall(instrumentName, startSeq, endSeq, count, includeOld, sorting, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for a specific instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startSeq The sequence number of the first trade to be returned (optional)
+     * @param endSeq The sequence number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetLastTradesByInstrumentGet(String instrumentName, Integer startSeq, Integer endSeq, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetLastTradesByInstrumentGetWithHttpInfo(instrumentName, startSeq, endSeq, count, includeOld, sorting);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for a specific instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startSeq The sequence number of the first trade to be returned (optional)
+     * @param endSeq The sequence number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetLastTradesByInstrumentGetWithHttpInfo(String instrumentName, Integer startSeq, Integer endSeq, Integer count, Boolean includeOld, String sorting) throws ApiException {
+        okhttp3.Call localVarCall = publicGetLastTradesByInstrumentGetValidateBeforeCall(instrumentName, startSeq, endSeq, count, includeOld, sorting, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieve the latest trades that have occurred for a specific instrument. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startSeq The sequence number of the first trade to be returned (optional)
+     * @param endSeq The sequence number of the last trade to be returned (optional)
+     * @param count Number of requested items, default - &#x60;10&#x60; (optional)
+     * @param includeOld Include trades older than 7 days, default - &#x60;false&#x60; (optional)
+     * @param sorting Direction of results sorting (&#x60;default&#x60; value means no sorting, results will be returned in order in which they left the database) (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetLastTradesByInstrumentGetAsync(String instrumentName, Integer startSeq, Integer endSeq, Integer count, Boolean includeOld, String sorting, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetLastTradesByInstrumentGetValidateBeforeCall(instrumentName, startSeq, endSeq, count, includeOld, sorting, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetOrderBookGet
+     * @param instrumentName The instrument name for which to retrieve the order book, see [&#x60;getinstruments&#x60;](#getinstruments) to obtain instrument names. (required)
+     * @param depth The number of entries to return for bids and asks. (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetOrderBookGetCall(String instrumentName, BigDecimal depth, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_order_book";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        if (depth != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("depth", depth));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetOrderBookGetValidateBeforeCall(String instrumentName, BigDecimal depth, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetOrderBookGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetOrderBookGetCall(instrumentName, depth, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves the order book, along with other market values for a given instrument.
+     * 
+     * @param instrumentName The instrument name for which to retrieve the order book, see [&#x60;getinstruments&#x60;](#getinstruments) to obtain instrument names. (required)
+     * @param depth The number of entries to return for bids and asks. (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetOrderBookGet(String instrumentName, BigDecimal depth) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetOrderBookGetWithHttpInfo(instrumentName, depth);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves the order book, along with other market values for a given instrument.
+     * 
+     * @param instrumentName The instrument name for which to retrieve the order book, see [&#x60;getinstruments&#x60;](#getinstruments) to obtain instrument names. (required)
+     * @param depth The number of entries to return for bids and asks. (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetOrderBookGetWithHttpInfo(String instrumentName, BigDecimal depth) throws ApiException {
+        okhttp3.Call localVarCall = publicGetOrderBookGetValidateBeforeCall(instrumentName, depth, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves the order book, along with other market values for a given instrument. (asynchronously)
+     * 
+     * @param instrumentName The instrument name for which to retrieve the order book, see [&#x60;getinstruments&#x60;](#getinstruments) to obtain instrument names. (required)
+     * @param depth The number of entries to return for bids and asks. (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetOrderBookGetAsync(String instrumentName, BigDecimal depth, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetOrderBookGetValidateBeforeCall(instrumentName, depth, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetTimeGet
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetTimeGetCall(final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_time";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetTimeGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        
+
+        okhttp3.Call localVarCall = publicGetTimeGetCall(_callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
+     * 
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetTimeGet() throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetTimeGetWithHttpInfo();
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
+     * 
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetTimeGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = publicGetTimeGetValidateBeforeCall(null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems. (asynchronously)
+     * 
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetTimeGetAsync(final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetTimeGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetTradeVolumesGet
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetTradeVolumesGetCall(final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_trade_volumes";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetTradeVolumesGetValidateBeforeCall(final ApiCallback _callback) throws ApiException {
+        
+
+        okhttp3.Call localVarCall = publicGetTradeVolumesGetCall(_callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Retrieves aggregated 24h trade volumes for different instrument types and currencies.
+     * 
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetTradeVolumesGet() throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetTradeVolumesGetWithHttpInfo();
+        return localVarResp.getData();
+    }
+
+    /**
+     * Retrieves aggregated 24h trade volumes for different instrument types and currencies.
+     * 
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetTradeVolumesGetWithHttpInfo() throws ApiException {
+        okhttp3.Call localVarCall = publicGetTradeVolumesGetValidateBeforeCall(null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Retrieves aggregated 24h trade volumes for different instrument types and currencies. (asynchronously)
+     * 
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetTradeVolumesGetAsync(final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetTradeVolumesGetValidateBeforeCall(_callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicGetTradingviewChartDataGet
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicGetTradingviewChartDataGetCall(String instrumentName, Integer startTimestamp, Integer endTimestamp, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/get_tradingview_chart_data";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        if (startTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("start_timestamp", startTimestamp));
+        }
+
+        if (endTimestamp != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("end_timestamp", endTimestamp));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicGetTradingviewChartDataGetValidateBeforeCall(String instrumentName, Integer startTimestamp, Integer endTimestamp, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicGetTradingviewChartDataGet(Async)");
+        }
+        
+        // verify the required parameter 'startTimestamp' is set
+        if (startTimestamp == null) {
+            throw new ApiException("Missing the required parameter 'startTimestamp' when calling publicGetTradingviewChartDataGet(Async)");
+        }
+        
+        // verify the required parameter 'endTimestamp' is set
+        if (endTimestamp == null) {
+            throw new ApiException("Missing the required parameter 'endTimestamp' when calling publicGetTradingviewChartDataGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicGetTradingviewChartDataGetCall(instrumentName, startTimestamp, endTimestamp, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Publicly available market data used to generate a TradingView candle chart.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicGetTradingviewChartDataGet(String instrumentName, Integer startTimestamp, Integer endTimestamp) throws ApiException {
+        ApiResponse<Object> localVarResp = publicGetTradingviewChartDataGetWithHttpInfo(instrumentName, startTimestamp, endTimestamp);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Publicly available market data used to generate a TradingView candle chart.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicGetTradingviewChartDataGetWithHttpInfo(String instrumentName, Integer startTimestamp, Integer endTimestamp) throws ApiException {
+        okhttp3.Call localVarCall = publicGetTradingviewChartDataGetValidateBeforeCall(instrumentName, startTimestamp, endTimestamp, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Publicly available market data used to generate a TradingView candle chart. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param startTimestamp The earliest timestamp to return result for (required)
+     * @param endTimestamp The most recent timestamp to return result for (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicGetTradingviewChartDataGetAsync(String instrumentName, Integer startTimestamp, Integer endTimestamp, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicGetTradingviewChartDataGetValidateBeforeCall(instrumentName, startTimestamp, endTimestamp, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicHelloGet
+     * @param clientName Client software name (required)
+     * @param clientVersion Client software version (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicHelloGetCall(String clientName, String clientVersion, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/hello";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (clientName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_name", clientName));
+        }
+
+        if (clientVersion != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("client_version", clientVersion));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicHelloGetValidateBeforeCall(String clientName, String clientVersion, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'clientName' is set
+        if (clientName == null) {
+            throw new ApiException("Missing the required parameter 'clientName' when calling publicHelloGet(Async)");
+        }
+        
+        // verify the required parameter 'clientVersion' is set
+        if (clientVersion == null) {
+            throw new ApiException("Missing the required parameter 'clientVersion' when calling publicHelloGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicHelloGetCall(clientName, clientVersion, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
+     * 
+     * @param clientName Client software name (required)
+     * @param clientVersion Client software version (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicHelloGet(String clientName, String clientVersion) throws ApiException {
+        ApiResponse<Object> localVarResp = publicHelloGetWithHttpInfo(clientName, clientVersion);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
+     * 
+     * @param clientName Client software name (required)
+     * @param clientVersion Client software version (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicHelloGetWithHttpInfo(String clientName, String clientVersion) throws ApiException {
+        okhttp3.Call localVarCall = publicHelloGetValidateBeforeCall(clientName, clientVersion, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. (asynchronously)
+     * 
+     * @param clientName Client software name (required)
+     * @param clientVersion Client software version (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicHelloGetAsync(String clientName, String clientVersion, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicHelloGetValidateBeforeCall(clientName, clientVersion, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicSetHeartbeatGet
+     * @param interval The heartbeat interval in seconds, but not less than 10 (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicSetHeartbeatGetCall(BigDecimal interval, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/set_heartbeat";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (interval != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("interval", interval));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicSetHeartbeatGetValidateBeforeCall(BigDecimal interval, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'interval' is set
+        if (interval == null) {
+            throw new ApiException("Missing the required parameter 'interval' when calling publicSetHeartbeatGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicSetHeartbeatGetCall(interval, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
+     * 
+     * @param interval The heartbeat interval in seconds, but not less than 10 (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicSetHeartbeatGet(BigDecimal interval) throws ApiException {
+        ApiResponse<Object> localVarResp = publicSetHeartbeatGetWithHttpInfo(interval);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
+     * 
+     * @param interval The heartbeat interval in seconds, but not less than 10 (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicSetHeartbeatGetWithHttpInfo(BigDecimal interval) throws ApiException {
+        okhttp3.Call localVarCall = publicSetHeartbeatGetValidateBeforeCall(interval, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled. (asynchronously)
+     * 
+     * @param interval The heartbeat interval in seconds, but not less than 10 (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicSetHeartbeatGetAsync(BigDecimal interval, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicSetHeartbeatGetValidateBeforeCall(interval, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicSubscribeGet
+     * @param channels A list of channels to subscribe to. (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicSubscribeGetCall(List<String> channels, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/subscribe";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (channels != null) {
+            localVarCollectionQueryParams.addAll(localVarApiClient.parameterToPairs("multi", "channels", channels));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicSubscribeGetValidateBeforeCall(List<String> channels, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'channels' is set
+        if (channels == null) {
+            throw new ApiException("Missing the required parameter 'channels' when calling publicSubscribeGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicSubscribeGetCall(channels, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Subscribe to one or more channels.
+     * Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
+     * @param channels A list of channels to subscribe to. (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicSubscribeGet(List<String> channels) throws ApiException {
+        ApiResponse<Object> localVarResp = publicSubscribeGetWithHttpInfo(channels);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Subscribe to one or more channels.
+     * Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
+     * @param channels A list of channels to subscribe to. (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicSubscribeGetWithHttpInfo(List<String> channels) throws ApiException {
+        okhttp3.Call localVarCall = publicSubscribeGetValidateBeforeCall(channels, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Subscribe to one or more channels. (asynchronously)
+     * Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
+     * @param channels A list of channels to subscribe to. (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicSubscribeGetAsync(List<String> channels, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicSubscribeGetValidateBeforeCall(channels, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicTestGet
+     * @param expectedResult The value \&quot;exception\&quot; will trigger an error response. This may be useful for testing wrapper libraries. (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicTestGetCall(String expectedResult, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/test";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (expectedResult != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("expected_result", expectedResult));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicTestGetValidateBeforeCall(String expectedResult, final ApiCallback _callback) throws ApiException {
+        
+
+        okhttp3.Call localVarCall = publicTestGetCall(expectedResult, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
+     * 
+     * @param expectedResult The value \&quot;exception\&quot; will trigger an error response. This may be useful for testing wrapper libraries. (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicTestGet(String expectedResult) throws ApiException {
+        ApiResponse<Object> localVarResp = publicTestGetWithHttpInfo(expectedResult);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
+     * 
+     * @param expectedResult The value \&quot;exception\&quot; will trigger an error response. This may be useful for testing wrapper libraries. (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicTestGetWithHttpInfo(String expectedResult) throws ApiException {
+        okhttp3.Call localVarCall = publicTestGetValidateBeforeCall(expectedResult, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version. (asynchronously)
+     * 
+     * @param expectedResult The value \&quot;exception\&quot; will trigger an error response. This may be useful for testing wrapper libraries. (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicTestGetAsync(String expectedResult, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicTestGetValidateBeforeCall(expectedResult, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicTickerGet
+     * @param instrumentName Instrument name (required)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicTickerGetCall(String instrumentName, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/ticker";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (instrumentName != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("instrument_name", instrumentName));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicTickerGetValidateBeforeCall(String instrumentName, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'instrumentName' is set
+        if (instrumentName == null) {
+            throw new ApiException("Missing the required parameter 'instrumentName' when calling publicTickerGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicTickerGetCall(instrumentName, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Get ticker for an instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicTickerGet(String instrumentName) throws ApiException {
+        ApiResponse<Object> localVarResp = publicTickerGetWithHttpInfo(instrumentName);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Get ticker for an instrument.
+     * 
+     * @param instrumentName Instrument name (required)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicTickerGetWithHttpInfo(String instrumentName) throws ApiException {
+        okhttp3.Call localVarCall = publicTickerGetValidateBeforeCall(instrumentName, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Get ticker for an instrument. (asynchronously)
+     * 
+     * @param instrumentName Instrument name (required)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicTickerGetAsync(String instrumentName, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicTickerGetValidateBeforeCall(instrumentName, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+    /**
+     * Build call for publicValidateFieldGet
+     * @param field Name of the field to be validated, examples: postal_code, date_of_birth (required)
+     * @param value Value to be checked (required)
+     * @param value2 Additional value to be compared with (optional)
+     * @param _callback Callback for upload/download progress
+     * @return Call to execute
+     * @throws ApiException If fail to serialize the request body object
+     */
+    public okhttp3.Call publicValidateFieldGetCall(String field, String value, String value2, final ApiCallback _callback) throws ApiException {
+        Object localVarPostBody = new Object();
+
+        // create path and map variables
+        String localVarPath = "/public/validate_field";
+
+        List<Pair> localVarQueryParams = new ArrayList<Pair>();
+        List<Pair> localVarCollectionQueryParams = new ArrayList<Pair>();
+        if (field != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("field", field));
+        }
+
+        if (value != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("value", value));
+        }
+
+        if (value2 != null) {
+            localVarQueryParams.addAll(localVarApiClient.parameterToPair("value2", value2));
+        }
+
+        Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+        Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+        final String[] localVarAccepts = {
+            "application/json"
+        };
+        final String localVarAccept = localVarApiClient.selectHeaderAccept(localVarAccepts);
+        if (localVarAccept != null) {
+            localVarHeaderParams.put("Accept", localVarAccept);
+        }
+
+        final String[] localVarContentTypes = {
+            
+        };
+        final String localVarContentType = localVarApiClient.selectHeaderContentType(localVarContentTypes);
+        localVarHeaderParams.put("Content-Type", localVarContentType);
+
+        String[] localVarAuthNames = new String[] { "bearerAuth" };
+        return localVarApiClient.buildCall(localVarPath, "GET", localVarQueryParams, localVarCollectionQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAuthNames, _callback);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private okhttp3.Call publicValidateFieldGetValidateBeforeCall(String field, String value, String value2, final ApiCallback _callback) throws ApiException {
+        
+        // verify the required parameter 'field' is set
+        if (field == null) {
+            throw new ApiException("Missing the required parameter 'field' when calling publicValidateFieldGet(Async)");
+        }
+        
+        // verify the required parameter 'value' is set
+        if (value == null) {
+            throw new ApiException("Missing the required parameter 'value' when calling publicValidateFieldGet(Async)");
+        }
+        
+
+        okhttp3.Call localVarCall = publicValidateFieldGetCall(field, value, value2, _callback);
+        return localVarCall;
+
+    }
+
+    /**
+     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
+     * 
+     * @param field Name of the field to be validated, examples: postal_code, date_of_birth (required)
+     * @param value Value to be checked (required)
+     * @param value2 Additional value to be compared with (optional)
+     * @return Object
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public Object publicValidateFieldGet(String field, String value, String value2) throws ApiException {
+        ApiResponse<Object> localVarResp = publicValidateFieldGetWithHttpInfo(field, value, value2);
+        return localVarResp.getData();
+    }
+
+    /**
+     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
+     * 
+     * @param field Name of the field to be validated, examples: postal_code, date_of_birth (required)
+     * @param value Value to be checked (required)
+     * @param value2 Additional value to be compared with (optional)
+     * @return ApiResponse&lt;Object&gt;
+     * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
+     */
+    public ApiResponse<Object> publicValidateFieldGetWithHttpInfo(String field, String value, String value2) throws ApiException {
+        okhttp3.Call localVarCall = publicValidateFieldGetValidateBeforeCall(field, value, value2, null);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        return localVarApiClient.execute(localVarCall, localVarReturnType);
+    }
+
+    /**
+     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself. (asynchronously)
+     * 
+     * @param field Name of the field to be validated, examples: postal_code, date_of_birth (required)
+     * @param value Value to be checked (required)
+     * @param value2 Additional value to be compared with (optional)
+     * @param _callback The callback to be executed when the API call finishes
+     * @return The request call
+     * @throws ApiException If fail to process the API call, e.g. serializing the request body object
+     */
+    public okhttp3.Call publicValidateFieldGetAsync(String field, String value, String value2, final ApiCallback<Object> _callback) throws ApiException {
+
+        okhttp3.Call localVarCall = publicValidateFieldGetValidateBeforeCall(field, value, value2, _callback);
+        Type localVarReturnType = new TypeToken<Object>(){}.getType();
+        localVarApiClient.executeAsync(localVarCall, localVarReturnType, _callback);
+        return localVarCall;
+    }
+}
