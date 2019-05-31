@@ -39,12 +39,9 @@ import InternalApi from './api/InternalApi';
 import MarketDataApi from './api/MarketDataApi';
 import PrivateApi from './api/PrivateApi';
 import PublicApi from './api/PublicApi';
-import SessionManagementApi from './api/SessionManagementApi';
-import SubscriptionManagementApi from './api/SubscriptionManagementApi';
 import SupportingApi from './api/SupportingApi';
 import TradingApi from './api/TradingApi';
 import WalletApi from './api/WalletApi';
-import WebsocketOnlyApi from './api/WebsocketOnlyApi';
 
 
 /**
@@ -242,18 +239,6 @@ export {
     PublicApi,
 
     /**
-    * The SessionManagementApi service constructor.
-    * @property {module:api/SessionManagementApi}
-    */
-    SessionManagementApi,
-
-    /**
-    * The SubscriptionManagementApi service constructor.
-    * @property {module:api/SubscriptionManagementApi}
-    */
-    SubscriptionManagementApi,
-
-    /**
     * The SupportingApi service constructor.
     * @property {module:api/SupportingApi}
     */
@@ -269,11 +254,5 @@ export {
     * The WalletApi service constructor.
     * @property {module:api/WalletApi}
     */
-    WalletApi,
-
-    /**
-    * The WebsocketOnlyApi service constructor.
-    * @property {module:api/WebsocketOnlyApi}
-    */
-    WebsocketOnlyApi
+    WalletApi
 };

@@ -16,11 +16,9 @@ Method | HTTP request | Description
 [**privateClosePositionGet**](OAIPrivateApi.md#privateclosepositionget) | **GET** /private/close_position | Makes closing position reduce only order .
 [**privateCreateDepositAddressGet**](OAIPrivateApi.md#privatecreatedepositaddressget) | **GET** /private/create_deposit_address | Creates deposit address in currency
 [**privateCreateSubaccountGet**](OAIPrivateApi.md#privatecreatesubaccountget) | **GET** /private/create_subaccount | Create a new subaccount
-[**privateDisableCancelOnDisconnectGet**](OAIPrivateApi.md#privatedisablecancelondisconnectget) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**privateDisableTfaForSubaccountGet**](OAIPrivateApi.md#privatedisabletfaforsubaccountget) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 [**privateDisableTfaWithRecoveryCodeGet**](OAIPrivateApi.md#privatedisabletfawithrecoverycodeget) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 [**privateEditGet**](OAIPrivateApi.md#privateeditget) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-[**privateEnableCancelOnDisconnectGet**](OAIPrivateApi.md#privateenablecancelondisconnectget) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**privateGetAccountSummaryGet**](OAIPrivateApi.md#privategetaccountsummaryget) | **GET** /private/get_account_summary | Retrieves user account summary.
 [**privateGetAddressBookGet**](OAIPrivateApi.md#privategetaddressbookget) | **GET** /private/get_address_book | Retrieves address book of given type
 [**privateGetCurrentDepositAddressGet**](OAIPrivateApi.md#privategetcurrentdepositaddressget) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -46,7 +44,6 @@ Method | HTTP request | Description
 [**privateGetUserTradesByInstrumentGet**](OAIPrivateApi.md#privategetusertradesbyinstrumentget) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 [**privateGetUserTradesByOrderGet**](OAIPrivateApi.md#privategetusertradesbyorderget) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 [**privateGetWithdrawalsGet**](OAIPrivateApi.md#privategetwithdrawalsget) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-[**privateLogoutGet**](OAIPrivateApi.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**privateRemoveFromAddressBookGet**](OAIPrivateApi.md#privateremovefromaddressbookget) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 [**privateSellGet**](OAIPrivateApi.md#privatesellget) | **GET** /private/sell | Places a sell order for an instrument.
 [**privateSetAnnouncementAsReadGet**](OAIPrivateApi.md#privatesetannouncementasreadget) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -55,11 +52,9 @@ Method | HTTP request | Description
 [**privateSetPasswordForSubaccountGet**](OAIPrivateApi.md#privatesetpasswordforsubaccountget) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 [**privateSubmitTransferToSubaccountGet**](OAIPrivateApi.md#privatesubmittransfertosubaccountget) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 [**privateSubmitTransferToUserGet**](OAIPrivateApi.md#privatesubmittransfertouserget) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-[**privateSubscribeGet**](OAIPrivateApi.md#privatesubscribeget) | **GET** /private/subscribe | Subscribe to one or more channels.
 [**privateToggleDepositAddressCreationGet**](OAIPrivateApi.md#privatetoggledepositaddresscreationget) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 [**privateToggleNotificationsFromSubaccountGet**](OAIPrivateApi.md#privatetogglenotificationsfromsubaccountget) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 [**privateToggleSubaccountLoginGet**](OAIPrivateApi.md#privatetogglesubaccountloginget) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-[**privateUnsubscribeGet**](OAIPrivateApi.md#privateunsubscribeget) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 [**privateWithdrawGet**](OAIPrivateApi.md#privatewithdrawget) | **GET** /private/withdraw | Creates a new withdrawal request
 
 
@@ -787,55 +782,6 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **privateDisableCancelOnDisconnectGet**
-```objc
--(NSURLSessionTask*) privateDisableCancelOnDisconnectGetWithCompletionHandler: 
-        (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-
-OAIPrivateApi*apiInstance = [[OAIPrivateApi alloc] init];
-
-// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-[apiInstance privateDisableCancelOnDisconnectGetWithCompletionHandler: 
-          ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPrivateApi->privateDisableCancelOnDisconnectGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **privateDisableTfaForSubaccountGet**
 ```objc
 -(NSURLSessionTask*) privateDisableTfaForSubaccountGetWithSid: (NSNumber*) sid
@@ -1003,55 +949,6 @@ Name | Type | Description  | Notes
  **postOnly** | **NSNumber***| &lt;p&gt;If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.&lt;/p&gt; &lt;p&gt;Only valid in combination with time_in_force&#x3D;&#x60;\&quot;good_til_cancelled\&quot;&#x60;&lt;/p&gt; | [optional] [default to @(YES)]
  **advanced** | **NSString***| Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) | [optional] 
  **stopPrice** | **NSNumber***| Stop price, required for stop limit orders (Only for stop orders) | [optional] 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **privateEnableCancelOnDisconnectGet**
-```objc
--(NSURLSessionTask*) privateEnableCancelOnDisconnectGetWithCompletionHandler: 
-        (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-
-OAIPrivateApi*apiInstance = [[OAIPrivateApi alloc] init];
-
-// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-[apiInstance privateEnableCancelOnDisconnectGetWithCompletionHandler: 
-          ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPrivateApi->privateEnableCancelOnDisconnectGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -2585,52 +2482,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **privateLogoutGet**
-```objc
--(NSURLSessionTask*) privateLogoutGetWithCompletionHandler: 
-        (void (^)(NSError* error)) handler;
-```
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-
-OAIPrivateApi*apiInstance = [[OAIPrivateApi alloc] init];
-
-// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-[apiInstance privateLogoutGetWithCompletionHandler: 
-          ^(NSError* error) {
-                        if (error) {
-                            NSLog(@"Error calling OAIPrivateApi->privateLogoutGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **privateRemoveFromAddressBookGet**
 ```objc
 -(NSURLSessionTask*) privateRemoveFromAddressBookGetWithCurrency: (NSString*) currency
@@ -3139,61 +2990,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **privateSubscribeGet**
-```objc
--(NSURLSessionTask*) privateSubscribeGetWithChannels: (NSArray<NSString*>*) channels
-        completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-NSArray<NSString*>* channels = @[@"channels_example"]; // A list of channels to subscribe to.
-
-OAIPrivateApi*apiInstance = [[OAIPrivateApi alloc] init];
-
-// Subscribe to one or more channels.
-[apiInstance privateSubscribeGetWithChannels:channels
-          completionHandler: ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPrivateApi->privateSubscribeGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| A list of channels to subscribe to. | 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **privateToggleDepositAddressCreationGet**
 ```objc
 -(NSURLSessionTask*) privateToggleDepositAddressCreationGetWithCurrency: (NSString*) currency
@@ -3349,59 +3145,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sid** | **NSNumber***| The user id for the subaccount | 
  **state** | **NSString***| enable or disable login. | 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **privateUnsubscribeGet**
-```objc
--(NSURLSessionTask*) privateUnsubscribeGetWithChannels: (NSArray<NSString*>*) channels
-        completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Unsubscribe from one or more channels.
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-NSArray<NSString*>* channels = @[@"channels_example"]; // A list of channels to unsubscribe from.
-
-OAIPrivateApi*apiInstance = [[OAIPrivateApi alloc] init];
-
-// Unsubscribe from one or more channels.
-[apiInstance privateUnsubscribeGetWithChannels:channels
-          completionHandler: ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPrivateApi->privateUnsubscribeGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| A list of channels to unsubscribe from. | 
 
 ### Return type
 

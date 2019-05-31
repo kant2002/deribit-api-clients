@@ -75,19 +75,6 @@ namespace Org.OpenAPITools.Test
         }
         
         /// <summary>
-        /// Test PublicHelloGet
-        /// </summary>
-        [Test]
-        public void PublicHelloGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //string clientName = null;
-            //string clientVersion = null;
-            //var response = instance.PublicHelloGet(clientName, clientVersion);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
         /// Test PublicTestGet
         /// </summary>
         [Test]

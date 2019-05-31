@@ -58,16 +58,6 @@
         done();
       });
     });
-    describe('publicDisableHeartbeatGet', function() {
-      it('should call publicDisableHeartbeatGet successfully', function(done) {
-        //uncomment below and update the code to test publicDisableHeartbeatGet
-        //instance.publicDisableHeartbeatGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('publicGetAnnouncementsGet', function() {
       it('should call publicGetAnnouncementsGet successfully', function(done) {
         //uncomment below and update the code to test publicGetAnnouncementsGet
@@ -252,36 +242,6 @@
       it('should call publicGetTradingviewChartDataGet successfully', function(done) {
         //uncomment below and update the code to test publicGetTradingviewChartDataGet
         //instance.publicGetTradingviewChartDataGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('publicHelloGet', function() {
-      it('should call publicHelloGet successfully', function(done) {
-        //uncomment below and update the code to test publicHelloGet
-        //instance.publicHelloGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('publicSetHeartbeatGet', function() {
-      it('should call publicSetHeartbeatGet successfully', function(done) {
-        //uncomment below and update the code to test publicSetHeartbeatGet
-        //instance.publicSetHeartbeatGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('publicSubscribeGet', function() {
-      it('should call publicSubscribeGet successfully', function(done) {
-        //uncomment below and update the code to test publicSubscribeGet
-        //instance.publicSubscribeGet(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

@@ -320,25 +320,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object</returns>
         ApiResponse<Object> PrivateCreateSubaccountGetWithHttpInfo ();
         /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Object</returns>
-        Object PrivateDisableCancelOnDisconnectGet ();
-
-        /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object</returns>
-        ApiResponse<Object> PrivateDisableCancelOnDisconnectGetWithHttpInfo ();
-        /// <summary>
         /// Disable two factor authentication for a subaccount.
         /// </summary>
         /// <remarks>
@@ -413,25 +394,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="stopPrice">Stop price, required for stop limit orders (Only for stop orders) (optional)</param>
         /// <returns>ApiResponse of Object</returns>
         ApiResponse<Object> PrivateEditGetWithHttpInfo (string orderId, decimal? amount, decimal? price, bool? postOnly = null, string advanced = null, decimal? stopPrice = null);
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Object</returns>
-        Object PrivateEnableCancelOnDisconnectGet ();
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object</returns>
-        ApiResponse<Object> PrivateEnableCancelOnDisconnectGetWithHttpInfo ();
         /// <summary>
         /// Retrieves user account summary.
         /// </summary>
@@ -1054,25 +1016,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object</returns>
         ApiResponse<Object> PrivateGetWithdrawalsGetWithHttpInfo (string currency, int? count = null, int? offset = null);
         /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns></returns>
-        void PrivateLogoutGet ();
-
-        /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object(void)</returns>
-        ApiResponse<Object> PrivateLogoutGetWithHttpInfo ();
-        /// <summary>
         /// Adds new entry to address book of given type
         /// </summary>
         /// <remarks>
@@ -1283,27 +1226,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>ApiResponse of Object</returns>
         ApiResponse<Object> PrivateSubmitTransferToUserGetWithHttpInfo (string currency, decimal? amount, string destination, string tfa = null);
         /// <summary>
-        /// Subscribe to one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>Object</returns>
-        Object PrivateSubscribeGet (List<string> channels);
-
-        /// <summary>
-        /// Subscribe to one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>ApiResponse of Object</returns>
-        ApiResponse<Object> PrivateSubscribeGetWithHttpInfo (List<string> channels);
-        /// <summary>
         /// Enable or disable deposit address creation
         /// </summary>
         /// <remarks>
@@ -1372,27 +1294,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="state">enable or disable login.</param>
         /// <returns>ApiResponse of Object</returns>
         ApiResponse<Object> PrivateToggleSubaccountLoginGetWithHttpInfo (int? sid, string state);
-        /// <summary>
-        /// Unsubscribe from one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>Object</returns>
-        Object PrivateUnsubscribeGet (List<string> channels);
-
-        /// <summary>
-        /// Unsubscribe from one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>ApiResponse of Object</returns>
-        ApiResponse<Object> PrivateUnsubscribeGetWithHttpInfo (List<string> channels);
         /// <summary>
         /// Creates a new withdrawal request
         /// </summary>
@@ -1721,25 +1622,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Object)</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> PrivateCreateSubaccountGetAsyncWithHttpInfo ();
         /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of Object</returns>
-        System.Threading.Tasks.Task<Object> PrivateDisableCancelOnDisconnectGetAsync ();
-
-        /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PrivateDisableCancelOnDisconnectGetAsyncWithHttpInfo ();
-        /// <summary>
         /// Disable two factor authentication for a subaccount.
         /// </summary>
         /// <remarks>
@@ -1814,25 +1696,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="stopPrice">Stop price, required for stop limit orders (Only for stop orders) (optional)</param>
         /// <returns>Task of ApiResponse (Object)</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> PrivateEditGetAsyncWithHttpInfo (string orderId, decimal? amount, decimal? price, bool? postOnly = null, string advanced = null, decimal? stopPrice = null);
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of Object</returns>
-        System.Threading.Tasks.Task<Object> PrivateEnableCancelOnDisconnectGetAsync ();
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PrivateEnableCancelOnDisconnectGetAsyncWithHttpInfo ();
         /// <summary>
         /// Retrieves user account summary.
         /// </summary>
@@ -2455,25 +2318,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Object)</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> PrivateGetWithdrawalsGetAsyncWithHttpInfo (string currency, int? count = null, int? offset = null);
         /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of void</returns>
-        System.Threading.Tasks.Task PrivateLogoutGetAsync ();
-
-        /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PrivateLogoutGetAsyncWithHttpInfo ();
-        /// <summary>
         /// Adds new entry to address book of given type
         /// </summary>
         /// <remarks>
@@ -2684,27 +2528,6 @@ namespace Org.OpenAPITools.Api
         /// <returns>Task of ApiResponse (Object)</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> PrivateSubmitTransferToUserGetAsyncWithHttpInfo (string currency, decimal? amount, string destination, string tfa = null);
         /// <summary>
-        /// Subscribe to one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>Task of Object</returns>
-        System.Threading.Tasks.Task<Object> PrivateSubscribeGetAsync (List<string> channels);
-
-        /// <summary>
-        /// Subscribe to one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PrivateSubscribeGetAsyncWithHttpInfo (List<string> channels);
-        /// <summary>
         /// Enable or disable deposit address creation
         /// </summary>
         /// <remarks>
@@ -2773,27 +2596,6 @@ namespace Org.OpenAPITools.Api
         /// <param name="state">enable or disable login.</param>
         /// <returns>Task of ApiResponse (Object)</returns>
         System.Threading.Tasks.Task<ApiResponse<Object>> PrivateToggleSubaccountLoginGetAsyncWithHttpInfo (int? sid, string state);
-        /// <summary>
-        /// Unsubscribe from one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>Task of Object</returns>
-        System.Threading.Tasks.Task<Object> PrivateUnsubscribeGetAsync (List<string> channels);
-
-        /// <summary>
-        /// Unsubscribe from one or more channels.
-        /// </summary>
-        /// <remarks>
-        /// 
-        /// </remarks>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        System.Threading.Tasks.Task<ApiResponse<Object>> PrivateUnsubscribeGetAsyncWithHttpInfo (List<string> channels);
         /// <summary>
         /// Creates a new withdrawal request
         /// </summary>
@@ -4843,139 +4645,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Object</returns>
-        public Object PrivateDisableCancelOnDisconnectGet ()
-        {
-             ApiResponse<Object> localVarResponse = PrivateDisableCancelOnDisconnectGetWithHttpInfo();
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object</returns>
-        public ApiResponse< Object > PrivateDisableCancelOnDisconnectGetWithHttpInfo ()
-        {
-
-            var localVarPath = "/private/disable_cancel_on_disconnect";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateDisableCancelOnDisconnectGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of Object</returns>
-        public async System.Threading.Tasks.Task<Object> PrivateDisableCancelOnDisconnectGetAsync ()
-        {
-             ApiResponse<Object> localVarResponse = await PrivateDisableCancelOnDisconnectGetAsyncWithHttpInfo();
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> PrivateDisableCancelOnDisconnectGetAsyncWithHttpInfo ()
-        {
-
-            var localVarPath = "/private/disable_cancel_on_disconnect";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateDisableCancelOnDisconnectGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
         /// Disable two factor authentication for a subaccount. 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -5456,139 +5125,6 @@ namespace Org.OpenAPITools.Api
             if (ExceptionFactory != null)
             {
                 Exception exception = ExceptionFactory("PrivateEditGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Object</returns>
-        public Object PrivateEnableCancelOnDisconnectGet ()
-        {
-             ApiResponse<Object> localVarResponse = PrivateEnableCancelOnDisconnectGetWithHttpInfo();
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object</returns>
-        public ApiResponse< Object > PrivateEnableCancelOnDisconnectGetWithHttpInfo ()
-        {
-
-            var localVarPath = "/private/enable_cancel_on_disconnect";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateEnableCancelOnDisconnectGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of Object</returns>
-        public async System.Threading.Tasks.Task<Object> PrivateEnableCancelOnDisconnectGetAsync ()
-        {
-             ApiResponse<Object> localVarResponse = await PrivateEnableCancelOnDisconnectGetAsyncWithHttpInfo();
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> PrivateEnableCancelOnDisconnectGetAsyncWithHttpInfo ()
-        {
-
-            var localVarPath = "/private/enable_cancel_on_disconnect";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateEnableCancelOnDisconnectGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 
@@ -9535,137 +9071,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns></returns>
-        public void PrivateLogoutGet ()
-        {
-             PrivateLogoutGetWithHttpInfo();
-        }
-
-        /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>ApiResponse of Object(void)</returns>
-        public ApiResponse<Object> PrivateLogoutGetWithHttpInfo ()
-        {
-
-            var localVarPath = "/private/logout";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateLogoutGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of void</returns>
-        public async System.Threading.Tasks.Task PrivateLogoutGetAsync ()
-        {
-             await PrivateLogoutGetAsyncWithHttpInfo();
-
-        }
-
-        /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <returns>Task of ApiResponse</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> PrivateLogoutGetAsyncWithHttpInfo ()
-        {
-
-            var localVarPath = "/private/logout";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateLogoutGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                null);
-        }
-
-        /// <summary>
         /// Adds new entry to address book of given type 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -11006,151 +10411,6 @@ namespace Org.OpenAPITools.Api
         }
 
         /// <summary>
-        /// Subscribe to one or more channels. Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>Object</returns>
-        public Object PrivateSubscribeGet (List<string> channels)
-        {
-             ApiResponse<Object> localVarResponse = PrivateSubscribeGetWithHttpInfo(channels);
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Subscribe to one or more channels. Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>ApiResponse of Object</returns>
-        public ApiResponse< Object > PrivateSubscribeGetWithHttpInfo (List<string> channels)
-        {
-            // verify the required parameter 'channels' is set
-            if (channels == null)
-                throw new ApiException(400, "Missing required parameter 'channels' when calling PrivateApi->PrivateSubscribeGet");
-
-            var localVarPath = "/private/subscribe";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (channels != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "channels", channels)); // query parameter
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateSubscribeGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
-        /// Subscribe to one or more channels. Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>Task of Object</returns>
-        public async System.Threading.Tasks.Task<Object> PrivateSubscribeGetAsync (List<string> channels)
-        {
-             ApiResponse<Object> localVarResponse = await PrivateSubscribeGetAsyncWithHttpInfo(channels);
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Subscribe to one or more channels. Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> PrivateSubscribeGetAsyncWithHttpInfo (List<string> channels)
-        {
-            // verify the required parameter 'channels' is set
-            if (channels == null)
-                throw new ApiException(400, "Missing required parameter 'channels' when calling PrivateApi->PrivateSubscribeGet");
-
-            var localVarPath = "/private/subscribe";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (channels != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "channels", channels)); // query parameter
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateSubscribeGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
         /// Enable or disable deposit address creation 
         /// </summary>
         /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
@@ -11613,151 +10873,6 @@ namespace Org.OpenAPITools.Api
             if (ExceptionFactory != null)
             {
                 Exception exception = ExceptionFactory("PrivateToggleSubaccountLoginGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
-        /// Unsubscribe from one or more channels. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>Object</returns>
-        public Object PrivateUnsubscribeGet (List<string> channels)
-        {
-             ApiResponse<Object> localVarResponse = PrivateUnsubscribeGetWithHttpInfo(channels);
-             return localVarResponse.Data;
-        }
-
-        /// <summary>
-        /// Unsubscribe from one or more channels. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>ApiResponse of Object</returns>
-        public ApiResponse< Object > PrivateUnsubscribeGetWithHttpInfo (List<string> channels)
-        {
-            // verify the required parameter 'channels' is set
-            if (channels == null)
-                throw new ApiException(400, "Missing required parameter 'channels' when calling PrivateApi->PrivateUnsubscribeGet");
-
-            var localVarPath = "/private/unsubscribe";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (channels != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "channels", channels)); // query parameter
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) this.Configuration.ApiClient.CallApi(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateUnsubscribeGet", localVarResponse);
-                if (exception != null) throw exception;
-            }
-
-            return new ApiResponse<Object>(localVarStatusCode,
-                localVarResponse.Headers.ToDictionary(x => x.Name, x => string.Join(",", x.Value)),
-                (Object) this.Configuration.ApiClient.Deserialize(localVarResponse, typeof(Object)));
-        }
-
-        /// <summary>
-        /// Unsubscribe from one or more channels. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>Task of Object</returns>
-        public async System.Threading.Tasks.Task<Object> PrivateUnsubscribeGetAsync (List<string> channels)
-        {
-             ApiResponse<Object> localVarResponse = await PrivateUnsubscribeGetAsyncWithHttpInfo(channels);
-             return localVarResponse.Data;
-
-        }
-
-        /// <summary>
-        /// Unsubscribe from one or more channels. 
-        /// </summary>
-        /// <exception cref="Org.OpenAPITools.Client.ApiException">Thrown when fails to make API call</exception>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <returns>Task of ApiResponse (Object)</returns>
-        public async System.Threading.Tasks.Task<ApiResponse<Object>> PrivateUnsubscribeGetAsyncWithHttpInfo (List<string> channels)
-        {
-            // verify the required parameter 'channels' is set
-            if (channels == null)
-                throw new ApiException(400, "Missing required parameter 'channels' when calling PrivateApi->PrivateUnsubscribeGet");
-
-            var localVarPath = "/private/unsubscribe";
-            var localVarPathParams = new Dictionary<String, String>();
-            var localVarQueryParams = new List<KeyValuePair<String, String>>();
-            var localVarHeaderParams = new Dictionary<String, String>(this.Configuration.DefaultHeader);
-            var localVarFormParams = new Dictionary<String, String>();
-            var localVarFileParams = new Dictionary<String, FileParameter>();
-            Object localVarPostBody = null;
-
-            // to determine the Content-Type header
-            String[] localVarHttpContentTypes = new String[] {
-            };
-            String localVarHttpContentType = this.Configuration.ApiClient.SelectHeaderContentType(localVarHttpContentTypes);
-
-            // to determine the Accept header
-            String[] localVarHttpHeaderAccepts = new String[] {
-                "application/json"
-            };
-            String localVarHttpHeaderAccept = this.Configuration.ApiClient.SelectHeaderAccept(localVarHttpHeaderAccepts);
-            if (localVarHttpHeaderAccept != null)
-                localVarHeaderParams.Add("Accept", localVarHttpHeaderAccept);
-
-            if (channels != null) localVarQueryParams.AddRange(this.Configuration.ApiClient.ParameterToKeyValuePairs("multi", "channels", channels)); // query parameter
-
-            // authentication (bearerAuth) required
-            // http basic authentication required
-            if (!String.IsNullOrEmpty(this.Configuration.Username) || !String.IsNullOrEmpty(this.Configuration.Password))
-            {
-                localVarHeaderParams["Authorization"] = "Basic " + ApiClient.Base64Encode(this.Configuration.Username + ":" + this.Configuration.Password);
-            }
-
-            // make the HTTP request
-            IRestResponse localVarResponse = (IRestResponse) await this.Configuration.ApiClient.CallApiAsync(localVarPath,
-                Method.GET, localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarFileParams,
-                localVarPathParams, localVarHttpContentType);
-
-            int localVarStatusCode = (int) localVarResponse.StatusCode;
-
-            if (ExceptionFactory != null)
-            {
-                Exception exception = ExceptionFactory("PrivateUnsubscribeGet", localVarResponse);
                 if (exception != null) throw exception;
             }
 

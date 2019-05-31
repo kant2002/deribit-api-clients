@@ -33,20 +33,6 @@ extern NSInteger kOAISupportingApiMissingParamErrorCode;
     (void (^)(NSObject* output, NSError* error)) handler;
 
 
-/// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-/// 
-///
-/// @param clientName Client software name
-/// @param clientVersion Client software version
-/// 
-///  code:200 message:""
-///
-/// @return NSObject*
--(NSURLSessionTask*) publicHelloGetWithClientName: (NSString*) clientName
-    clientVersion: (NSString*) clientVersion
-    completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
 /// Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 /// 
 ///

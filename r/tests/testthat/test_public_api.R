@@ -27,16 +27,6 @@ test_that("PublicAuthGet", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("PublicDisableHeartbeatGet", {
-  # tests for PublicDisableHeartbeatGet
-  # base path: https://www.deribit.com/api/v2
-  # Stop sending heartbeat messages.
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("PublicGetAnnouncementsGet", {
   # tests for PublicGetAnnouncementsGet
   # base path: https://www.deribit.com/api/v2
@@ -273,41 +263,6 @@ test_that("PublicGetTradingviewChartDataGet", {
   # @param character  instrument.name  Instrument name 
   # @param integer  start.timestamp  The earliest timestamp to return result for 
   # @param integer  end.timestamp  The most recent timestamp to return result for 
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
-test_that("PublicHelloGet", {
-  # tests for PublicHelloGet
-  # base path: https://www.deribit.com/api/v2
-  # Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-  # @param character  client.name  Client software name 
-  # @param character  client.version  Client software version 
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
-test_that("PublicSetHeartbeatGet", {
-  # tests for PublicSetHeartbeatGet
-  # base path: https://www.deribit.com/api/v2
-  # Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-  # @param numeric  interval  The heartbeat interval in seconds, but not less than 10 
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
-test_that("PublicSubscribeGet", {
-  # tests for PublicSubscribeGet
-  # base path: https://www.deribit.com/api/v2
-  # Subscribe to one or more channels.
-  # Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
-  # @param character  channels  A list of channels to subscribe to. 
   # @return [object]
 
   # uncomment below to test the operation

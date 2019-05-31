@@ -259,21 +259,6 @@ class PrivateApi(baseUrl: String) {
   /**
    * Expected answers:
    *   code 200 : Any (ok response)
-   *   code 400 : Any (result when used via rest/HTTP)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   */
-  def privateDisableCancelOnDisconnectGet()(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/private/disable_cancel_on_disconnect", "application/json")
-      .withCredentials(basicAuth)
-      .withSuccessResponse[Any](200)
-      .withErrorResponse[Any](400)
-      
-
-  /**
-   * Expected answers:
-   *   code 200 : Any (ok response)
    * 
    * Available security schemes:
    *   bearerAuth (http)
@@ -329,21 +314,6 @@ class PrivateApi(baseUrl: String) {
       .withQueryParam("advanced", advanced)
       .withQueryParam("stop_price", stopPrice)
       .withSuccessResponse[Any](200)
-      
-
-  /**
-   * Expected answers:
-   *   code 200 : Any (ok response)
-   *   code 400 : Any (result when used via rest/HTTP)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   */
-  def privateEnableCancelOnDisconnectGet()(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/private/enable_cancel_on_disconnect", "application/json")
-      .withCredentials(basicAuth)
-      .withSuccessResponse[Any](200)
-      .withErrorResponse[Any](400)
       
 
   /**
@@ -850,21 +820,6 @@ class PrivateApi(baseUrl: String) {
 
   /**
    * Expected answers:
-   *   code 200 :  (closes WS connection)
-   *   code 400 : Any (result when used via rest/HTTP)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   */
-  def privateLogoutGet()(implicit basicAuth: BasicCredentials): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "https://www.deribit.com/api/v2", "/private/logout", "application/json")
-      .withCredentials(basicAuth)
-      .withSuccessResponse[Unit](200)
-      .withErrorResponse[Any](400)
-      
-
-  /**
-   * Expected answers:
    *   code 200 : Any 
    * 
    * Available security schemes:
@@ -1034,26 +989,6 @@ class PrivateApi(baseUrl: String) {
       
 
   /**
-   * Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-   * 
-   * Expected answers:
-   *   code 200 : Any (ok response)
-   *   code 401 : Any (not authorised)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   * 
-   * @param channels A list of channels to subscribe to.
-   */
-  def privateSubscribeGet(channels: Seq[String])(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/private/subscribe", "application/json")
-      .withCredentials(basicAuth)
-      .withQueryParam("channels", ArrayValues(channels, MULTI))
-      .withSuccessResponse[Any](200)
-      .withErrorResponse[Any](401)
-      
-
-  /**
    * Expected answers:
    *   code 200 : Any 
    * 
@@ -1105,24 +1040,6 @@ class PrivateApi(baseUrl: String) {
       .withQueryParam("sid", sid)
       .withQueryParam("state", state)
       .withSuccessResponse[Any](200)
-      
-
-  /**
-   * Expected answers:
-   *   code 200 : Any (ok response)
-   *   code 401 : Any (not authorised)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   * 
-   * @param channels A list of channels to unsubscribe from.
-   */
-  def privateUnsubscribeGet(channels: Seq[String])(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/private/unsubscribe", "application/json")
-      .withCredentials(basicAuth)
-      .withQueryParam("channels", ArrayValues(channels, MULTI))
-      .withSuccessResponse[Any](200)
-      .withErrorResponse[Any](401)
       
 
   /**

@@ -159,16 +159,6 @@ test_that("PrivateCreateSubaccountGet", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("PrivateDisableCancelOnDisconnectGet", {
-  # tests for PrivateDisableCancelOnDisconnectGet
-  # base path: https://www.deribit.com/api/v2
-  # Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("PrivateDisableTfaForSubaccountGet", {
   # tests for PrivateDisableTfaForSubaccountGet
   # base path: https://www.deribit.com/api/v2
@@ -202,16 +192,6 @@ test_that("PrivateEditGet", {
   # @param character  post.only  <p>If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.</p> <p>Only valid in combination with time_in_force=`\"good_til_cancelled\"`</p>  (optional)
   # @param character  advanced  Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options)  (optional)
   # @param numeric  stop.price  Stop price, required for stop limit orders (Only for stop orders)  (optional)
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
-test_that("PrivateEnableCancelOnDisconnectGet", {
-  # tests for PrivateEnableCancelOnDisconnectGet
-  # base path: https://www.deribit.com/api/v2
-  # Enable Cancel On Disconnect for the connection. This does not change the default account setting.
   # @return [object]
 
   # uncomment below to test the operation
@@ -541,16 +521,6 @@ test_that("PrivateGetWithdrawalsGet", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("PrivateLogoutGet", {
-  # tests for PrivateLogoutGet
-  # base path: https://www.deribit.com/api/v2
-  # Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-  # @return [Void]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("PrivateRemoveFromAddressBookGet", {
   # tests for PrivateRemoveFromAddressBookGet
   # base path: https://www.deribit.com/api/v2
@@ -660,18 +630,6 @@ test_that("PrivateSubmitTransferToUserGet", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("PrivateSubscribeGet", {
-  # tests for PrivateSubscribeGet
-  # base path: https://www.deribit.com/api/v2
-  # Subscribe to one or more channels.
-  # Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-  # @param character  channels  A list of channels to subscribe to. 
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("PrivateToggleDepositAddressCreationGet", {
   # tests for PrivateToggleDepositAddressCreationGet
   # base path: https://www.deribit.com/api/v2
@@ -702,17 +660,6 @@ test_that("PrivateToggleSubaccountLoginGet", {
   # Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
   # @param integer  sid  The user id for the subaccount 
   # @param character  state  enable or disable login. 
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
-test_that("PrivateUnsubscribeGet", {
-  # tests for PrivateUnsubscribeGet
-  # base path: https://www.deribit.com/api/v2
-  # Unsubscribe from one or more channels.
-  # @param character  channels  A list of channels to unsubscribe from. 
   # @return [object]
 
   # uncomment below to test the operation

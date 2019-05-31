@@ -16,11 +16,9 @@ Method | HTTP request | Description
 [**privateClosePositionGet**](PrivateApi.md#privateClosePositionGet) | **GET** /private/close_position | Makes closing position reduce only order .
 [**privateCreateDepositAddressGet**](PrivateApi.md#privateCreateDepositAddressGet) | **GET** /private/create_deposit_address | Creates deposit address in currency
 [**privateCreateSubaccountGet**](PrivateApi.md#privateCreateSubaccountGet) | **GET** /private/create_subaccount | Create a new subaccount
-[**privateDisableCancelOnDisconnectGet**](PrivateApi.md#privateDisableCancelOnDisconnectGet) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**privateDisableTfaForSubaccountGet**](PrivateApi.md#privateDisableTfaForSubaccountGet) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 [**privateDisableTfaWithRecoveryCodeGet**](PrivateApi.md#privateDisableTfaWithRecoveryCodeGet) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 [**privateEditGet**](PrivateApi.md#privateEditGet) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-[**privateEnableCancelOnDisconnectGet**](PrivateApi.md#privateEnableCancelOnDisconnectGet) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**privateGetAccountSummaryGet**](PrivateApi.md#privateGetAccountSummaryGet) | **GET** /private/get_account_summary | Retrieves user account summary.
 [**privateGetAddressBookGet**](PrivateApi.md#privateGetAddressBookGet) | **GET** /private/get_address_book | Retrieves address book of given type
 [**privateGetCurrentDepositAddressGet**](PrivateApi.md#privateGetCurrentDepositAddressGet) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -46,7 +44,6 @@ Method | HTTP request | Description
 [**privateGetUserTradesByInstrumentGet**](PrivateApi.md#privateGetUserTradesByInstrumentGet) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 [**privateGetUserTradesByOrderGet**](PrivateApi.md#privateGetUserTradesByOrderGet) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 [**privateGetWithdrawalsGet**](PrivateApi.md#privateGetWithdrawalsGet) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-[**privateLogoutGet**](PrivateApi.md#privateLogoutGet) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**privateRemoveFromAddressBookGet**](PrivateApi.md#privateRemoveFromAddressBookGet) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 [**privateSellGet**](PrivateApi.md#privateSellGet) | **GET** /private/sell | Places a sell order for an instrument.
 [**privateSetAnnouncementAsReadGet**](PrivateApi.md#privateSetAnnouncementAsReadGet) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -55,11 +52,9 @@ Method | HTTP request | Description
 [**privateSetPasswordForSubaccountGet**](PrivateApi.md#privateSetPasswordForSubaccountGet) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 [**privateSubmitTransferToSubaccountGet**](PrivateApi.md#privateSubmitTransferToSubaccountGet) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 [**privateSubmitTransferToUserGet**](PrivateApi.md#privateSubmitTransferToUserGet) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-[**privateSubscribeGet**](PrivateApi.md#privateSubscribeGet) | **GET** /private/subscribe | Subscribe to one or more channels.
 [**privateToggleDepositAddressCreationGet**](PrivateApi.md#privateToggleDepositAddressCreationGet) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 [**privateToggleNotificationsFromSubaccountGet**](PrivateApi.md#privateToggleNotificationsFromSubaccountGet) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 [**privateToggleSubaccountLoginGet**](PrivateApi.md#privateToggleSubaccountLoginGet) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-[**privateUnsubscribeGet**](PrivateApi.md#privateUnsubscribeGet) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 [**privateWithdrawGet**](PrivateApi.md#privateWithdrawGet) | **GET** /private/withdraw | Creates a new withdrawal request
 
 
@@ -812,61 +807,6 @@ This endpoint does not need any parameter.
 [[Back to README]](../../README.md)
 
 
-## privateDisableCancelOnDisconnectGet
-
-> object privateDisableCancelOnDisconnectGet()
-
-Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PrivateApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $result = $apiInstance->privateDisableCancelOnDisconnectGet();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PrivateApi->privateDisableCancelOnDisconnectGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
 ## privateDisableTfaForSubaccountGet
 
 > object privateDisableTfaForSubaccountGet($sid)
@@ -1037,61 +977,6 @@ Name | Type | Description  | Notes
  **post_only** | **bool**| &lt;p&gt;If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.&lt;/p&gt; &lt;p&gt;Only valid in combination with time_in_force&#x3D;&#x60;\&quot;good_til_cancelled\&quot;&#x60;&lt;/p&gt; | [optional] [default to true]
  **advanced** | **string**| Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) | [optional]
  **stop_price** | **float**| Stop price, required for stop limit orders (Only for stop orders) | [optional]
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## privateEnableCancelOnDisconnectGet
-
-> object privateEnableCancelOnDisconnectGet()
-
-Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PrivateApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $result = $apiInstance->privateEnableCancelOnDisconnectGet();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PrivateApi->privateEnableCancelOnDisconnectGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -2678,60 +2563,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../../README.md)
 
 
-## privateLogoutGet
-
-> privateLogoutGet()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PrivateApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $apiInstance->privateLogoutGet();
-} catch (Exception $e) {
-    echo 'Exception when calling PrivateApi->privateLogoutGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
 ## privateRemoveFromAddressBookGet
 
 > object privateRemoveFromAddressBookGet($currency, $type, $address, $tfa)
@@ -3246,67 +3077,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../../README.md)
 
 
-## privateSubscribeGet
-
-> object privateSubscribeGet($channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PrivateApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$channels = array('channels_example'); // string[] | A list of channels to subscribe to.
-
-try {
-    $result = $apiInstance->privateSubscribeGet($channels);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PrivateApi->privateSubscribeGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**string[]**](../Model/string.md)| A list of channels to subscribe to. |
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
 ## privateToggleDepositAddressCreationGet
 
 > object privateToggleDepositAddressCreationGet($currency, $state)
@@ -3471,65 +3241,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sid** | **int**| The user id for the subaccount |
  **state** | **string**| enable or disable login. |
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## privateUnsubscribeGet
-
-> object privateUnsubscribeGet($channels)
-
-Unsubscribe from one or more channels.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PrivateApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$channels = array('channels_example'); // string[] | A list of channels to unsubscribe from.
-
-try {
-    $result = $apiInstance->privateUnsubscribeGet($channels);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PrivateApi->privateUnsubscribeGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**string[]**](../Model/string.md)| A list of channels to unsubscribe from. |
 
 ### Return type
 

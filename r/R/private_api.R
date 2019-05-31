@@ -53,9 +53,6 @@
 #' PrivateCreateSubaccountGet Create a new subaccount
 #'
 #'
-#' PrivateDisableCancelOnDisconnectGet Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-#'
-#'
 #' PrivateDisableTfaForSubaccountGet Disable two factor authentication for a subaccount.
 #'
 #'
@@ -63,9 +60,6 @@
 #'
 #'
 #' PrivateEditGet Change price, amount and/or other properties of an order.
-#'
-#'
-#' PrivateEnableCancelOnDisconnectGet Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 #'
 #'
 #' PrivateGetAccountSummaryGet Retrieves user account summary.
@@ -143,9 +137,6 @@
 #' PrivateGetWithdrawalsGet Retrieve the latest users withdrawals
 #'
 #'
-#' PrivateLogoutGet Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-#'
-#'
 #' PrivateRemoveFromAddressBookGet Adds new entry to address book of given type
 #'
 #'
@@ -170,9 +161,6 @@
 #' PrivateSubmitTransferToUserGet Transfer funds to a another user.
 #'
 #'
-#' PrivateSubscribeGet Subscribe to one or more channels.
-#'
-#'
 #' PrivateToggleDepositAddressCreationGet Enable or disable deposit address creation
 #'
 #'
@@ -180,9 +168,6 @@
 #'
 #'
 #' PrivateToggleSubaccountLoginGet Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-#'
-#'
-#' PrivateUnsubscribeGet Unsubscribe from one or more channels.
 #'
 #'
 #' PrivateWithdrawGet Creates a new withdrawal request
@@ -619,29 +604,6 @@ PrivateApi <- R6::R6Class(
       }
 
     },
-    PrivateDisableCancelOnDisconnectGet = function(...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      urlPath <- "/private/disable_cancel_on_disconnect"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
     PrivateDisableTfaForSubaccountGet = function(sid, ...){
       args <- list(...)
       queryParams <- list()
@@ -736,29 +698,6 @@ PrivateApi <- R6::R6Class(
       queryParams['stop_price'] <- stop.price
 
       urlPath <- "/private/edit"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PrivateEnableCancelOnDisconnectGet = function(...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      urlPath <- "/private/enable_cancel_on_disconnect"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -1613,29 +1552,6 @@ PrivateApi <- R6::R6Class(
       }
 
     },
-    PrivateLogoutGet = function(...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      urlPath <- "/private/logout"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
     PrivateRemoveFromAddressBookGet = function(currency, type, address, tfa=NULL, ...){
       args <- list(...)
       queryParams <- list()
@@ -1946,35 +1862,6 @@ PrivateApi <- R6::R6Class(
       }
 
     },
-    PrivateSubscribeGet = function(channels, ...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      if (missing(`channels`)) {
-        stop("Missing required parameter `channels`.")
-      }
-
-      queryParams['channels'] <- channels
-
-      urlPath <- "/private/subscribe"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
     PrivateToggleDepositAddressCreationGet = function(currency, state, ...){
       args <- list(...)
       queryParams <- list()
@@ -2063,35 +1950,6 @@ PrivateApi <- R6::R6Class(
       queryParams['state'] <- state
 
       urlPath <- "/private/toggle_subaccount_login"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PrivateUnsubscribeGet = function(channels, ...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      if (missing(`channels`)) {
-        stop("Missing required parameter `channels`.")
-      }
-
-      queryParams['channels'] <- channels
-
-      urlPath <- "/private/unsubscribe"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

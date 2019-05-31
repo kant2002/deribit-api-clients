@@ -1,7 +1,6 @@
 -module(openapi_public_api).
 
 -export([public_auth_get/9, public_auth_get/10,
-         public_disable_heartbeat_get/1, public_disable_heartbeat_get/2,
          public_get_announcements_get/1, public_get_announcements_get/2,
          public_get_book_summary_by_currency_get/2, public_get_book_summary_by_currency_get/3,
          public_get_book_summary_by_instrument_get/2, public_get_book_summary_by_instrument_get/3,
@@ -21,9 +20,6 @@
          public_get_time_get/1, public_get_time_get/2,
          public_get_trade_volumes_get/1, public_get_trade_volumes_get/2,
          public_get_tradingview_chart_data_get/4, public_get_tradingview_chart_data_get/5,
-         public_hello_get/3, public_hello_get/4,
-         public_set_heartbeat_get/2, public_set_heartbeat_get/3,
-         public_subscribe_get/2, public_subscribe_get/3,
          public_test_get/1, public_test_get/2,
          public_ticker_get/2, public_ticker_get/3,
          public_validate_field_get/3, public_validate_field_get/4]).
@@ -44,27 +40,6 @@ public_auth_get(Ctx, GrantType, Username, Password, ClientId, ClientSecret, Refr
     Method = get,
     Path = ["/public/auth"],
     QS = lists:flatten([{<<"grant_type">>, GrantType}, {<<"username">>, Username}, {<<"password">>, Password}, {<<"client_id">>, ClientId}, {<<"client_secret">>, ClientSecret}, {<<"refresh_token">>, RefreshToken}, {<<"timestamp">>, Timestamp}, {<<"signature">>, Signature}])++openapi_utils:optional_params(['nonce', 'state', 'scope'], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
-%% @doc Stop sending heartbeat messages.
-%% 
--spec public_disable_heartbeat_get(ctx:ctx()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_disable_heartbeat_get(Ctx) ->
-    public_disable_heartbeat_get(Ctx, #{}).
-
--spec public_disable_heartbeat_get(ctx:ctx(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_disable_heartbeat_get(Ctx, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/public/disable_heartbeat"],
-    QS = [],
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),
@@ -464,69 +439,6 @@ public_get_tradingview_chart_data_get(Ctx, InstrumentName, StartTimestamp, EndTi
     Method = get,
     Path = ["/public/get_tradingview_chart_data"],
     QS = lists:flatten([{<<"instrument_name">>, InstrumentName}, {<<"start_timestamp">>, StartTimestamp}, {<<"end_timestamp">>, EndTimestamp}])++openapi_utils:optional_params([], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
-%% @doc Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-%% 
--spec public_hello_get(ctx:ctx(), binary(), binary()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_hello_get(Ctx, ClientName, ClientVersion) ->
-    public_hello_get(Ctx, ClientName, ClientVersion, #{}).
-
--spec public_hello_get(ctx:ctx(), binary(), binary(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_hello_get(Ctx, ClientName, ClientVersion, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/public/hello"],
-    QS = lists:flatten([{<<"client_name">>, ClientName}, {<<"client_version">>, ClientVersion}])++openapi_utils:optional_params([], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
-%% @doc Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-%% 
--spec public_set_heartbeat_get(ctx:ctx(), integer()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_set_heartbeat_get(Ctx, Interval) ->
-    public_set_heartbeat_get(Ctx, Interval, #{}).
-
--spec public_set_heartbeat_get(ctx:ctx(), integer(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_set_heartbeat_get(Ctx, Interval, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/public/set_heartbeat"],
-    QS = lists:flatten([{<<"interval">>, Interval}])++openapi_utils:optional_params([], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
-%% @doc Subscribe to one or more channels.
-%% Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
--spec public_subscribe_get(ctx:ctx(), list()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_subscribe_get(Ctx, Channels) ->
-    public_subscribe_get(Ctx, Channels, #{}).
-
--spec public_subscribe_get(ctx:ctx(), list(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-public_subscribe_get(Ctx, Channels, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/public/subscribe"],
-    QS = lists:flatten([[{<<"channels">>, X} || X <- Channels]])++openapi_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),

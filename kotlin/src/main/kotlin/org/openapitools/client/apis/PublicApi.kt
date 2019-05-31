@@ -58,36 +58,6 @@ class PublicApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : Ap
     }
 
     /**
-    * Stop sending heartbeat messages.
-    * 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun publicDisableHeartbeatGet() : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/public/disable_heartbeat",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
     * Retrieves announcements from the last 30 days.
     * 
     * @return kotlin.Any
@@ -692,100 +662,6 @@ class PublicApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : Ap
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/public/get_tradingview_chart_data",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
-    * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-    * 
-    * @param clientName Client software name 
-    * @param clientVersion Client software version 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun publicHelloGet(clientName: kotlin.String, clientVersion: kotlin.String) : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("clientName" to listOf("$clientName"), "clientVersion" to listOf("$clientVersion"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/public/hello",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
-    * Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-    * 
-    * @param interval The heartbeat interval in seconds, but not less than 10 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun publicSetHeartbeatGet(interval: java.math.BigDecimal) : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("interval" to listOf("$interval"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/public/set_heartbeat",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
-    * Subscribe to one or more channels.
-    * Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
-    * @param channels A list of channels to subscribe to. 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun publicSubscribeGet(channels: kotlin.Array<kotlin.String>) : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("channels" to toMultiValue(channels.toList(), "multi"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/public/subscribe",
             query = localVariableQuery,
             headers = localVariableHeaders
         )

@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**publicAuthGet**](OAIPublicApi.md#publicauthget) | **GET** /public/auth | Authenticate
-[**publicDisableHeartbeatGet**](OAIPublicApi.md#publicdisableheartbeatget) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 [**publicGetAnnouncementsGet**](OAIPublicApi.md#publicgetannouncementsget) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 [**publicGetBookSummaryByCurrencyGet**](OAIPublicApi.md#publicgetbooksummarybycurrencyget) | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 [**publicGetBookSummaryByInstrumentGet**](OAIPublicApi.md#publicgetbooksummarybyinstrumentget) | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -25,9 +24,6 @@ Method | HTTP request | Description
 [**publicGetTimeGet**](OAIPublicApi.md#publicgettimeget) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 [**publicGetTradeVolumesGet**](OAIPublicApi.md#publicgettradevolumesget) | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 [**publicGetTradingviewChartDataGet**](OAIPublicApi.md#publicgettradingviewchartdataget) | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-[**publicHelloGet**](OAIPublicApi.md#publichelloget) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-[**publicSetHeartbeatGet**](OAIPublicApi.md#publicsetheartbeatget) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-[**publicSubscribeGet**](OAIPublicApi.md#publicsubscribeget) | **GET** /public/subscribe | Subscribe to one or more channels.
 [**publicTestGet**](OAIPublicApi.md#publictestget) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 [**publicTickerGet**](OAIPublicApi.md#publictickerget) | **GET** /public/ticker | Get ticker for an instrument.
 [**publicValidateFieldGet**](OAIPublicApi.md#publicvalidatefieldget) | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
@@ -112,55 +108,6 @@ Name | Type | Description  | Notes
  **nonce** | **NSString***| Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token | [optional] 
  **state** | **NSString***| Will be passed back in the response | [optional] 
  **scope** | **NSString***| Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; | [optional] 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicDisableHeartbeatGet**
-```objc
--(NSURLSessionTask*) publicDisableHeartbeatGetWithCompletionHandler: 
-        (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Stop sending heartbeat messages.
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-
-OAIPublicApi*apiInstance = [[OAIPublicApi alloc] init];
-
-// Stop sending heartbeat messages.
-[apiInstance publicDisableHeartbeatGetWithCompletionHandler: 
-          ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPublicApi->publicDisableHeartbeatGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -1300,171 +1247,6 @@ Name | Type | Description  | Notes
  **instrumentName** | **NSString***| Instrument name | 
  **startTimestamp** | **NSNumber***| The earliest timestamp to return result for | 
  **endTimestamp** | **NSNumber***| The most recent timestamp to return result for | 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicHelloGet**
-```objc
--(NSURLSessionTask*) publicHelloGetWithClientName: (NSString*) clientName
-    clientVersion: (NSString*) clientVersion
-        completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-NSString* clientName = My Trading Software; // Client software name
-NSString* clientVersion = 1.0.2; // Client software version
-
-OAIPublicApi*apiInstance = [[OAIPublicApi alloc] init];
-
-// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-[apiInstance publicHelloGetWithClientName:clientName
-              clientVersion:clientVersion
-          completionHandler: ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPublicApi->publicHelloGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **clientName** | **NSString***| Client software name | 
- **clientVersion** | **NSString***| Client software version | 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicSetHeartbeatGet**
-```objc
--(NSURLSessionTask*) publicSetHeartbeatGetWithInterval: (NSNumber*) interval
-        completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-NSNumber* interval = 60; // The heartbeat interval in seconds, but not less than 10
-
-OAIPublicApi*apiInstance = [[OAIPublicApi alloc] init];
-
-// Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-[apiInstance publicSetHeartbeatGetWithInterval:interval
-          completionHandler: ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPublicApi->publicSetHeartbeatGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **interval** | **NSNumber***| The heartbeat interval in seconds, but not less than 10 | 
-
-### Return type
-
-**NSObject***
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicSubscribeGet**
-```objc
--(NSURLSessionTask*) publicSubscribeGetWithChannels: (NSArray<NSString*>*) channels
-        completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-```
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-NSArray<NSString*>* channels = @[@"channels_example"]; // A list of channels to subscribe to.
-
-OAIPublicApi*apiInstance = [[OAIPublicApi alloc] init];
-
-// Subscribe to one or more channels.
-[apiInstance publicSubscribeGetWithChannels:channels
-          completionHandler: ^(NSObject* output, NSError* error) {
-                        if (output) {
-                            NSLog(@"%@", output);
-                        }
-                        if (error) {
-                            NSLog(@"Error calling OAIPublicApi->publicSubscribeGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**NSArray&lt;NSString*&gt;***](NSString*.md)| A list of channels to subscribe to. | 
 
 ### Return type
 

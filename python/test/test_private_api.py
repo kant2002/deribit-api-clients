@@ -112,13 +112,6 @@ class TestPrivateApi(unittest.TestCase):
         """
         pass
 
-    def test_private_disable_cancel_on_disconnect_get(self):
-        """Test case for private_disable_cancel_on_disconnect_get
-
-        Disable Cancel On Disconnect for the connection. This does not change the default account setting.  # noqa: E501
-        """
-        pass
-
     def test_private_disable_tfa_for_subaccount_get(self):
         """Test case for private_disable_tfa_for_subaccount_get
 
@@ -137,13 +130,6 @@ class TestPrivateApi(unittest.TestCase):
         """Test case for private_edit_get
 
         Change price, amount and/or other properties of an order.  # noqa: E501
-        """
-        pass
-
-    def test_private_enable_cancel_on_disconnect_get(self):
-        """Test case for private_enable_cancel_on_disconnect_get
-
-        Enable Cancel On Disconnect for the connection. This does not change the default account setting.  # noqa: E501
         """
         pass
 
@@ -322,13 +308,6 @@ class TestPrivateApi(unittest.TestCase):
         """
         pass
 
-    def test_private_logout_get(self):
-        """Test case for private_logout_get
-
-        Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled  # noqa: E501
-        """
-        pass
-
     def test_private_remove_from_address_book_get(self):
         """Test case for private_remove_from_address_book_get
 
@@ -385,13 +364,6 @@ class TestPrivateApi(unittest.TestCase):
         """
         pass
 
-    def test_private_subscribe_get(self):
-        """Test case for private_subscribe_get
-
-        Subscribe to one or more channels.  # noqa: E501
-        """
-        pass
-
     def test_private_toggle_deposit_address_creation_get(self):
         """Test case for private_toggle_deposit_address_creation_get
 
@@ -410,13 +382,6 @@ class TestPrivateApi(unittest.TestCase):
         """Test case for private_toggle_subaccount_login_get
 
         Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.  # noqa: E501
-        """
-        pass
-
-    def test_private_unsubscribe_get(self):
-        """Test case for private_unsubscribe_get
-
-        Unsubscribe from one or more channels.  # noqa: E501
         """
         pass
 

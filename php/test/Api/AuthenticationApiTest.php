@@ -73,16 +73,6 @@ class AuthenticationApiTest extends TestCase
     }
 
     /**
-     * Test case for privateLogoutGet
-     *
-     * Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled.
-     *
-     */
-    public function testPrivateLogoutGet()
-    {
-    }
-
-    /**
      * Test case for publicAuthGet
      *
      * Authenticate.

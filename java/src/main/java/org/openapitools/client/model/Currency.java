@@ -31,7 +31,7 @@ import org.openapitools.client.model.CurrencyWithdrawalPriorities;
 /**
  * Currency
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-20T13:09:18.457+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-31T10:31:59.717+02:00[Europe/Paris]")
 public class Currency {
   public static final String SERIALIZED_NAME_MIN_CONFIRMATIONS = "min_confirmations";
   @SerializedName(SERIALIZED_NAME_MIN_CONFIRMATIONS)

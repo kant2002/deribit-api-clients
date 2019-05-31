@@ -337,34 +337,6 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
-        /// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <response code="200">ok response</response>
-        /// <response code="400">result when used via rest/HTTP</response>
-        [HttpGet]
-        [Route("/api/v2/private/disable_cancel_on_disconnect")]
-        [ValidateModelState]
-        [SwaggerOperation("PrivateDisableCancelOnDisconnectGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "ok response")]
-        [SwaggerResponse(statusCode: 400, type: typeof(Object), description: "result when used via rest/HTTP")]
-        public virtual IActionResult PrivateDisableCancelOnDisconnectGet()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
         /// Disable two factor authentication for a subaccount.
         /// </summary>
         /// <param name="sid">The user id for the subaccount</param>
@@ -432,34 +404,6 @@ namespace Org.OpenAPITools.Controllers
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
-        /// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-        /// </summary>
-        /// <response code="200">ok response</response>
-        /// <response code="400">result when used via rest/HTTP</response>
-        [HttpGet]
-        [Route("/api/v2/private/enable_cancel_on_disconnect")]
-        [ValidateModelState]
-        [SwaggerOperation("PrivateEnableCancelOnDisconnectGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "ok response")]
-        [SwaggerResponse(statusCode: 400, type: typeof(Object), description: "result when used via rest/HTTP")]
-        public virtual IActionResult PrivateEnableCancelOnDisconnectGet()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(Object));
 
             string exampleJson = null;
             
@@ -1139,28 +1083,6 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-        /// </summary>
-        /// <response code="200">closes WS connection</response>
-        /// <response code="400">result when used via rest/HTTP</response>
-        [HttpGet]
-        [Route("/api/v2/private/logout")]
-        [ValidateModelState]
-        [SwaggerOperation("PrivateLogoutGet")]
-        [SwaggerResponse(statusCode: 400, type: typeof(Object), description: "result when used via rest/HTTP")]
-        public virtual IActionResult PrivateLogoutGet()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(Object));
-
-
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Adds new entry to address book of given type
         /// </summary>
         /// <param name="currency">The currency symbol</param>
@@ -1374,36 +1296,6 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
-        /// Subscribe to one or more channels.
-        /// </summary>
-        /// <remarks>Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. </remarks>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <response code="200">ok response</response>
-        /// <response code="401">not authorised</response>
-        [HttpGet]
-        [Route("/api/v2/private/subscribe")]
-        [ValidateModelState]
-        [SwaggerOperation("PrivateSubscribeGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "ok response")]
-        [SwaggerResponse(statusCode: 401, type: typeof(Object), description: "not authorised")]
-        public virtual IActionResult PrivateSubscribeGet([FromQuery][Required()]List<string> channels)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
         /// Enable or disable deposit address creation
         /// </summary>
         /// <param name="currency">The currency symbol</param>
@@ -1468,35 +1360,6 @@ namespace Org.OpenAPITools.Controllers
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
-        /// Unsubscribe from one or more channels.
-        /// </summary>
-        /// <param name="channels">A list of channels to unsubscribe from.</param>
-        /// <response code="200">ok response</response>
-        /// <response code="401">not authorised</response>
-        [HttpGet]
-        [Route("/api/v2/private/unsubscribe")]
-        [ValidateModelState]
-        [SwaggerOperation("PrivateUnsubscribeGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "ok response")]
-        [SwaggerResponse(statusCode: 401, type: typeof(Object), description: "not authorised")]
-        public virtual IActionResult PrivateUnsubscribeGet([FromQuery][Required()]List<string> channels)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(Object));
 
             string exampleJson = null;
             

@@ -53,18 +53,6 @@ public:
     pplx::task<std::shared_ptr<Object>> publicGetTimeGet(
     );
     /// <summary>
-    /// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    /// <param name="clientName">Client software name</param>
-    /// <param name="clientVersion">Client software version</param>
-    pplx::task<std::shared_ptr<Object>> publicHelloGet(
-        utility::string_t clientName,
-        utility::string_t clientVersion
-    );
-    /// <summary>
     /// Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
     /// </summary>
     /// <remarks>

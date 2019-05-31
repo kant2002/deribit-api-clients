@@ -42,18 +42,6 @@ describe 'SupportingApi' do
     end
   end
 
-  # unit tests for public_hello_get
-  # Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-  # @param client_name Client software name
-  # @param client_version Client software version
-  # @param [Hash] opts the optional parameters
-  # @return [Object]
-  describe 'public_hello_get test' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
   # unit tests for public_test_get
   # Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
   # @param [Hash] opts the optional parameters

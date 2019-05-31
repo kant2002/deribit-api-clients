@@ -4,55 +4,8 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**privateLogoutGet**](OAIAuthenticationApi.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**publicAuthGet**](OAIAuthenticationApi.md#publicauthget) | **GET** /public/auth | Authenticate
 
-
-# **privateLogoutGet**
-```objc
--(NSURLSessionTask*) privateLogoutGetWithCompletionHandler: 
-        (void (^)(NSError* error)) handler;
-```
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example 
-```objc
-OAIDefaultConfiguration *apiConfig = [OAIDefaultConfiguration sharedConfig];
-// Configure HTTP basic authorization (authentication scheme: bearerAuth)
-[apiConfig setUsername:@"YOUR_USERNAME"];
-[apiConfig setPassword:@"YOUR_PASSWORD"];
-
-
-
-OAIAuthenticationApi*apiInstance = [[OAIAuthenticationApi alloc] init];
-
-// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-[apiInstance privateLogoutGetWithCompletionHandler: 
-          ^(NSError* error) {
-                        if (error) {
-                            NSLog(@"Error calling OAIAuthenticationApi->privateLogoutGet: %@", error);
-                        }
-                    }];
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **publicAuthGet**
 ```objc

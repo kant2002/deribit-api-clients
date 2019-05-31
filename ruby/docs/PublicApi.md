@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**public_auth_get**](PublicApi.md#public_auth_get) | **GET** /public/auth | Authenticate
-[**public_disable_heartbeat_get**](PublicApi.md#public_disable_heartbeat_get) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 [**public_get_announcements_get**](PublicApi.md#public_get_announcements_get) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 [**public_get_book_summary_by_currency_get**](PublicApi.md#public_get_book_summary_by_currency_get) | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 [**public_get_book_summary_by_instrument_get**](PublicApi.md#public_get_book_summary_by_instrument_get) | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -25,9 +24,6 @@ Method | HTTP request | Description
 [**public_get_time_get**](PublicApi.md#public_get_time_get) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 [**public_get_trade_volumes_get**](PublicApi.md#public_get_trade_volumes_get) | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 [**public_get_tradingview_chart_data_get**](PublicApi.md#public_get_tradingview_chart_data_get) | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-[**public_hello_get**](PublicApi.md#public_hello_get) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-[**public_set_heartbeat_get**](PublicApi.md#public_set_heartbeat_get) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-[**public_subscribe_get**](PublicApi.md#public_subscribe_get) | **GET** /public/subscribe | Subscribe to one or more channels.
 [**public_test_get**](PublicApi.md#public_test_get) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 [**public_ticker_get**](PublicApi.md#public_ticker_get) | **GET** /public/ticker | Get ticker for an instrument.
 [**public_validate_field_get**](PublicApi.md#public_validate_field_get) | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
@@ -94,53 +90,6 @@ Name | Type | Description  | Notes
  **nonce** | **String**| Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token | [optional] 
  **state** | **String**| Will be passed back in the response | [optional] 
  **scope** | **String**| Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; | [optional] 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-## public_disable_heartbeat_get
-
-> Object public_disable_heartbeat_get
-
-Stop sending heartbeat messages.
-
-### Example
-
-```ruby
-# load the gem
-require 'openapi_client'
-# setup authorization
-OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
-end
-
-api_instance = OpenapiClient::PublicApi.new
-
-begin
-  #Stop sending heartbeat messages.
-  result = api_instance.public_disable_heartbeat_get
-  p result
-rescue OpenapiClient::ApiError => e
-  puts "Exception when calling PublicApi->public_disable_heartbeat_get: #{e}"
-end
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -1188,163 +1137,6 @@ Name | Type | Description  | Notes
  **instrument_name** | **String**| Instrument name | 
  **start_timestamp** | **Integer**| The earliest timestamp to return result for | 
  **end_timestamp** | **Integer**| The most recent timestamp to return result for | 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-## public_hello_get
-
-> Object public_hello_get(client_name, client_version)
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example
-
-```ruby
-# load the gem
-require 'openapi_client'
-# setup authorization
-OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
-end
-
-api_instance = OpenapiClient::PublicApi.new
-client_name = 'My Trading Software' # String | Client software name
-client_version = '1.0.2' # String | Client software version
-
-begin
-  #Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-  result = api_instance.public_hello_get(client_name, client_version)
-  p result
-rescue OpenapiClient::ApiError => e
-  puts "Exception when calling PublicApi->public_hello_get: #{e}"
-end
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client_name** | **String**| Client software name | 
- **client_version** | **String**| Client software version | 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-## public_set_heartbeat_get
-
-> Object public_set_heartbeat_get(interval)
-
-Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-
-### Example
-
-```ruby
-# load the gem
-require 'openapi_client'
-# setup authorization
-OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
-end
-
-api_instance = OpenapiClient::PublicApi.new
-interval = 60 # Float | The heartbeat interval in seconds, but not less than 10
-
-begin
-  #Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-  result = api_instance.public_set_heartbeat_get(interval)
-  p result
-rescue OpenapiClient::ApiError => e
-  puts "Exception when calling PublicApi->public_set_heartbeat_get: #{e}"
-end
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **interval** | **Float**| The heartbeat interval in seconds, but not less than 10 | 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-
-## public_subscribe_get
-
-> Object public_subscribe_get(channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
-
-### Example
-
-```ruby
-# load the gem
-require 'openapi_client'
-# setup authorization
-OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
-end
-
-api_instance = OpenapiClient::PublicApi.new
-channels = ['channels_example'] # Array<String> | A list of channels to subscribe to.
-
-begin
-  #Subscribe to one or more channels.
-  result = api_instance.public_subscribe_get(channels)
-  p result
-rescue OpenapiClient::ApiError => e
-  puts "Exception when calling PublicApi->public_subscribe_get: #{e}"
-end
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**Array&lt;String&gt;**](String.md)| A list of channels to subscribe to. | 
 
 ### Return type
 

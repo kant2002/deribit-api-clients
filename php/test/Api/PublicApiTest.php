@@ -83,16 +83,6 @@ class PublicApiTest extends TestCase
     }
 
     /**
-     * Test case for publicDisableHeartbeatGet
-     *
-     * Stop sending heartbeat messages..
-     *
-     */
-    public function testPublicDisableHeartbeatGet()
-    {
-    }
-
-    /**
      * Test case for publicGetAnnouncementsGet
      *
      * Retrieves announcements from the last 30 days..
@@ -279,36 +269,6 @@ class PublicApiTest extends TestCase
      *
      */
     public function testPublicGetTradingviewChartDataGet()
-    {
-    }
-
-    /**
-     * Test case for publicHelloGet
-     *
-     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself..
-     *
-     */
-    public function testPublicHelloGet()
-    {
-    }
-
-    /**
-     * Test case for publicSetHeartbeatGet
-     *
-     * Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled..
-     *
-     */
-    public function testPublicSetHeartbeatGet()
-    {
-    }
-
-    /**
-     * Test case for publicSubscribeGet
-     *
-     * Subscribe to one or more channels..
-     *
-     */
-    public function testPublicSubscribeGet()
     {
     }
 

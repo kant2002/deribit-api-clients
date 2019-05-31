@@ -17,9 +17,6 @@
 #' @section Methods:
 #' \describe{
 #'
-#' PrivateLogoutGet Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-#'
-#'
 #' PublicAuthGet Authenticate
 #'
 #' }
@@ -37,29 +34,6 @@ AuthenticationApi <- R6::R6Class(
       else {
         self$apiClient <- ApiClient$new()
       }
-    },
-    PrivateLogoutGet = function(...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      urlPath <- "/private/logout"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        # void response, no need to return anything
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
     },
     PublicAuthGet = function(grant.type, username, password, client.id, client.secret, refresh.token, timestamp, signature, nonce=NULL, state=NULL, scope=NULL, ...){
       args <- list(...)

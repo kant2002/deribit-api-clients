@@ -57,17 +57,11 @@ type APIClient struct {
 
 	PublicApi *PublicApiService
 
-	SessionManagementApi *SessionManagementApiService
-
-	SubscriptionManagementApi *SubscriptionManagementApiService
-
 	SupportingApi *SupportingApiService
 
 	TradingApi *TradingApiService
 
 	WalletApi *WalletApiService
-
-	WebsocketOnlyApi *WebsocketOnlyApiService
 }
 
 type service struct {
@@ -92,12 +86,9 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.MarketDataApi = (*MarketDataApiService)(&c.common)
 	c.PrivateApi = (*PrivateApiService)(&c.common)
 	c.PublicApi = (*PublicApiService)(&c.common)
-	c.SessionManagementApi = (*SessionManagementApiService)(&c.common)
-	c.SubscriptionManagementApi = (*SubscriptionManagementApiService)(&c.common)
 	c.SupportingApi = (*SupportingApiService)(&c.common)
 	c.TradingApi = (*TradingApiService)(&c.common)
 	c.WalletApi = (*WalletApiService)(&c.common)
-	c.WebsocketOnlyApi = (*WebsocketOnlyApiService)(&c.common)
 
 	return c
 }

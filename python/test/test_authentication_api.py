@@ -28,13 +28,6 @@ class TestAuthenticationApi(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_private_logout_get(self):
-        """Test case for private_logout_get
-
-        Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled  # noqa: E501
-        """
-        pass
-
     def test_public_auth_get(self):
         """Test case for public_auth_get
 

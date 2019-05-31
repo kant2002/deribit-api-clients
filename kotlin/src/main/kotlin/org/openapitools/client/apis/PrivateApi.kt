@@ -411,36 +411,6 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     }
 
     /**
-    * Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-    * 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun privateDisableCancelOnDisconnectGet() : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/private/disable_cancel_on_disconnect",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
     * Disable two factor authentication for a subaccount.
     * 
     * @param sid The user id for the subaccount 
@@ -522,36 +492,6 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/edit",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
-    * Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-    * 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun privateEnableCancelOnDisconnectGet() : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/private/enable_cancel_on_disconnect",
             query = localVariableQuery,
             headers = localVariableHeaders
         )
@@ -1393,35 +1333,6 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     }
 
     /**
-    * Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-    * 
-    * @return void
-    */
-    fun privateLogoutGet() : Unit {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/private/logout",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<Any?>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> Unit
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
     * Adds new entry to address book of given type
     * 
     * @param currency The currency symbol 
@@ -1691,37 +1602,6 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     }
 
     /**
-    * Subscribe to one or more channels.
-    * Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-    * @param channels A list of channels to subscribe to. 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun privateSubscribeGet(channels: kotlin.Array<kotlin.String>) : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("channels" to toMultiValue(channels.toList(), "multi"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/private/subscribe",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
     * Enable or disable deposit address creation
     * 
     * @param currency The currency symbol 
@@ -1800,37 +1680,6 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/toggle_subaccount_login",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
-    * Unsubscribe from one or more channels.
-    * 
-    * @param channels A list of channels to unsubscribe from. 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun privateUnsubscribeGet(channels: kotlin.Array<kotlin.String>) : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("channels" to toMultiValue(channels.toList(), "multi"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/private/unsubscribe",
             query = localVariableQuery,
             headers = localVariableHeaders
         )

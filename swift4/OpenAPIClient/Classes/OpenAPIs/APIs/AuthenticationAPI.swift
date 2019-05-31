@@ -12,41 +12,6 @@ import Alamofire
 
 open class AuthenticationAPI {
     /**
-     Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func privateLogoutGet(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        privateLogoutGetWithRequestBuilder().execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     - GET /private/logout
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<Void> 
-     */
-    open class func privateLogoutGetWithRequestBuilder() -> RequestBuilder<Void> {
-        let path = "/private/logout"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        let url = URLComponents(string: URLString)
-
-        let requestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
      * enum for parameter grantType
      */
     public enum GrantType_publicAuthGet: String {

@@ -15,18 +15,6 @@ test_that("PublicGetTimeGet", {
   #expect_equal(result, "EXPECTED_RESULT")
 })
 
-test_that("PublicHelloGet", {
-  # tests for PublicHelloGet
-  # base path: https://www.deribit.com/api/v2
-  # Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-  # @param character  client.name  Client software name 
-  # @param character  client.version  Client software version 
-  # @return [object]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("PublicTestGet", {
   # tests for PublicTestGet
   # base path: https://www.deribit.com/api/v2

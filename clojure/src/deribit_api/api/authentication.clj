@@ -27,27 +27,6 @@
   (:import (java.io File)))
 
 
-(defn-spec private-logout-get-with-http-info any?
-  "Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled"
-  []
-  (call-api "/private/logout" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {}
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec private-logout-get any?
-  "Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled"
-  []
-  (let [res (:data (private-logout-get-with-http-info))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
-
-
 (defn-spec public-auth-get-with-http-info any?
   "Authenticate
   Retrieve an Oauth access token, to be used for authentication of 'private' requests.

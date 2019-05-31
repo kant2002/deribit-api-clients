@@ -55,18 +55,6 @@ extern NSInteger kOAIPublicApiMissingParamErrorCode;
     completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
 
 
-/// Stop sending heartbeat messages.
-/// 
-///
-/// 
-///  code:200 message:"ok response",
-///  code:400 message:"result when used via rest/HTTP"
-///
-/// @return NSObject*
--(NSURLSessionTask*) publicDisableHeartbeatGetWithCompletionHandler: 
-    (void (^)(NSObject* output, NSError* error)) handler;
-
-
 /// Retrieves announcements from the last 30 days.
 /// 
 ///
@@ -362,45 +350,6 @@ extern NSInteger kOAIPublicApiMissingParamErrorCode;
 -(NSURLSessionTask*) publicGetTradingviewChartDataGetWithInstrumentName: (NSString*) instrumentName
     startTimestamp: (NSNumber*) startTimestamp
     endTimestamp: (NSNumber*) endTimestamp
-    completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
-/// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-/// 
-///
-/// @param clientName Client software name
-/// @param clientVersion Client software version
-/// 
-///  code:200 message:""
-///
-/// @return NSObject*
--(NSURLSessionTask*) publicHelloGetWithClientName: (NSString*) clientName
-    clientVersion: (NSString*) clientVersion
-    completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
-/// Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-/// 
-///
-/// @param interval The heartbeat interval in seconds, but not less than 10
-/// 
-///  code:200 message:""
-///
-/// @return NSObject*
--(NSURLSessionTask*) publicSetHeartbeatGetWithInterval: (NSNumber*) interval
-    completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
-/// Subscribe to one or more channels.
-/// Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
-///
-/// @param channels A list of channels to subscribe to.
-/// 
-///  code:200 message:"ok response",
-///  code:401 message:"not authorised"
-///
-/// @return NSObject*
--(NSURLSessionTask*) publicSubscribeGetWithChannels: (NSArray<NSString*>*) channels
     completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
 
 

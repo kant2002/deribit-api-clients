@@ -226,14 +226,16 @@ tags:
 - name: market_data
 - name: wallet
 paths:
-  /private/logout:
+  /public/get_trade_volumes:
     get:
+      parameters: []
       responses:
         200:
-          description: closes WS connection
-        400:
           content:
             application/json:
+              examples:
+                jsonObject:
+                  externalValue: examples/public/get_trade_volumes.response.json
               schema:
                 allOf:
                 - properties:
@@ -270,21 +272,46 @@ paths:
                   - usIn
                   - usOut
                 - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
+                    result:
+                      items:
+                        properties:
+                          calls_volume:
+                            description: Total 24h trade volume for call options.
+                              This is expressed in the base currency, e.g. BTC for
+                              `btc_usd`
+                            example: 2.1
+                            type: number
+                          puts_volume:
+                            description: Total 24h trade volume for put options. This
+                              is expressed in the base currency, e.g. BTC for `btc_usd`
+                            example: 60.2
+                            type: number
+                          currency_pair:
+                            description: 'Currency pair: `"btc_usd"` or `"eth_usd"`'
+                            enum:
+                            - btc_usd
+                            - eth_usd
+                            type: string
+                          futures_volume:
+                            description: Total 24h trade volume for futures. This
+                              is expressed in the base currency, e.g. BTC for `btc_usd`
+                            example: 30.5178
+                            type: number
+                        required:
+                        - calls_volume
+                        - currency_pair
+                        - futures_volume
+                        - puts_volume
+                        type: object
+                      type: array
                   required:
-                  - error
-                  - message
+                  - result
                   type: object
-          description: result when used via rest/HTTP
-      summary: Gracefully close websocket connection, when COD (Cancel On Disconnect)
-        is enabled orders are not cancelled
+      summary: Retrieves aggregated 24h trade volumes for different instrument types
+        and currencies.
       tags:
-      - websocket_only
-      - authentication
-      - private
+      - market_data
+      - public
   /public/get_last_trades_by_currency:
     get:
       parameters:
@@ -547,6 +574,249 @@ paths:
       tags:
       - account_management
       - private
+  /private/get_open_orders_by_currency:
+    get:
+      parameters:
+      - description: The currency symbol
+        explode: true
+        in: query
+        name: currency
+        required: true
+        schema:
+          description: Currency, i.e `"BTC"`, `"ETH"`
+          enum:
+          - BTC
+          - ETH
+          type: string
+        style: form
+      - description: Instrument kind, if not provided instruments of all kinds are
+          considered
+        explode: true
+        in: query
+        name: kind
+        required: false
+        schema:
+          description: Instrument kind, `"future"` or `"option"`
+          enum:
+          - future
+          - option
+          type: string
+        style: form
+      - description: Order type, default - `all`
+        explode: true
+        in: query
+        name: type
+        required: false
+        schema:
+          description: Order type, `"all"`, `"limit"`, `"stop_all"`, `"stop_limit"`
+            or `"stop_market"`
+          enum:
+          - all
+          - limit
+          - stop_all
+          - stop_limit
+          - stop_market
+          type: string
+        style: form
+      responses:
+        200:
+          content:
+            application/json:
+              examples:
+                jsonObject:
+                  externalValue: examples/private/get_open_orders_by_currency.response.json
+              schema:
+                allOf:
+                - properties:
+                    testnet:
+                      description: false for production server, true for test server
+                      type: boolean
+                      x-hide-in-docs: true
+                    jsonrpc:
+                      description: The JSON-RPC version (2.0)
+                      enum:
+                      - "2.0"
+                      type: string
+                    usDiff:
+                      description: Duration of the handling of the request, in microseconds
+                      type: integer
+                      x-hide-in-docs: true
+                    id:
+                      description: The id that was sent in the request
+                      type: integer
+                    usOut:
+                      description: The timestamp (in microseconds) of sending of the
+                        response
+                      type: integer
+                      x-hide-in-docs: true
+                    usIn:
+                      description: The timestamp (in microseconds) of receipt of the
+                        request
+                      type: integer
+                      x-hide-in-docs: true
+                  required:
+                  - jsonrpc
+                  - testnet
+                  - usDiff
+                  - usIn
+                  - usOut
+                - properties:
+                    result:
+                      items:
+                        properties:
+                          direction:
+                            description: direction, `buy` or `sell`
+                            enum:
+                            - buy
+                            - sell
+                            type: string
+                          reduce_only:
+                            description: '`true` for reduce-only orders only'
+                            type: boolean
+                          triggered:
+                            description: Whether the stop order has been triggered
+                              (Only for stop orders)
+                            type: boolean
+                          order_id:
+                            description: Unique order identifier
+                            example: ETH-100234
+                            type: string
+                          price:
+                            description: Price in base currency
+                            type: number
+                          time_in_force:
+                            description: 'Order time in force: `"good_til_cancelled"`,
+                              `"fill_or_kill"`, `"immediate_or_cancel"`'
+                            enum:
+                            - good_til_cancelled
+                            - fill_or_kill
+                            - immediate_or_cancel
+                            type: string
+                          api:
+                            description: '`true` if created with API'
+                            type: boolean
+                          order_state:
+                            description: order state, `"open"`, `"filled"`, `"rejected"`,
+                              `"cancelled"`, `"untriggered"`
+                            enum:
+                            - open
+                            - filled
+                            - rejected
+                            - cancelled
+                            - untriggered
+                            - triggered
+                            type: string
+                          implv:
+                            description: Implied volatility in percent. (Only if `advanced="implv"`)
+                            type: number
+                          advanced:
+                            description: |
+                              advanced type: `"usd"` or `"implv"` (Only for options; field is omitted if not applicable).
+                            enum:
+                            - usd
+                            - implv
+                            type: string
+                          post_only:
+                            description: '`true` for post-only orders only'
+                            type: boolean
+                          usd:
+                            description: Option price in USD (Only if `advanced="usd"`)
+                            type: number
+                          stop_price:
+                            description: stop price (Only for future stop orders)
+                            type: number
+                          order_type:
+                            description: order type, `"limit"`, `"market"`, `"stop_limit"`,
+                              `"stop_market"`
+                            enum:
+                            - market
+                            - limit
+                            - stop_market
+                            - stop_limit
+                            type: string
+                          last_update_timestamp:
+                            description: The timestamp (seconds since the Unix epoch,
+                              with millisecond precision)
+                            example: 1536569522277
+                            type: integer
+                          original_order_type:
+                            description: Original order type. Optional field
+                            enum:
+                            - market
+                            type: string
+                          max_show:
+                            description: Maximum amount within an order to be shown
+                              to other traders, 0 for invisible order.
+                            type: number
+                          profit_loss:
+                            description: Profit and loss in base currency.
+                            type: number
+                          is_liquidation:
+                            description: '`true` if order was automatically created
+                              during liquidation'
+                            type: boolean
+                          filled_amount:
+                            description: Filled amount of the order. For perpetual
+                              and futures the filled_amount is in USD units, for options
+                              - in units or corresponding cryptocurrency contracts,
+                              e.g., BTC or ETH.
+                            type: number
+                          label:
+                            description: user defined label (up to 32 characters)
+                            type: string
+                          commission:
+                            description: Commission paid so far (in base currency)
+                            type: number
+                          amount:
+                            description: It represents the requested order size. For
+                              perpetual and futures the amount is in USD units, for
+                              options it is amount of corresponding cryptocurrency
+                              contracts, e.g., BTC or ETH.
+                            type: number
+                          trigger:
+                            description: 'Trigger type (Only for stop orders). Allowed
+                              values: `"index_price"`, `"mark_price"`, `"last_price"`.'
+                            enum:
+                            - index_price
+                            - mark_price
+                            - last_price
+                            type: string
+                          instrument_name:
+                            description: Unique instrument identifier
+                            example: BTC-PERPETUAL
+                            type: string
+                          creation_timestamp:
+                            description: The timestamp (seconds since the Unix epoch,
+                              with millisecond precision)
+                            example: 1536569522277
+                            type: integer
+                          average_price:
+                            description: Average fill price of the order
+                            type: number
+                        required:
+                        - api
+                        - creation_timestamp
+                        - direction
+                        - instrument
+                        - is_liquidation
+                        - label
+                        - last_update_timestamp
+                        - max_show
+                        - order_id
+                        - order_state
+                        - order_type
+                        - post_only
+                        - price
+                        - time_in_force
+                        type: object
+                      type: array
+                  required:
+                  - result
+                  type: object
+      summary: Retrieves list of user's open orders.
+      tags:
+      - trading
+      - private
   /private/cancel_all_by_currency:
     get:
       parameters:
@@ -644,239 +914,6 @@ paths:
       tags:
       - trading
       - private
-  /public/disable_heartbeat:
-    get:
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/disable_heartbeat.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: Result of method execution. `ok` in case of success
-                      enum:
-                      - ok
-                      type: string
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        400:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: result when used via rest/HTTP
-      summary: Stop sending heartbeat messages.
-      tags:
-      - websocket_only
-      - session_management
-      - public
-  /private/subscribe:
-    get:
-      description: |
-        Subscribe to one or more channels.
-
-        The name of the channel determines what information will be provided, and
-        in what form.
-      parameters:
-      - description: A list of channels to subscribe to.
-        explode: true
-        in: query
-        name: channels
-        required: true
-        schema:
-          items:
-            example: deribit_price_index.btc_usd
-            type: string
-            x-deribit-type: channel
-          type: array
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/private/subscribe.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: A list of subscribed channels.
-                      items:
-                        example: deribit_price_index.btc_usd
-                        type: string
-                      type: array
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        401:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: not authorised
-      summary: Subscribe to one or more channels.
-      tags:
-      - private
-      - websocket_only
-      - subscription_management
   /private/cancel_all_by_instrument:
     get:
       parameters:
@@ -958,28 +995,23 @@ paths:
       tags:
       - trading
       - private
-  /public/get_historical_volatility:
+  /public/get_contract_size:
     get:
       parameters:
-      - description: The currency symbol
+      - description: Instrument name
         explode: true
         in: query
-        name: currency
+        name: instrument_name
         required: true
         schema:
-          description: Currency, i.e `"BTC"`, `"ETH"`
-          enum:
-          - BTC
-          - ETH
+          description: Unique instrument identifier
+          example: BTC-PERPETUAL
           type: string
         style: form
       responses:
         200:
           content:
             application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/get_historical_volatility.response.json
               schema:
                 allOf:
                 - properties:
@@ -1017,14 +1049,20 @@ paths:
                   - usOut
                 - properties:
                     result:
-                      items:
-                        type: timestamp-value pair
-                      type: array
+                      properties:
+                        contract_size:
+                          description: Contract size, for futures in USD, for options
+                            in BTC.
+                          example: 10
+                          type: integer
+                      required:
+                      - contract_size
+                      type: object
                   required:
                   - result
                   type: object
           description: ok response
-      summary: Provides information about historical volatility for given cryptocurrency.
+      summary: Retrieves contract size of provided instrument.
       tags:
       - public
       - market_data
@@ -1390,246 +1428,43 @@ paths:
       tags:
       - private
       - trading
-  /public/unsubscribe:
+  /private/submit_transfer_to_user:
     get:
       parameters:
-      - description: A list of channels to unsubscribe from.
+      - description: The currency symbol
         explode: true
         in: query
-        name: channels
+        name: currency
         required: true
         schema:
-          items:
-            example: deribit_price_index.btc_usd
-            type: string
-          type: array
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/unsubscribe.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: A list of subscribed channels.
-                      items:
-                        example: deribit_price_index.btc_usd
-                        type: string
-                      type: array
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        401:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: not authorised
-      summary: Unsubscribe from one or more channels.
-      tags:
-      - websocket_only
-      - subscription_management
-  /public/auth:
-    get:
-      description: |
-        Retrieve an Oauth access token, to be used for authentication of 'private' requests.
-
-        Three methods of authentication are supported:
-
-        - <code>password</code> - using email and and password as when logging on to the website
-        - <code>client_credentials</code> - using the access key and access secret that can be found on the API page on the website
-        - <code>client_signature</code> - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials)
-        - <code>refresh_token</code> - using a refresh token that was received from an earlier invocation
-
-        The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can
-        be used to get a new set of tokens.
-      parameters:
-      - description: Method of authentication
-        explode: true
-        in: query
-        name: grant_type
-        required: true
-        schema:
+          description: Currency, i.e `"BTC"`, `"ETH"`
           enum:
-          - password
-          - client_credentials
-          - client_signature
-          - refresh_token
+          - BTC
+          - ETH
           type: string
         style: form
-      - description: Required for grant type `password`
+      - description: Amount of funds to be transferred
         explode: true
         in: query
-        name: username
+        name: amount
         required: true
         schema:
-          example: your_email@mail.com
-          type: string
+          type: number
         style: form
-      - description: Required for grant type `password`
+      - description: Destination address from address book
         explode: true
         in: query
-        name: password
-        required: true
-        schema:
-          example: your_password
-          type: string
-        style: form
-      - description: Required for grant type `client_credentials` and `client_signature`
-        explode: true
-        in: query
-        name: client_id
+        name: destination
         required: true
         schema:
           type: string
         style: form
-      - description: Required for grant type `client_credentials`
+      - description: TFA code, required when TFA is enabled for current account
         explode: true
         in: query
-        name: client_secret
-        required: true
-        schema:
-          type: string
-        style: form
-      - description: Required for grant type `refresh_token`
-        explode: true
-        in: query
-        name: refresh_token
-        required: true
-        schema:
-          type: string
-        style: form
-      - description: Required for grant type `client_signature`, provides time when
-          request has been generated
-        explode: true
-        in: query
-        name: timestamp
-        required: true
-        schema:
-          type: string
-        style: form
-      - description: Required for grant type `client_signature`; it's a cryptographic
-          signature calculated over provided fields using user **secret key**. The
-          signature should be calculated as an HMAC (Hash-based Message Authentication
-          Code) with `SHA256` hash algorithm
-        explode: true
-        in: query
-        name: signature
-        required: true
-        schema:
-          type: string
-        style: form
-      - description: Optional for grant type `client_signature`; delivers user generated
-          initialization vector for the server token
-        explode: true
-        in: query
-        name: nonce
+        name: tfa
         required: false
         schema:
-          type: string
-        style: form
-      - description: Will be passed back in the response
-        explode: true
-        in: query
-        name: state
-        required: false
-        schema:
-          type: string
-        style: form
-      - description: 'Describes type of the access for assigned token, possible values:
-          `connection`, `session`, `session:name`, `trade:[read, read_write, none]`,
-          `wallet:[read, read_write, none]`, `account:[read, read_write, none]`, `expires:NUMBER`
-          (token will expire after `NUMBER` of seconds).</BR></BR> **NOTICE:** Depending
-          on choosing an authentication method (```grant type```) some scopes could
-          be narrowed by the server. e.g. when ```grant_type = client_credentials```
-          and ```scope = wallet:read_write``` it''s modified by the server as ```scope
-          = wallet:read```'
-        explode: true
-        in: query
-        name: scope
-        required: false
-        schema:
-          example: connection
           type: string
         style: form
       responses:
@@ -1638,7 +1473,7 @@ paths:
             application/json:
               examples:
                 jsonObject:
-                  externalValue: examples/public/auth.response.json
+                  externalValue: examples/private/submit_transfer_to_user.response.json
               schema:
                 allOf:
                 - properties:
@@ -1677,92 +1512,79 @@ paths:
                 - properties:
                     result:
                       properties:
-                        token_type:
-                          description: Authorization type, allowed value - `bearer`
+                        updated_timestamp:
+                          description: The timestamp (seconds since the Unix epoch,
+                            with millisecond precision)
+                          example: 1536569522277
+                          type: integer
+                        direction:
+                          description: Transfer direction
                           enum:
-                          - bearer
+                          - payment
+                          - income
+                          type: string
+                        amount:
+                          description: Amount of funds in given currency
+                          example: 1
+                          type: number
+                        other_side:
+                          description: For transfer from/to subaccount returns this
+                            subaccount name, for transfer to other account returns
+                            address, for transfer from other account returns that
+                            accounts username.
+                          example: Smith
+                          type: string
+                        currency:
+                          description: Currency, i.e `"BTC"`, `"ETH"`
+                          enum:
+                          - BTC
+                          - ETH
                           type: string
                         state:
-                          description: Copied from the input (if applicable)
+                          description: 'Transfer state, allowed values : `prepared`,
+                            `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`'
+                          enum:
+                          - prepared
+                          - confirmed
+                          - cancelled
+                          - waiting_for_admin
+                          - rejection_reason
                           type: string
-                        scope:
-                          description: Type of the access for assigned token
-                          type: string
-                        acccess_token:
-                          example: 843SehgeX5n6XxEU4XbABx4Cny5Akai5iHiJePTsvUw7
-                          type: string
-                        expires_in:
-                          description: Token lifetime in seconds
-                          example: 315360000
+                        created_timestamp:
+                          description: The timestamp (seconds since the Unix epoch,
+                            with millisecond precision)
+                          example: 1536569522277
                           type: integer
-                        refresh_token:
-                          description: Can be used to request a new token (with a
-                            new lifetime)
-                          example: 6faf8L36JdaSqsjCEEiwqifPpj6JB18RWwiWHrsGTZ91
+                        type:
+                          description: 'Type of transfer: `user` - sent to user, `subaccount`
+                            - sent to subaccount'
+                          enum:
+                          - user
+                          - subaccount
                           type: string
+                        id:
+                          description: Id of transfer
+                          example: 12
+                          type: integer
                       required:
-                      - access_token
-                      - expires_in
-                      - refresh_token
-                      - scope
-                      - token_type
+                      - amount
+                      - created_timestamp
+                      - currency
+                      - id
+                      - other_side
+                      - other_side_type
+                      - state
+                      - type
+                      - updated_timestamp
                       type: object
                   required:
                   - result
                   type: object
-          description: ok response
-        429:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: over limit
-      summary: Authenticate
+      summary: Transfer funds to a another user.
       tags:
-      - public
-      - authentication
+      - private
+      - wallet
+      - internal
   /private/get_user_trades_by_instrument:
     get:
       parameters:
@@ -4700,132 +4522,6 @@ paths:
       tags:
       - trading
       - private
-  /public/subscribe:
-    get:
-      description: |
-        Subscribe to one or more channels.
-
-        This is the same method as [/private/subscribe](#private_subscribe), but it can only
-        be used for 'public' channels.
-      parameters:
-      - description: A list of channels to subscribe to.
-        explode: true
-        in: query
-        name: channels
-        required: true
-        schema:
-          items:
-            example: deribit_price_index.btc_usd
-            type: string
-            x-deribit-type: channel
-          type: array
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/subscribe.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: A list of subscribed channels.
-                      items:
-                        example: deribit_price_index.btc_usd
-                        type: string
-                      type: array
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        401:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: not authorised
-      summary: Subscribe to one or more channels.
-      tags:
-      - public
-      - subscription_management
-      - websocket_only
   /private/set_password_for_subaccount:
     get:
       parameters:
@@ -5321,23 +5017,28 @@ paths:
       tags:
       - wallet
       - private
-  /public/get_contract_size:
+  /public/get_historical_volatility:
     get:
       parameters:
-      - description: Instrument name
+      - description: The currency symbol
         explode: true
         in: query
-        name: instrument_name
+        name: currency
         required: true
         schema:
-          description: Unique instrument identifier
-          example: BTC-PERPETUAL
+          description: Currency, i.e `"BTC"`, `"ETH"`
+          enum:
+          - BTC
+          - ETH
           type: string
         style: form
       responses:
         200:
           content:
             application/json:
+              examples:
+                jsonObject:
+                  externalValue: examples/public/get_historical_volatility.response.json
               schema:
                 allOf:
                 - properties:
@@ -5375,20 +5076,14 @@ paths:
                   - usOut
                 - properties:
                     result:
-                      properties:
-                        contract_size:
-                          description: Contract size, for futures in USD, for options
-                            in BTC.
-                          example: 10
-                          type: integer
-                      required:
-                      - contract_size
-                      type: object
+                      items:
+                        type: timestamp-value pair
+                      type: array
                   required:
                   - result
                   type: object
           description: ok response
-      summary: Retrieves contract size of provided instrument.
+      summary: Provides information about historical volatility for given cryptocurrency.
       tags:
       - public
       - market_data
@@ -5790,235 +5485,6 @@ paths:
       tags:
       - private
       - wallet
-  /private/enable_cancel_on_disconnect:
-    get:
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/private/enable_cancel_on_disconnect.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: Result of method execution. `ok` in case of success
-                      enum:
-                      - ok
-                      type: string
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        400:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: result when used via rest/HTTP
-      summary: Enable Cancel On Disconnect for the connection. This does not change
-        the default account setting.
-      tags:
-      - websocket_only
-      - session_management
-      - private
-    x-order: 100
-  /private/unsubscribe:
-    get:
-      parameters:
-      - description: A list of channels to unsubscribe from.
-        explode: true
-        in: query
-        name: channels
-        required: true
-        schema:
-          items:
-            example: deribit_price_index.btc_usd
-            type: string
-          type: array
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/private/unsubscribe.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: A list of subscribed channels.
-                      items:
-                        example: deribit_price_index.btc_usd
-                        type: string
-                      type: array
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        401:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: not authorised
-      summary: Unsubscribe from one or more channels.
-      tags:
-      - private
-      - websocket_only
-      - subscription_management
   /private/get_user_trades_by_order:
     get:
       parameters:
@@ -7540,114 +7006,6 @@ paths:
       tags:
       - market_data
       - public
-  /private/disable_cancel_on_disconnect:
-    get:
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/private/disable_cancel_on_disconnect.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: Result of method execution. `ok` in case of success
-                      enum:
-                      - ok
-                      type: string
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        400:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: result when used via rest/HTTP
-      summary: Disable Cancel On Disconnect for the connection. This does not change
-        the default account setting.
-      tags:
-      - websocket_only
-      - session_management
-      - private
   /private/get_position:
     get:
       parameters:
@@ -8257,37 +7615,15 @@ paths:
       tags:
       - trading
       - private
-  /private/get_transfers:
+  /private/get_subaccounts:
     get:
       parameters:
-      - description: The currency symbol
-        explode: true
+      - explode: true
         in: query
-        name: currency
-        required: true
-        schema:
-          description: Currency, i.e `"BTC"`, `"ETH"`
-          enum:
-          - BTC
-          - ETH
-          type: string
-        style: form
-      - description: Number of requested items, default - `10`
-        explode: true
-        in: query
-        name: count
+        name: with_portfolio
         required: false
         schema:
-          type: integer
-        style: form
-      - description: The offset for pagination, default - `0`
-        explode: true
-        in: query
-        name: offset
-        required: false
-        schema:
-          example: 10
-          type: integer
+          type: boolean
         style: form
       responses:
         200:
@@ -8295,7 +7631,7 @@ paths:
             application/json:
               examples:
                 jsonObject:
-                  externalValue: examples/private/get_transfers.response.json
+                  externalValue: examples/private/get_subaccounts.response.json
               schema:
                 allOf:
                 - properties:
@@ -8333,91 +7669,180 @@ paths:
                   - usOut
                 - properties:
                     result:
-                      properties:
-                        count:
-                          description: Total number of results available
-                          example: 101
-                          type: integer
-                        data:
-                          items:
+                      items:
+                        properties:
+                          username:
+                            type: string
+                          system_name:
+                            description: System generated user nickname
+                            type: string
+                          is_password:
+                            description: '`true` when password for the subaccount
+                              has been configured'
+                            type: boolean
+                          type:
+                            enum:
+                            - main
+                            - subaccount
+                            type: string
+                          tfa_enabled:
+                            description: Whether the two factor authentication is
+                              enabled
+                            type: boolean
+                          receive_notifications:
+                            description: When `true` - receive all notification emails
+                              on the main email
+                            type: boolean
+                          id:
+                            description: Account/Subaccount identifier
+                            type: integer
+                          not_confirmed_email:
+                            description: New email address that has not yet been confirmed.
+                              This field is only included if `with_portfolio` == `true`.
+                            type: string
+                          portfolio:
+                            description: Only if with_portfolio == true
                             properties:
-                              updated_timestamp:
-                                description: The timestamp (seconds since the Unix
-                                  epoch, with millisecond precision)
-                                example: 1536569522277
-                                type: integer
-                              direction:
-                                description: Transfer direction
-                                enum:
-                                - payment
-                                - income
-                                type: string
-                              amount:
-                                description: Amount of funds in given currency
-                                example: 1
-                                type: number
-                              other_side:
-                                description: For transfer from/to subaccount returns
-                                  this subaccount name, for transfer to other account
-                                  returns address, for transfer from other account
-                                  returns that accounts username.
-                                example: Smith
-                                type: string
-                              currency:
-                                description: Currency, i.e `"BTC"`, `"ETH"`
-                                enum:
-                                - BTC
-                                - ETH
-                                type: string
-                              state:
-                                description: 'Transfer state, allowed values : `prepared`,
-                                  `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`'
-                                enum:
-                                - prepared
-                                - confirmed
-                                - cancelled
-                                - waiting_for_admin
-                                - rejection_reason
-                                type: string
-                              created_timestamp:
-                                description: The timestamp (seconds since the Unix
-                                  epoch, with millisecond precision)
-                                example: 1536569522277
-                                type: integer
-                              type:
-                                description: 'Type of transfer: `user` - sent to user,
-                                  `subaccount` - sent to subaccount'
-                                enum:
-                                - user
-                                - subaccount
-                                type: string
-                              id:
-                                description: Id of transfer
-                                example: 12
-                                type: integer
+                              eth:
+                                properties:
+                                  maintenance_margin:
+                                    type: number
+                                  available_withdrawal_funds:
+                                    type: number
+                                  initial_margin:
+                                    type: number
+                                  available_funds:
+                                    type: number
+                                  currency:
+                                    enum:
+                                    - btc
+                                    - eth
+                                    type: string
+                                  margin_balance:
+                                    type: number
+                                  equity:
+                                    type: number
+                                  balance:
+                                    type: number
+                                required:
+                                - available_funds
+                                - available_withdrawal_funds
+                                - balance
+                                - currency
+                                - equity
+                                - initial_margin
+                                - maintenance_margin
+                                - margin_balance
+                                type: object
+                              btc:
+                                properties:
+                                  maintenance_margin:
+                                    type: number
+                                  available_withdrawal_funds:
+                                    type: number
+                                  initial_margin:
+                                    type: number
+                                  available_funds:
+                                    type: number
+                                  currency:
+                                    enum:
+                                    - btc
+                                    - eth
+                                    type: string
+                                  margin_balance:
+                                    type: number
+                                  equity:
+                                    type: number
+                                  balance:
+                                    type: number
+                                required:
+                                - available_funds
+                                - available_withdrawal_funds
+                                - balance
+                                - currency
+                                - equity
+                                - initial_margin
+                                - maintenance_margin
+                                - margin_balance
+                                type: object
                             required:
-                            - amount
-                            - created_timestamp
-                            - currency
-                            - id
-                            - other_side
-                            - other_side_type
-                            - state
-                            - type
-                            - updated_timestamp
+                            - btc
+                            - eth
                             type: object
-                          type: array
-                      required:
-                      - count
-                      - data
-                      type: object
+                          login_enabled:
+                            description: Informs whether login to the subaccount is
+                              enabled
+                            type: boolean
+                          email:
+                            description: User email
+                            type: string
+                        required:
+                        - email
+                        - id
+                        - is_password
+                        - receive_notifications
+                        - system_name
+                        - tfa_enabled
+                        - type
+                        - username
+                        type: object
+                      type: array
                   required:
                   - result
                   type: object
-      summary: Adds new entry to address book of given type
+          description: ok response
+        401:
+          content:
+            application/json:
+              schema:
+                allOf:
+                - properties:
+                    testnet:
+                      description: false for production server, true for test server
+                      type: boolean
+                      x-hide-in-docs: true
+                    jsonrpc:
+                      description: The JSON-RPC version (2.0)
+                      enum:
+                      - "2.0"
+                      type: string
+                    usDiff:
+                      description: Duration of the handling of the request, in microseconds
+                      type: integer
+                      x-hide-in-docs: true
+                    id:
+                      description: The id that was sent in the request
+                      type: integer
+                    usOut:
+                      description: The timestamp (in microseconds) of sending of the
+                        response
+                      type: integer
+                      x-hide-in-docs: true
+                    usIn:
+                      description: The timestamp (in microseconds) of receipt of the
+                        request
+                      type: integer
+                      x-hide-in-docs: true
+                  required:
+                  - jsonrpc
+                  - testnet
+                  - usDiff
+                  - usIn
+                  - usOut
+                - properties:
+                    message:
+                      type: string
+                    error:
+                      type: integer
+                  required:
+                  - error
+                  - message
+                  type: object
+          description: not authorised
+      summary: Get information about subaccounts
       tags:
-      - wallet
       - private
+      - account_management
   /private/get_open_orders_by_instrument:
     get:
       parameters:
@@ -9742,234 +9167,6 @@ paths:
       tags:
       - trading
       - private
-  /private/get_subaccounts:
-    get:
-      parameters:
-      - explode: true
-        in: query
-        name: with_portfolio
-        required: false
-        schema:
-          type: boolean
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/private/get_subaccounts.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      items:
-                        properties:
-                          username:
-                            type: string
-                          system_name:
-                            description: System generated user nickname
-                            type: string
-                          is_password:
-                            description: '`true` when password for the subaccount
-                              has been configured'
-                            type: boolean
-                          type:
-                            enum:
-                            - main
-                            - subaccount
-                            type: string
-                          tfa_enabled:
-                            description: Whether the two factor authentication is
-                              enabled
-                            type: boolean
-                          receive_notifications:
-                            description: When `true` - receive all notification emails
-                              on the main email
-                            type: boolean
-                          id:
-                            description: Account/Subaccount identifier
-                            type: integer
-                          not_confirmed_email:
-                            description: New email address that has not yet been confirmed.
-                              This field is only included if `with_portfolio` == `true`.
-                            type: string
-                          portfolio:
-                            description: Only if with_portfolio == true
-                            properties:
-                              eth:
-                                properties:
-                                  maintenance_margin:
-                                    type: number
-                                  available_withdrawal_funds:
-                                    type: number
-                                  initial_margin:
-                                    type: number
-                                  available_funds:
-                                    type: number
-                                  currency:
-                                    enum:
-                                    - btc
-                                    - eth
-                                    type: string
-                                  margin_balance:
-                                    type: number
-                                  equity:
-                                    type: number
-                                  balance:
-                                    type: number
-                                required:
-                                - available_funds
-                                - available_withdrawal_funds
-                                - balance
-                                - currency
-                                - equity
-                                - initial_margin
-                                - maintenance_margin
-                                - margin_balance
-                                type: object
-                              btc:
-                                properties:
-                                  maintenance_margin:
-                                    type: number
-                                  available_withdrawal_funds:
-                                    type: number
-                                  initial_margin:
-                                    type: number
-                                  available_funds:
-                                    type: number
-                                  currency:
-                                    enum:
-                                    - btc
-                                    - eth
-                                    type: string
-                                  margin_balance:
-                                    type: number
-                                  equity:
-                                    type: number
-                                  balance:
-                                    type: number
-                                required:
-                                - available_funds
-                                - available_withdrawal_funds
-                                - balance
-                                - currency
-                                - equity
-                                - initial_margin
-                                - maintenance_margin
-                                - margin_balance
-                                type: object
-                            required:
-                            - btc
-                            - eth
-                            type: object
-                          login_enabled:
-                            description: Informs whether login to the subaccount is
-                              enabled
-                            type: boolean
-                          email:
-                            description: User email
-                            type: string
-                        required:
-                        - email
-                        - id
-                        - is_password
-                        - receive_notifications
-                        - system_name
-                        - tfa_enabled
-                        - type
-                        - username
-                        type: object
-                      type: array
-                  required:
-                  - result
-                  type: object
-          description: ok response
-        401:
-          content:
-            application/json:
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    message:
-                      type: string
-                    error:
-                      type: integer
-                  required:
-                  - error
-                  - message
-                  type: object
-          description: not authorised
-      summary: Get information about subaccounts
-      tags:
-      - private
-      - account_management
   /public/get_book_summary_by_currency:
     get:
       parameters:
@@ -10859,78 +10056,7 @@ paths:
       - trading
       - private
     x-order: 10200
-  /public/set_heartbeat:
-    get:
-      parameters:
-      - description: The heartbeat interval in seconds, but not less than 10
-        explode: true
-        in: query
-        name: interval
-        required: true
-        schema:
-          example: 60
-          type: number
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/set_heartbeat.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: Result of method execution. `ok` in case of success
-                      enum:
-                      - ok
-                      type: string
-                  required:
-                  - result
-                  type: object
-      summary: |-
-        Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections.
-        When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-      tags:
-      - public
-      - session_management
-      - websocket_only
-    x-order: 100
-  /private/get_open_orders_by_currency:
+  /private/get_transfers:
     get:
       parameters:
       - description: The currency symbol
@@ -10945,34 +10071,22 @@ paths:
           - ETH
           type: string
         style: form
-      - description: Instrument kind, if not provided instruments of all kinds are
-          considered
+      - description: Number of requested items, default - `10`
         explode: true
         in: query
-        name: kind
+        name: count
         required: false
         schema:
-          description: Instrument kind, `"future"` or `"option"`
-          enum:
-          - future
-          - option
-          type: string
+          type: integer
         style: form
-      - description: Order type, default - `all`
+      - description: The offset for pagination, default - `0`
         explode: true
         in: query
-        name: type
+        name: offset
         required: false
         schema:
-          description: Order type, `"all"`, `"limit"`, `"stop_all"`, `"stop_limit"`
-            or `"stop_market"`
-          enum:
-          - all
-          - limit
-          - stop_all
-          - stop_limit
-          - stop_market
-          type: string
+          example: 10
+          type: integer
         style: form
       responses:
         200:
@@ -10980,7 +10094,7 @@ paths:
             application/json:
               examples:
                 jsonObject:
-                  externalValue: examples/private/get_open_orders_by_currency.response.json
+                  externalValue: examples/private/get_transfers.response.json
               schema:
                 allOf:
                 - properties:
@@ -11018,160 +10132,90 @@ paths:
                   - usOut
                 - properties:
                     result:
-                      items:
-                        properties:
-                          direction:
-                            description: direction, `buy` or `sell`
-                            enum:
-                            - buy
-                            - sell
-                            type: string
-                          reduce_only:
-                            description: '`true` for reduce-only orders only'
-                            type: boolean
-                          triggered:
-                            description: Whether the stop order has been triggered
-                              (Only for stop orders)
-                            type: boolean
-                          order_id:
-                            description: Unique order identifier
-                            example: ETH-100234
-                            type: string
-                          price:
-                            description: Price in base currency
-                            type: number
-                          time_in_force:
-                            description: 'Order time in force: `"good_til_cancelled"`,
-                              `"fill_or_kill"`, `"immediate_or_cancel"`'
-                            enum:
-                            - good_til_cancelled
-                            - fill_or_kill
-                            - immediate_or_cancel
-                            type: string
-                          api:
-                            description: '`true` if created with API'
-                            type: boolean
-                          order_state:
-                            description: order state, `"open"`, `"filled"`, `"rejected"`,
-                              `"cancelled"`, `"untriggered"`
-                            enum:
-                            - open
-                            - filled
-                            - rejected
-                            - cancelled
-                            - untriggered
-                            - triggered
-                            type: string
-                          implv:
-                            description: Implied volatility in percent. (Only if `advanced="implv"`)
-                            type: number
-                          advanced:
-                            description: |
-                              advanced type: `"usd"` or `"implv"` (Only for options; field is omitted if not applicable).
-                            enum:
-                            - usd
-                            - implv
-                            type: string
-                          post_only:
-                            description: '`true` for post-only orders only'
-                            type: boolean
-                          usd:
-                            description: Option price in USD (Only if `advanced="usd"`)
-                            type: number
-                          stop_price:
-                            description: stop price (Only for future stop orders)
-                            type: number
-                          order_type:
-                            description: order type, `"limit"`, `"market"`, `"stop_limit"`,
-                              `"stop_market"`
-                            enum:
-                            - market
-                            - limit
-                            - stop_market
-                            - stop_limit
-                            type: string
-                          last_update_timestamp:
-                            description: The timestamp (seconds since the Unix epoch,
-                              with millisecond precision)
-                            example: 1536569522277
-                            type: integer
-                          original_order_type:
-                            description: Original order type. Optional field
-                            enum:
-                            - market
-                            type: string
-                          max_show:
-                            description: Maximum amount within an order to be shown
-                              to other traders, 0 for invisible order.
-                            type: number
-                          profit_loss:
-                            description: Profit and loss in base currency.
-                            type: number
-                          is_liquidation:
-                            description: '`true` if order was automatically created
-                              during liquidation'
-                            type: boolean
-                          filled_amount:
-                            description: Filled amount of the order. For perpetual
-                              and futures the filled_amount is in USD units, for options
-                              - in units or corresponding cryptocurrency contracts,
-                              e.g., BTC or ETH.
-                            type: number
-                          label:
-                            description: user defined label (up to 32 characters)
-                            type: string
-                          commission:
-                            description: Commission paid so far (in base currency)
-                            type: number
-                          amount:
-                            description: It represents the requested order size. For
-                              perpetual and futures the amount is in USD units, for
-                              options it is amount of corresponding cryptocurrency
-                              contracts, e.g., BTC or ETH.
-                            type: number
-                          trigger:
-                            description: 'Trigger type (Only for stop orders). Allowed
-                              values: `"index_price"`, `"mark_price"`, `"last_price"`.'
-                            enum:
-                            - index_price
-                            - mark_price
-                            - last_price
-                            type: string
-                          instrument_name:
-                            description: Unique instrument identifier
-                            example: BTC-PERPETUAL
-                            type: string
-                          creation_timestamp:
-                            description: The timestamp (seconds since the Unix epoch,
-                              with millisecond precision)
-                            example: 1536569522277
-                            type: integer
-                          average_price:
-                            description: Average fill price of the order
-                            type: number
-                        required:
-                        - api
-                        - creation_timestamp
-                        - direction
-                        - instrument
-                        - is_liquidation
-                        - label
-                        - last_update_timestamp
-                        - max_show
-                        - order_id
-                        - order_state
-                        - order_type
-                        - post_only
-                        - price
-                        - time_in_force
-                        type: object
-                      type: array
+                      properties:
+                        count:
+                          description: Total number of results available
+                          example: 101
+                          type: integer
+                        data:
+                          items:
+                            properties:
+                              updated_timestamp:
+                                description: The timestamp (seconds since the Unix
+                                  epoch, with millisecond precision)
+                                example: 1536569522277
+                                type: integer
+                              direction:
+                                description: Transfer direction
+                                enum:
+                                - payment
+                                - income
+                                type: string
+                              amount:
+                                description: Amount of funds in given currency
+                                example: 1
+                                type: number
+                              other_side:
+                                description: For transfer from/to subaccount returns
+                                  this subaccount name, for transfer to other account
+                                  returns address, for transfer from other account
+                                  returns that accounts username.
+                                example: Smith
+                                type: string
+                              currency:
+                                description: Currency, i.e `"BTC"`, `"ETH"`
+                                enum:
+                                - BTC
+                                - ETH
+                                type: string
+                              state:
+                                description: 'Transfer state, allowed values : `prepared`,
+                                  `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`'
+                                enum:
+                                - prepared
+                                - confirmed
+                                - cancelled
+                                - waiting_for_admin
+                                - rejection_reason
+                                type: string
+                              created_timestamp:
+                                description: The timestamp (seconds since the Unix
+                                  epoch, with millisecond precision)
+                                example: 1536569522277
+                                type: integer
+                              type:
+                                description: 'Type of transfer: `user` - sent to user,
+                                  `subaccount` - sent to subaccount'
+                                enum:
+                                - user
+                                - subaccount
+                                type: string
+                              id:
+                                description: Id of transfer
+                                example: 12
+                                type: integer
+                            required:
+                            - amount
+                            - created_timestamp
+                            - currency
+                            - id
+                            - other_side
+                            - other_side_type
+                            - state
+                            - type
+                            - updated_timestamp
+                            type: object
+                          type: array
+                      required:
+                      - count
+                      - data
+                      type: object
                   required:
                   - result
                   type: object
-      summary: Retrieves list of user's open orders.
+      summary: Adds new entry to address book of given type
       tags:
-      - trading
+      - wallet
       - private
   /private/submit_transfer_to_subaccount:
     get:
@@ -12570,148 +11614,6 @@ paths:
       tags:
       - trading
       - private
-  /public/get_time:
-    get:
-      parameters: []
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/get_time.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      description: Current timestamp (milliseconds)
-                      example: 1517329113791
-                      type: integer
-                  required:
-                  - result
-                  type: object
-      summary: Retrieves the current time (in milliseconds). This API endpoint can
-        be used to check the clock skew between your software and Deribit's systems.
-      tags:
-      - supporting
-      - public
-  /public/hello:
-    get:
-      parameters:
-      - description: Client software name
-        explode: true
-        in: query
-        name: client_name
-        required: true
-        schema:
-          example: My Trading Software
-          type: string
-        style: form
-      - description: Client software version
-        explode: true
-        in: query
-        name: client_version
-        required: true
-        schema:
-          example: 1.0.2
-          type: string
-        style: form
-      responses:
-        200:
-          content:
-            application/json:
-              examples:
-                jsonObject:
-                  externalValue: examples/public/hello.response.json
-              schema:
-                allOf:
-                - properties:
-                    testnet:
-                      description: false for production server, true for test server
-                      type: boolean
-                      x-hide-in-docs: true
-                    jsonrpc:
-                      description: The JSON-RPC version (2.0)
-                      enum:
-                      - "2.0"
-                      type: string
-                    usDiff:
-                      description: Duration of the handling of the request, in microseconds
-                      type: integer
-                      x-hide-in-docs: true
-                    id:
-                      description: The id that was sent in the request
-                      type: integer
-                    usOut:
-                      description: The timestamp (in microseconds) of sending of the
-                        response
-                      type: integer
-                      x-hide-in-docs: true
-                    usIn:
-                      description: The timestamp (in microseconds) of receipt of the
-                        request
-                      type: integer
-                      x-hide-in-docs: true
-                  required:
-                  - jsonrpc
-                  - testnet
-                  - usDiff
-                  - usIn
-                  - usOut
-                - properties:
-                    result:
-                      properties:
-                        version:
-                          description: The API version
-                          example: 2.1.26
-                          type: string
-                      required:
-                      - version
-                      type: object
-                  required:
-                  - result
-                  type: object
-      summary: Method used to introduce the client software connected to Deribit platform
-        over websocket. Provided data may have an impact on the maintained connection
-        and will be collected for internal statistical purposes. In response, Deribit
-        will also introduce itself.
-      tags:
-      - public
-      - supporting
-      - websocket_only
   /public/get_announcements:
     get:
       parameters: []
@@ -13224,43 +12126,127 @@ paths:
       tags:
       - private
       - account_management
-  /private/submit_transfer_to_user:
+  /public/auth:
     get:
+      description: |
+        Retrieve an Oauth access token, to be used for authentication of 'private' requests.
+
+        Three methods of authentication are supported:
+
+        - <code>password</code> - using email and and password as when logging on to the website
+        - <code>client_credentials</code> - using the access key and access secret that can be found on the API page on the website
+        - <code>client_signature</code> - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials)
+        - <code>refresh_token</code> - using a refresh token that was received from an earlier invocation
+
+        The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can
+        be used to get a new set of tokens.
       parameters:
-      - description: The currency symbol
+      - description: Method of authentication
         explode: true
         in: query
-        name: currency
+        name: grant_type
         required: true
         schema:
-          description: Currency, i.e `"BTC"`, `"ETH"`
           enum:
-          - BTC
-          - ETH
+          - password
+          - client_credentials
+          - client_signature
+          - refresh_token
           type: string
         style: form
-      - description: Amount of funds to be transferred
+      - description: Required for grant type `password`
         explode: true
         in: query
-        name: amount
+        name: username
         required: true
         schema:
-          type: number
+          example: your_email@mail.com
+          type: string
         style: form
-      - description: Destination address from address book
+      - description: Required for grant type `password`
         explode: true
         in: query
-        name: destination
+        name: password
+        required: true
+        schema:
+          example: your_password
+          type: string
+        style: form
+      - description: Required for grant type `client_credentials` and `client_signature`
+        explode: true
+        in: query
+        name: client_id
         required: true
         schema:
           type: string
         style: form
-      - description: TFA code, required when TFA is enabled for current account
+      - description: Required for grant type `client_credentials`
         explode: true
         in: query
-        name: tfa
+        name: client_secret
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Required for grant type `refresh_token`
+        explode: true
+        in: query
+        name: refresh_token
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Required for grant type `client_signature`, provides time when
+          request has been generated
+        explode: true
+        in: query
+        name: timestamp
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Required for grant type `client_signature`; it's a cryptographic
+          signature calculated over provided fields using user **secret key**. The
+          signature should be calculated as an HMAC (Hash-based Message Authentication
+          Code) with `SHA256` hash algorithm
+        explode: true
+        in: query
+        name: signature
+        required: true
+        schema:
+          type: string
+        style: form
+      - description: Optional for grant type `client_signature`; delivers user generated
+          initialization vector for the server token
+        explode: true
+        in: query
+        name: nonce
         required: false
         schema:
+          type: string
+        style: form
+      - description: Will be passed back in the response
+        explode: true
+        in: query
+        name: state
+        required: false
+        schema:
+          type: string
+        style: form
+      - description: 'Describes type of the access for assigned token, possible values:
+          `connection`, `session`, `session:name`, `trade:[read, read_write, none]`,
+          `wallet:[read, read_write, none]`, `account:[read, read_write, none]`, `expires:NUMBER`
+          (token will expire after `NUMBER` of seconds).</BR></BR> **NOTICE:** Depending
+          on choosing an authentication method (```grant type```) some scopes could
+          be narrowed by the server. e.g. when ```grant_type = client_credentials```
+          and ```scope = wallet:read_write``` it''s modified by the server as ```scope
+          = wallet:read```'
+        explode: true
+        in: query
+        name: scope
+        required: false
+        schema:
+          example: connection
           type: string
         style: form
       responses:
@@ -13269,7 +12255,7 @@ paths:
             application/json:
               examples:
                 jsonObject:
-                  externalValue: examples/private/submit_transfer_to_user.response.json
+                  externalValue: examples/public/auth.response.json
               schema:
                 allOf:
                 - properties:
@@ -13308,79 +12294,92 @@ paths:
                 - properties:
                     result:
                       properties:
-                        updated_timestamp:
-                          description: The timestamp (seconds since the Unix epoch,
-                            with millisecond precision)
-                          example: 1536569522277
-                          type: integer
-                        direction:
-                          description: Transfer direction
+                        token_type:
+                          description: Authorization type, allowed value - `bearer`
                           enum:
-                          - payment
-                          - income
-                          type: string
-                        amount:
-                          description: Amount of funds in given currency
-                          example: 1
-                          type: number
-                        other_side:
-                          description: For transfer from/to subaccount returns this
-                            subaccount name, for transfer to other account returns
-                            address, for transfer from other account returns that
-                            accounts username.
-                          example: Smith
-                          type: string
-                        currency:
-                          description: Currency, i.e `"BTC"`, `"ETH"`
-                          enum:
-                          - BTC
-                          - ETH
+                          - bearer
                           type: string
                         state:
-                          description: 'Transfer state, allowed values : `prepared`,
-                            `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`'
-                          enum:
-                          - prepared
-                          - confirmed
-                          - cancelled
-                          - waiting_for_admin
-                          - rejection_reason
+                          description: Copied from the input (if applicable)
                           type: string
-                        created_timestamp:
-                          description: The timestamp (seconds since the Unix epoch,
-                            with millisecond precision)
-                          example: 1536569522277
-                          type: integer
-                        type:
-                          description: 'Type of transfer: `user` - sent to user, `subaccount`
-                            - sent to subaccount'
-                          enum:
-                          - user
-                          - subaccount
+                        scope:
+                          description: Type of the access for assigned token
                           type: string
-                        id:
-                          description: Id of transfer
-                          example: 12
+                        acccess_token:
+                          example: 843SehgeX5n6XxEU4XbABx4Cny5Akai5iHiJePTsvUw7
+                          type: string
+                        expires_in:
+                          description: Token lifetime in seconds
+                          example: 315360000
                           type: integer
+                        refresh_token:
+                          description: Can be used to request a new token (with a
+                            new lifetime)
+                          example: 6faf8L36JdaSqsjCEEiwqifPpj6JB18RWwiWHrsGTZ91
+                          type: string
                       required:
-                      - amount
-                      - created_timestamp
-                      - currency
-                      - id
-                      - other_side
-                      - other_side_type
-                      - state
-                      - type
-                      - updated_timestamp
+                      - access_token
+                      - expires_in
+                      - refresh_token
+                      - scope
+                      - token_type
                       type: object
                   required:
                   - result
                   type: object
-      summary: Transfer funds to a another user.
+          description: ok response
+        429:
+          content:
+            application/json:
+              schema:
+                allOf:
+                - properties:
+                    testnet:
+                      description: false for production server, true for test server
+                      type: boolean
+                      x-hide-in-docs: true
+                    jsonrpc:
+                      description: The JSON-RPC version (2.0)
+                      enum:
+                      - "2.0"
+                      type: string
+                    usDiff:
+                      description: Duration of the handling of the request, in microseconds
+                      type: integer
+                      x-hide-in-docs: true
+                    id:
+                      description: The id that was sent in the request
+                      type: integer
+                    usOut:
+                      description: The timestamp (in microseconds) of sending of the
+                        response
+                      type: integer
+                      x-hide-in-docs: true
+                    usIn:
+                      description: The timestamp (in microseconds) of receipt of the
+                        request
+                      type: integer
+                      x-hide-in-docs: true
+                  required:
+                  - jsonrpc
+                  - testnet
+                  - usDiff
+                  - usIn
+                  - usOut
+                - properties:
+                    message:
+                      type: string
+                    error:
+                      type: integer
+                  required:
+                  - error
+                  - message
+                  type: object
+          description: over limit
+      summary: Authenticate
       tags:
-      - private
-      - wallet
-      - internal
+      - public
+      - authentication
   /private/create_deposit_address:
     get:
       parameters:
@@ -13478,7 +12477,7 @@ paths:
       tags:
       - wallet
       - private
-  /public/get_trade_volumes:
+  /public/get_time:
     get:
       parameters: []
       responses:
@@ -13487,7 +12486,7 @@ paths:
             application/json:
               examples:
                 jsonObject:
-                  externalValue: examples/public/get_trade_volumes.response.json
+                  externalValue: examples/public/get_time.response.json
               schema:
                 allOf:
                 - properties:
@@ -13525,44 +12524,16 @@ paths:
                   - usOut
                 - properties:
                     result:
-                      items:
-                        properties:
-                          calls_volume:
-                            description: Total 24h trade volume for call options.
-                              This is expressed in the base currency, e.g. BTC for
-                              `btc_usd`
-                            example: 2.1
-                            type: number
-                          puts_volume:
-                            description: Total 24h trade volume for put options. This
-                              is expressed in the base currency, e.g. BTC for `btc_usd`
-                            example: 60.2
-                            type: number
-                          currency_pair:
-                            description: 'Currency pair: `"btc_usd"` or `"eth_usd"`'
-                            enum:
-                            - btc_usd
-                            - eth_usd
-                            type: string
-                          futures_volume:
-                            description: Total 24h trade volume for futures. This
-                              is expressed in the base currency, e.g. BTC for `btc_usd`
-                            example: 30.5178
-                            type: number
-                        required:
-                        - calls_volume
-                        - currency_pair
-                        - futures_volume
-                        - puts_volume
-                        type: object
-                      type: array
+                      description: Current timestamp (milliseconds)
+                      example: 1517329113791
+                      type: integer
                   required:
                   - result
                   type: object
-      summary: Retrieves aggregated 24h trade volumes for different instrument types
-        and currencies.
+      summary: Retrieves the current time (in milliseconds). This API endpoint can
+        be used to check the clock skew between your software and Deribit's systems.
       tags:
-      - market_data
+      - supporting
       - public
   /private/get_email_language:
     get:

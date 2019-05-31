@@ -49,12 +49,9 @@ set(SRCS
     api/MarketDataAPI.c
     api/PrivateAPI.c
     api/PublicAPI.c
-    api/SessionManagementAPI.c
-    api/SubscriptionManagementAPI.c
     api/SupportingAPI.c
     api/TradingAPI.c
     api/WalletAPI.c
-    api/WebsocketOnlyAPI.c
 
 )
 
@@ -89,12 +86,9 @@ set(HDRS
     api/MarketDataAPI.h
     api/PrivateAPI.h
     api/PublicAPI.h
-    api/SessionManagementAPI.h
-    api/SubscriptionManagementAPI.h
     api/SupportingAPI.h
     api/TradingAPI.h
     api/WalletAPI.h
-    api/WebsocketOnlyAPI.h
 
 )
 

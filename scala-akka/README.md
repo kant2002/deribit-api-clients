@@ -81,7 +81,6 @@ Class | Method | HTTP request | Description
 *AccountManagementApi* | **privateToggleNotificationsFromSubaccountGet** | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 *AccountManagementApi* | **privateToggleSubaccountLoginGet** | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
 *AccountManagementApi* | **publicGetAnnouncementsGet** | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
-*AuthenticationApi* | **privateLogoutGet** | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 *AuthenticationApi* | **publicAuthGet** | **GET** /public/auth | Authenticate
 *InternalApi* | **privateAddToAddressBookGet** | **GET** /private/add_to_address_book | Adds new entry to address book of given type
 *InternalApi* | **privateDisableTfaWithRecoveryCodeGet** | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
@@ -123,11 +122,9 @@ Class | Method | HTTP request | Description
 *PrivateApi* | **privateClosePositionGet** | **GET** /private/close_position | Makes closing position reduce only order .
 *PrivateApi* | **privateCreateDepositAddressGet** | **GET** /private/create_deposit_address | Creates deposit address in currency
 *PrivateApi* | **privateCreateSubaccountGet** | **GET** /private/create_subaccount | Create a new subaccount
-*PrivateApi* | **privateDisableCancelOnDisconnectGet** | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 *PrivateApi* | **privateDisableTfaForSubaccountGet** | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 *PrivateApi* | **privateDisableTfaWithRecoveryCodeGet** | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 *PrivateApi* | **privateEditGet** | **GET** /private/edit | Change price, amount and/or other properties of an order.
-*PrivateApi* | **privateEnableCancelOnDisconnectGet** | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 *PrivateApi* | **privateGetAccountSummaryGet** | **GET** /private/get_account_summary | Retrieves user account summary.
 *PrivateApi* | **privateGetAddressBookGet** | **GET** /private/get_address_book | Retrieves address book of given type
 *PrivateApi* | **privateGetCurrentDepositAddressGet** | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -153,7 +150,6 @@ Class | Method | HTTP request | Description
 *PrivateApi* | **privateGetUserTradesByInstrumentGet** | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 *PrivateApi* | **privateGetUserTradesByOrderGet** | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 *PrivateApi* | **privateGetWithdrawalsGet** | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-*PrivateApi* | **privateLogoutGet** | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 *PrivateApi* | **privateRemoveFromAddressBookGet** | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 *PrivateApi* | **privateSellGet** | **GET** /private/sell | Places a sell order for an instrument.
 *PrivateApi* | **privateSetAnnouncementAsReadGet** | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -162,14 +158,11 @@ Class | Method | HTTP request | Description
 *PrivateApi* | **privateSetPasswordForSubaccountGet** | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 *PrivateApi* | **privateSubmitTransferToSubaccountGet** | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 *PrivateApi* | **privateSubmitTransferToUserGet** | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-*PrivateApi* | **privateSubscribeGet** | **GET** /private/subscribe | Subscribe to one or more channels.
 *PrivateApi* | **privateToggleDepositAddressCreationGet** | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 *PrivateApi* | **privateToggleNotificationsFromSubaccountGet** | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 *PrivateApi* | **privateToggleSubaccountLoginGet** | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-*PrivateApi* | **privateUnsubscribeGet** | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 *PrivateApi* | **privateWithdrawGet** | **GET** /private/withdraw | Creates a new withdrawal request
 *PublicApi* | **publicAuthGet** | **GET** /public/auth | Authenticate
-*PublicApi* | **publicDisableHeartbeatGet** | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 *PublicApi* | **publicGetAnnouncementsGet** | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 *PublicApi* | **publicGetBookSummaryByCurrencyGet** | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 *PublicApi* | **publicGetBookSummaryByInstrumentGet** | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -189,22 +182,10 @@ Class | Method | HTTP request | Description
 *PublicApi* | **publicGetTimeGet** | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 *PublicApi* | **publicGetTradeVolumesGet** | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 *PublicApi* | **publicGetTradingviewChartDataGet** | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-*PublicApi* | **publicHelloGet** | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-*PublicApi* | **publicSetHeartbeatGet** | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-*PublicApi* | **publicSubscribeGet** | **GET** /public/subscribe | Subscribe to one or more channels.
 *PublicApi* | **publicTestGet** | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 *PublicApi* | **publicTickerGet** | **GET** /public/ticker | Get ticker for an instrument.
 *PublicApi* | **publicValidateFieldGet** | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-*SessionManagementApi* | **privateDisableCancelOnDisconnectGet** | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-*SessionManagementApi* | **privateEnableCancelOnDisconnectGet** | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-*SessionManagementApi* | **publicDisableHeartbeatGet** | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
-*SessionManagementApi* | **publicSetHeartbeatGet** | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-*SubscriptionManagementApi* | **privateSubscribeGet** | **GET** /private/subscribe | Subscribe to one or more channels.
-*SubscriptionManagementApi* | **privateUnsubscribeGet** | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
-*SubscriptionManagementApi* | **publicSubscribeGet** | **GET** /public/subscribe | Subscribe to one or more channels.
-*SubscriptionManagementApi* | **publicUnsubscribeGet** | **GET** /public/unsubscribe | Unsubscribe from one or more channels.
 *SupportingApi* | **publicGetTimeGet** | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
-*SupportingApi* | **publicHelloGet** | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
 *SupportingApi* | **publicTestGet** | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 *TradingApi* | **privateBuyGet** | **GET** /private/buy | Places a buy order for an instrument.
 *TradingApi* | **privateCancelAllByCurrencyGet** | **GET** /private/cancel_all_by_currency | Cancels all orders by currency, optionally filtered by instrument kind and/or order type.
@@ -242,16 +223,6 @@ Class | Method | HTTP request | Description
 *WalletApi* | **privateSubmitTransferToUserGet** | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
 *WalletApi* | **privateToggleDepositAddressCreationGet** | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 *WalletApi* | **privateWithdrawGet** | **GET** /private/withdraw | Creates a new withdrawal request
-*WebsocketOnlyApi* | **privateDisableCancelOnDisconnectGet** | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-*WebsocketOnlyApi* | **privateEnableCancelOnDisconnectGet** | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-*WebsocketOnlyApi* | **privateLogoutGet** | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-*WebsocketOnlyApi* | **privateSubscribeGet** | **GET** /private/subscribe | Subscribe to one or more channels.
-*WebsocketOnlyApi* | **privateUnsubscribeGet** | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
-*WebsocketOnlyApi* | **publicDisableHeartbeatGet** | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
-*WebsocketOnlyApi* | **publicHelloGet** | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-*WebsocketOnlyApi* | **publicSetHeartbeatGet** | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-*WebsocketOnlyApi* | **publicSubscribeGet** | **GET** /public/subscribe | Subscribe to one or more channels.
-*WebsocketOnlyApi* | **publicUnsubscribeGet** | **GET** /public/unsubscribe | Unsubscribe from one or more channels.
 
 
 ## Documentation for Models

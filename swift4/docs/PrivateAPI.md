@@ -16,11 +16,9 @@ Method | HTTP request | Description
 [**privateClosePositionGet**](PrivateAPI.md#privateclosepositionget) | **GET** /private/close_position | Makes closing position reduce only order .
 [**privateCreateDepositAddressGet**](PrivateAPI.md#privatecreatedepositaddressget) | **GET** /private/create_deposit_address | Creates deposit address in currency
 [**privateCreateSubaccountGet**](PrivateAPI.md#privatecreatesubaccountget) | **GET** /private/create_subaccount | Create a new subaccount
-[**privateDisableCancelOnDisconnectGet**](PrivateAPI.md#privatedisablecancelondisconnectget) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**privateDisableTfaForSubaccountGet**](PrivateAPI.md#privatedisabletfaforsubaccountget) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 [**privateDisableTfaWithRecoveryCodeGet**](PrivateAPI.md#privatedisabletfawithrecoverycodeget) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 [**privateEditGet**](PrivateAPI.md#privateeditget) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-[**privateEnableCancelOnDisconnectGet**](PrivateAPI.md#privateenablecancelondisconnectget) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**privateGetAccountSummaryGet**](PrivateAPI.md#privategetaccountsummaryget) | **GET** /private/get_account_summary | Retrieves user account summary.
 [**privateGetAddressBookGet**](PrivateAPI.md#privategetaddressbookget) | **GET** /private/get_address_book | Retrieves address book of given type
 [**privateGetCurrentDepositAddressGet**](PrivateAPI.md#privategetcurrentdepositaddressget) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -46,7 +44,6 @@ Method | HTTP request | Description
 [**privateGetUserTradesByInstrumentGet**](PrivateAPI.md#privategetusertradesbyinstrumentget) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 [**privateGetUserTradesByOrderGet**](PrivateAPI.md#privategetusertradesbyorderget) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 [**privateGetWithdrawalsGet**](PrivateAPI.md#privategetwithdrawalsget) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-[**privateLogoutGet**](PrivateAPI.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**privateRemoveFromAddressBookGet**](PrivateAPI.md#privateremovefromaddressbookget) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 [**privateSellGet**](PrivateAPI.md#privatesellget) | **GET** /private/sell | Places a sell order for an instrument.
 [**privateSetAnnouncementAsReadGet**](PrivateAPI.md#privatesetannouncementasreadget) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -55,11 +52,9 @@ Method | HTTP request | Description
 [**privateSetPasswordForSubaccountGet**](PrivateAPI.md#privatesetpasswordforsubaccountget) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 [**privateSubmitTransferToSubaccountGet**](PrivateAPI.md#privatesubmittransfertosubaccountget) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 [**privateSubmitTransferToUserGet**](PrivateAPI.md#privatesubmittransfertouserget) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-[**privateSubscribeGet**](PrivateAPI.md#privatesubscribeget) | **GET** /private/subscribe | Subscribe to one or more channels.
 [**privateToggleDepositAddressCreationGet**](PrivateAPI.md#privatetoggledepositaddresscreationget) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 [**privateToggleNotificationsFromSubaccountGet**](PrivateAPI.md#privatetogglenotificationsfromsubaccountget) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 [**privateToggleSubaccountLoginGet**](PrivateAPI.md#privatetogglesubaccountloginget) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-[**privateUnsubscribeGet**](PrivateAPI.md#privateunsubscribeget) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 [**privateWithdrawGet**](PrivateAPI.md#privatewithdrawget) | **GET** /private/withdraw | Creates a new withdrawal request
 
 
@@ -679,50 +674,6 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **privateDisableCancelOnDisconnectGet**
-```swift
-    open class func privateDisableCancelOnDisconnectGet(completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-
-// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-PrivateAPI.privateDisableCancelOnDisconnectGet() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **privateDisableTfaForSubaccountGet**
 ```swift
     open class func privateDisableTfaForSubaccountGet(sid: Int, completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
@@ -863,50 +814,6 @@ Name | Type | Description  | Notes
  **postOnly** | **Bool** | &lt;p&gt;If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.&lt;/p&gt; &lt;p&gt;Only valid in combination with time_in_force&#x3D;&#x60;\&quot;good_til_cancelled\&quot;&#x60;&lt;/p&gt; | [optional] [default to true]
  **advanced** | **String** | Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) | [optional] 
  **stopPrice** | **Double** | Stop price, required for stop limit orders (Only for stop orders) | [optional] 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **privateEnableCancelOnDisconnectGet**
-```swift
-    open class func privateEnableCancelOnDisconnectGet(completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-
-// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-PrivateAPI.privateEnableCancelOnDisconnectGet() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -2215,50 +2122,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **privateLogoutGet**
-```swift
-    open class func privateLogoutGet(completion: @escaping (_ data: Void?, _ error: Error?) -> Void)
-```
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-
-// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-PrivateAPI.privateLogoutGet() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-Void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **privateRemoveFromAddressBookGet**
 ```swift
     open class func privateRemoveFromAddressBookGet(currency: Currency_privateRemoveFromAddressBookGet, type: ModelType_privateRemoveFromAddressBookGet, address: String, tfa: String? = nil, completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
@@ -2685,56 +2548,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **privateSubscribeGet**
-```swift
-    open class func privateSubscribeGet(channels: [String], completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-let channels = ["inner_example"] // [String] | A list of channels to subscribe to.
-
-// Subscribe to one or more channels.
-PrivateAPI.privateSubscribeGet(channels: channels) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**[String]**](String.md) | A list of channels to subscribe to. | 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **privateToggleDepositAddressCreationGet**
 ```swift
     open class func privateToggleDepositAddressCreationGet(currency: Currency_privateToggleDepositAddressCreationGet, state: Bool, completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
@@ -2869,54 +2682,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sid** | **Int** | The user id for the subaccount | 
  **state** | **String** | enable or disable login. | 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **privateUnsubscribeGet**
-```swift
-    open class func privateUnsubscribeGet(channels: [String], completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Unsubscribe from one or more channels.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-let channels = ["inner_example"] // [String] | A list of channels to unsubscribe from.
-
-// Unsubscribe from one or more channels.
-PrivateAPI.privateUnsubscribeGet(channels: channels) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**[String]**](String.md) | A list of channels to unsubscribe from. | 
 
 ### Return type
 

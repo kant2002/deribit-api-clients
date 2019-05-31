@@ -16,11 +16,9 @@ Method | HTTP request | Description
 [**private_close_position_get**](PrivateApi.md#private_close_position_get) | **GET** /private/close_position | Makes closing position reduce only order .
 [**private_create_deposit_address_get**](PrivateApi.md#private_create_deposit_address_get) | **GET** /private/create_deposit_address | Creates deposit address in currency
 [**private_create_subaccount_get**](PrivateApi.md#private_create_subaccount_get) | **GET** /private/create_subaccount | Create a new subaccount
-[**private_disable_cancel_on_disconnect_get**](PrivateApi.md#private_disable_cancel_on_disconnect_get) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**private_disable_tfa_for_subaccount_get**](PrivateApi.md#private_disable_tfa_for_subaccount_get) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 [**private_disable_tfa_with_recovery_code_get**](PrivateApi.md#private_disable_tfa_with_recovery_code_get) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 [**private_edit_get**](PrivateApi.md#private_edit_get) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-[**private_enable_cancel_on_disconnect_get**](PrivateApi.md#private_enable_cancel_on_disconnect_get) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**private_get_account_summary_get**](PrivateApi.md#private_get_account_summary_get) | **GET** /private/get_account_summary | Retrieves user account summary.
 [**private_get_address_book_get**](PrivateApi.md#private_get_address_book_get) | **GET** /private/get_address_book | Retrieves address book of given type
 [**private_get_current_deposit_address_get**](PrivateApi.md#private_get_current_deposit_address_get) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -46,7 +44,6 @@ Method | HTTP request | Description
 [**private_get_user_trades_by_instrument_get**](PrivateApi.md#private_get_user_trades_by_instrument_get) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 [**private_get_user_trades_by_order_get**](PrivateApi.md#private_get_user_trades_by_order_get) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 [**private_get_withdrawals_get**](PrivateApi.md#private_get_withdrawals_get) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-[**private_logout_get**](PrivateApi.md#private_logout_get) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**private_remove_from_address_book_get**](PrivateApi.md#private_remove_from_address_book_get) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 [**private_sell_get**](PrivateApi.md#private_sell_get) | **GET** /private/sell | Places a sell order for an instrument.
 [**private_set_announcement_as_read_get**](PrivateApi.md#private_set_announcement_as_read_get) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -55,11 +52,9 @@ Method | HTTP request | Description
 [**private_set_password_for_subaccount_get**](PrivateApi.md#private_set_password_for_subaccount_get) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 [**private_submit_transfer_to_subaccount_get**](PrivateApi.md#private_submit_transfer_to_subaccount_get) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 [**private_submit_transfer_to_user_get**](PrivateApi.md#private_submit_transfer_to_user_get) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-[**private_subscribe_get**](PrivateApi.md#private_subscribe_get) | **GET** /private/subscribe | Subscribe to one or more channels.
 [**private_toggle_deposit_address_creation_get**](PrivateApi.md#private_toggle_deposit_address_creation_get) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 [**private_toggle_notifications_from_subaccount_get**](PrivateApi.md#private_toggle_notifications_from_subaccount_get) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 [**private_toggle_subaccount_login_get**](PrivateApi.md#private_toggle_subaccount_login_get) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-[**private_unsubscribe_get**](PrivateApi.md#private_unsubscribe_get) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 [**private_withdraw_get**](PrivateApi.md#private_withdraw_get) | **GET** /private/withdraw | Creates a new withdrawal request
 
 
@@ -715,53 +710,6 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **private_disable_cancel_on_disconnect_get**
-> object private_disable_cancel_on_disconnect_get()
-
-Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-
-* Bearer (Auth. Token) Authentication (bearerAuth):
-```python
-from __future__ import print_function
-import time
-import openapi_client
-from openapi_client.rest import ApiException
-from pprint import pprint
-configuration = openapi_client.Configuration()
-# Configure Bearer authorization (Auth. Token): bearerAuth
-configuration.access_token = 'YOUR_BEARER_TOKEN'
-
-# create an instance of the API class
-api_instance = openapi_client.PrivateApi(openapi_client.ApiClient(configuration))
-
-try:
-    # Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-    api_response = api_instance.private_disable_cancel_on_disconnect_get()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PrivateApi->private_disable_cancel_on_disconnect_get: %s\n" % e)
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **private_disable_tfa_for_subaccount_get**
 > object private_disable_tfa_for_subaccount_get(sid)
 
@@ -911,53 +859,6 @@ Name | Type | Description  | Notes
  **post_only** | **bool**| &lt;p&gt;If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.&lt;/p&gt; &lt;p&gt;Only valid in combination with time_in_force&#x3D;&#x60;\&quot;good_til_cancelled\&quot;&#x60;&lt;/p&gt; | [optional] [default to True]
  **advanced** | **str**| Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) | [optional] 
  **stop_price** | **float**| Stop price, required for stop limit orders (Only for stop orders) | [optional] 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **private_enable_cancel_on_disconnect_get**
-> object private_enable_cancel_on_disconnect_get()
-
-Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-
-* Bearer (Auth. Token) Authentication (bearerAuth):
-```python
-from __future__ import print_function
-import time
-import openapi_client
-from openapi_client.rest import ApiException
-from pprint import pprint
-configuration = openapi_client.Configuration()
-# Configure Bearer authorization (Auth. Token): bearerAuth
-configuration.access_token = 'YOUR_BEARER_TOKEN'
-
-# create an instance of the API class
-api_instance = openapi_client.PrivateApi(openapi_client.ApiClient(configuration))
-
-try:
-    # Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-    api_response = api_instance.private_enable_cancel_on_disconnect_get()
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PrivateApi->private_enable_cancel_on_disconnect_get: %s\n" % e)
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -2341,52 +2242,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **private_logout_get**
-> private_logout_get()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-
-* Bearer (Auth. Token) Authentication (bearerAuth):
-```python
-from __future__ import print_function
-import time
-import openapi_client
-from openapi_client.rest import ApiException
-from pprint import pprint
-configuration = openapi_client.Configuration()
-# Configure Bearer authorization (Auth. Token): bearerAuth
-configuration.access_token = 'YOUR_BEARER_TOKEN'
-
-# create an instance of the API class
-api_instance = openapi_client.PrivateApi(openapi_client.ApiClient(configuration))
-
-try:
-    # Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-    api_instance.private_logout_get()
-except ApiException as e:
-    print("Exception when calling PrivateApi->private_logout_get: %s\n" % e)
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **private_remove_from_address_book_get**
 > object private_remove_from_address_book_get(currency, type, address, tfa=tfa)
 
@@ -2837,59 +2692,6 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **private_subscribe_get**
-> object private_subscribe_get(channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-
-### Example
-
-* Bearer (Auth. Token) Authentication (bearerAuth):
-```python
-from __future__ import print_function
-import time
-import openapi_client
-from openapi_client.rest import ApiException
-from pprint import pprint
-configuration = openapi_client.Configuration()
-# Configure Bearer authorization (Auth. Token): bearerAuth
-configuration.access_token = 'YOUR_BEARER_TOKEN'
-
-# create an instance of the API class
-api_instance = openapi_client.PrivateApi(openapi_client.ApiClient(configuration))
-channels = ['channels_example'] # list[str] | A list of channels to subscribe to.
-
-try:
-    # Subscribe to one or more channels.
-    api_response = api_instance.private_subscribe_get(channels)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PrivateApi->private_subscribe_get: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**list[str]**](str.md)| A list of channels to subscribe to. | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **private_toggle_deposit_address_creation_get**
 > object private_toggle_deposit_address_creation_get(currency, state)
 
@@ -3033,57 +2835,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sid** | **int**| The user id for the subaccount | 
  **state** | **str**| enable or disable login. | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **private_unsubscribe_get**
-> object private_unsubscribe_get(channels)
-
-Unsubscribe from one or more channels.
-
-### Example
-
-* Bearer (Auth. Token) Authentication (bearerAuth):
-```python
-from __future__ import print_function
-import time
-import openapi_client
-from openapi_client.rest import ApiException
-from pprint import pprint
-configuration = openapi_client.Configuration()
-# Configure Bearer authorization (Auth. Token): bearerAuth
-configuration.access_token = 'YOUR_BEARER_TOKEN'
-
-# create an instance of the API class
-api_instance = openapi_client.PrivateApi(openapi_client.ApiClient(configuration))
-channels = ['channels_example'] # list[str] | A list of channels to unsubscribe from.
-
-try:
-    # Unsubscribe from one or more channels.
-    api_response = api_instance.private_unsubscribe_get(channels)
-    pprint(api_response)
-except ApiException as e:
-    print("Exception when calling PrivateApi->private_unsubscribe_get: %s\n" % e)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**list[str]**](str.md)| A list of channels to unsubscribe from. | 
 
 ### Return type
 

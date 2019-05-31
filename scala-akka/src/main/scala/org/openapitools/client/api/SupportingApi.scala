@@ -42,24 +42,6 @@ class SupportingApi(baseUrl: String) {
    * Available security schemes:
    *   bearerAuth (http)
    * 
-   * @param clientName Client software name
-   * @param clientVersion Client software version
-   */
-  def publicHelloGet(clientName: String, clientVersion: String)(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/public/hello", "application/json")
-      .withCredentials(basicAuth)
-      .withQueryParam("client_name", clientName)
-      .withQueryParam("client_version", clientVersion)
-      .withSuccessResponse[Any](200)
-      
-
-  /**
-   * Expected answers:
-   *   code 200 : Any 
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   * 
    * @param expectedResult The value \"exception\" will trigger an error response. This may be useful for testing wrapper libraries.
    */
   def publicTestGet(expectedResult: Option[String] = None)(implicit basicAuth: BasicCredentials): ApiRequest[Any] =

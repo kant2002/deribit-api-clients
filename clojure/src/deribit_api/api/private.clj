@@ -301,27 +301,6 @@
        res)))
 
 
-(defn-spec private-disable-cancel-on-disconnect-get-with-http-info any?
-  "Disable Cancel On Disconnect for the connection. This does not change the default account setting."
-  []
-  (call-api "/private/disable_cancel_on_disconnect" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {}
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec private-disable-cancel-on-disconnect-get any?
-  "Disable Cancel On Disconnect for the connection. This does not change the default account setting."
-  []
-  (let [res (:data (private-disable-cancel-on-disconnect-get-with-http-info))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
-
-
 (defn-spec private-disable-tfa-for-subaccount-get-with-http-info any?
   "Disable two factor authentication for a subaccount."
   [sid int?]
@@ -388,27 +367,6 @@
      (if (:decode-models *api-context*)
         (st/decode any? res st/string-transformer)
         res))))
-
-
-(defn-spec private-enable-cancel-on-disconnect-get-with-http-info any?
-  "Enable Cancel On Disconnect for the connection. This does not change the default account setting."
-  []
-  (call-api "/private/enable_cancel_on_disconnect" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {}
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec private-enable-cancel-on-disconnect-get any?
-  "Enable Cancel On Disconnect for the connection. This does not change the default account setting."
-  []
-  (let [res (:data (private-enable-cancel-on-disconnect-get-with-http-info))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
 
 
 (defn-spec private-get-account-summary-get-with-http-info any?
@@ -992,27 +950,6 @@
         res))))
 
 
-(defn-spec private-logout-get-with-http-info any?
-  "Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled"
-  []
-  (call-api "/private/logout" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {}
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec private-logout-get any?
-  "Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled"
-  []
-  (let [res (:data (private-logout-get-with-http-info))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
-
-
 (defn-spec private-remove-from-address-book-get-with-http-info any?
   "Adds new entry to address book of given type"
   ([currency string?, type string?, address string?, ] (private-remove-from-address-book-get-with-http-info currency type address nil))
@@ -1195,36 +1132,6 @@
         res))))
 
 
-(defn-spec private-subscribe-get-with-http-info any?
-  "Subscribe to one or more channels.
-  Subscribe to one or more channels.
-
-The name of the channel determines what information will be provided, and
-in what form."
-  [channels (s/coll-of string?)]
-  (check-required-params channels)
-  (call-api "/private/subscribe" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {"channels" (with-collection-format channels :multi) }
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec private-subscribe-get any?
-  "Subscribe to one or more channels.
-  Subscribe to one or more channels.
-
-The name of the channel determines what information will be provided, and
-in what form."
-  [channels (s/coll-of string?)]
-  (let [res (:data (private-subscribe-get-with-http-info channels))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
-
-
 (defn-spec private-toggle-deposit-address-creation-get-with-http-info any?
   "Enable or disable deposit address creation"
   [currency string?, state boolean?]
@@ -1286,28 +1193,6 @@ in what form."
   "Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated."
   [sid int?, state string?]
   (let [res (:data (private-toggle-subaccount-login-get-with-http-info sid state))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
-
-
-(defn-spec private-unsubscribe-get-with-http-info any?
-  "Unsubscribe from one or more channels."
-  [channels (s/coll-of string?)]
-  (check-required-params channels)
-  (call-api "/private/unsubscribe" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {"channels" (with-collection-format channels :multi) }
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec private-unsubscribe-get any?
-  "Unsubscribe from one or more channels."
-  [channels (s/coll-of string?)]
-  (let [res (:data (private-unsubscribe-get-with-http-info channels))]
     (if (:decode-models *api-context*)
        (st/decode any? res st/string-transformer)
        res)))

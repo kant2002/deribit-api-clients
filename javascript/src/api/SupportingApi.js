@@ -70,54 +70,6 @@ export default class SupportingApi {
     }
 
     /**
-     * Callback function to receive the result of the publicHelloGet operation.
-     * @callback module:api/SupportingApi~publicHelloGetCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-     * @param {String} clientName Client software name
-     * @param {String} clientVersion Client software version
-     * @param {module:api/SupportingApi~publicHelloGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Object}
-     */
-    publicHelloGet(clientName, clientVersion, callback) {
-      let postBody = null;
-      // verify the required parameter 'clientName' is set
-      if (clientName === undefined || clientName === null) {
-        throw new Error("Missing the required parameter 'clientName' when calling publicHelloGet");
-      }
-      // verify the required parameter 'clientVersion' is set
-      if (clientVersion === undefined || clientVersion === null) {
-        throw new Error("Missing the required parameter 'clientVersion' when calling publicHelloGet");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'client_name': clientName,
-        'client_version': clientVersion
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = Object;
-      return this.apiClient.callApi(
-        '/public/hello', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the publicTestGet operation.
      * @callback module:api/SupportingApi~publicTestGetCallback
      * @param {String} error Error message, if any.

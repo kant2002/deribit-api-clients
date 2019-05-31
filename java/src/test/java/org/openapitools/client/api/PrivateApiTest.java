@@ -247,21 +247,6 @@ public class PrivateApiTest {
     }
     
     /**
-     * Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void privateDisableCancelOnDisconnectGetTest() throws ApiException {
-        Object response = api.privateDisableCancelOnDisconnectGet();
-
-        // TODO: test validations
-    }
-    
-    /**
      * Disable two factor authentication for a subaccount.
      *
      * 
@@ -311,21 +296,6 @@ public class PrivateApiTest {
         String advanced = null;
         BigDecimal stopPrice = null;
         Object response = api.privateEditGet(orderId, amount, price, postOnly, advanced, stopPrice);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void privateEnableCancelOnDisconnectGetTest() throws ApiException {
-        Object response = api.privateEnableCancelOnDisconnectGet();
 
         // TODO: test validations
     }
@@ -779,21 +749,6 @@ public class PrivateApiTest {
     }
     
     /**
-     * Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void privateLogoutGetTest() throws ApiException {
-        api.privateLogoutGet();
-
-        // TODO: test validations
-    }
-    
-    /**
      * Adds new entry to address book of given type
      *
      * 
@@ -943,22 +898,6 @@ public class PrivateApiTest {
     }
     
     /**
-     * Subscribe to one or more channels.
-     *
-     * Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void privateSubscribeGetTest() throws ApiException {
-        List<String> channels = null;
-        Object response = api.privateSubscribeGet(channels);
-
-        // TODO: test validations
-    }
-    
-    /**
      * Enable or disable deposit address creation
      *
      * 
@@ -1005,22 +944,6 @@ public class PrivateApiTest {
         Integer sid = null;
         String state = null;
         Object response = api.privateToggleSubaccountLoginGet(sid, state);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * Unsubscribe from one or more channels.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void privateUnsubscribeGetTest() throws ApiException {
-        List<String> channels = null;
-        Object response = api.privateUnsubscribeGet(channels);
 
         // TODO: test validations
     }

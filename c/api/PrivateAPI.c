@@ -1195,66 +1195,6 @@ end:
 
 }
 
-// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-//
-object_t*
-PrivateAPI_privateDisableCancelOnDisconnectGet(apiClient_t *apiClient)
-{
-    list_t    *localVarQueryParameters = NULL;
-    list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
-    char      *localVarBodyParameters = NULL;
-
-    // create the path
-    long sizeOfPath = strlen("/private/disable_cancel_on_disconnect")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/private/disable_cancel_on_disconnect");
-
-
-
-    list_addElement(localVarHeaderType,"application/json"); //produces
-    apiClient_invoke(apiClient,
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarHeaderType,
-                    localVarContentType,
-                    localVarBodyParameters,
-                    "GET");
-
-    if (apiClient->response_code == 200) {
-        printf("%s\n","ok response");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","result when used via rest/HTTP");
-    }
-    //nonprimitive not container
-    cJSON *PrivateAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    object_t *elementToReturn = object_parseFromJSON(PrivateAPIlocalVarJSON);
-    cJSON_Delete(PrivateAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
-    }
-
-    //return type
-    if (apiClient->dataReceived) {
-        free(apiClient->dataReceived);
-    }
-    
-    
-    
-    list_free(localVarHeaderType);
-    
-    free(localVarPath);
-    return elementToReturn;
-end:
-    return NULL;
-
-}
-
 // Disable two factor authentication for a subaccount.
 //
 object_t*
@@ -1550,66 +1490,6 @@ PrivateAPI_privateEditGet(apiClient_t *apiClient ,char * order_id ,double amount
     keyValuePair_free(keyPairQuery_advanced);
     free(keyQuery_stop_price);
     keyValuePair_free(keyPairQuery_stop_price);
-    return elementToReturn;
-end:
-    return NULL;
-
-}
-
-// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-//
-object_t*
-PrivateAPI_privateEnableCancelOnDisconnectGet(apiClient_t *apiClient)
-{
-    list_t    *localVarQueryParameters = NULL;
-    list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
-    char      *localVarBodyParameters = NULL;
-
-    // create the path
-    long sizeOfPath = strlen("/private/enable_cancel_on_disconnect")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/private/enable_cancel_on_disconnect");
-
-
-
-    list_addElement(localVarHeaderType,"application/json"); //produces
-    apiClient_invoke(apiClient,
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarHeaderType,
-                    localVarContentType,
-                    localVarBodyParameters,
-                    "GET");
-
-    if (apiClient->response_code == 200) {
-        printf("%s\n","ok response");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","result when used via rest/HTTP");
-    }
-    //nonprimitive not container
-    cJSON *PrivateAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    object_t *elementToReturn = object_parseFromJSON(PrivateAPIlocalVarJSON);
-    cJSON_Delete(PrivateAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
-    }
-
-    //return type
-    if (apiClient->dataReceived) {
-        free(apiClient->dataReceived);
-    }
-    
-    
-    
-    list_free(localVarHeaderType);
-    
-    free(localVarPath);
     return elementToReturn;
 end:
     return NULL;
@@ -4105,56 +3985,6 @@ end:
 
 }
 
-// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-//
-void
-PrivateAPI_privateLogoutGet(apiClient_t *apiClient)
-{
-    list_t    *localVarQueryParameters = NULL;
-    list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
-    char      *localVarBodyParameters = NULL;
-
-    // create the path
-    long sizeOfPath = strlen("/private/logout")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/private/logout");
-
-
-
-    list_addElement(localVarHeaderType,"application/json"); //produces
-    apiClient_invoke(apiClient,
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarHeaderType,
-                    localVarContentType,
-                    localVarBodyParameters,
-                    "GET");
-
-    if (apiClient->response_code == 200) {
-        printf("%s\n","closes WS connection");
-    }
-    if (apiClient->response_code == 400) {
-        printf("%s\n","result when used via rest/HTTP");
-    }
-    //No return type
-end:
-    if (apiClient->dataReceived) {
-        free(apiClient->dataReceived);
-    }
-    
-    
-    
-    list_free(localVarHeaderType);
-    
-    free(localVarPath);
-
-}
-
 // Adds new entry to address book of given type
 //
 object_t*
@@ -5034,74 +4864,6 @@ end:
 
 }
 
-// Subscribe to one or more channels.
-//
-// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-//
-object_t*
-PrivateAPI_privateSubscribeGet(apiClient_t *apiClient ,list_t * channels)
-{
-    list_t    *localVarQueryParameters = list_create();
-    list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
-    char      *localVarBodyParameters = NULL;
-
-    // create the path
-    long sizeOfPath = strlen("/private/subscribe")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/private/subscribe");
-
-
-
-
-    // query parameters
-    if (channels)
-    {
-        list_addElement(localVarQueryParameters,channels);
-    }
-    list_addElement(localVarHeaderType,"application/json"); //produces
-    apiClient_invoke(apiClient,
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarHeaderType,
-                    localVarContentType,
-                    localVarBodyParameters,
-                    "GET");
-
-    if (apiClient->response_code == 200) {
-        printf("%s\n","ok response");
-    }
-    if (apiClient->response_code == 401) {
-        printf("%s\n","not authorised");
-    }
-    //nonprimitive not container
-    cJSON *PrivateAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    object_t *elementToReturn = object_parseFromJSON(PrivateAPIlocalVarJSON);
-    cJSON_Delete(PrivateAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
-    }
-
-    //return type
-    if (apiClient->dataReceived) {
-        free(apiClient->dataReceived);
-    }
-    list_free(localVarQueryParameters);
-    
-    
-    list_free(localVarHeaderType);
-    
-    free(localVarPath);
-    return elementToReturn;
-end:
-    return NULL;
-
-}
-
 // Enable or disable deposit address creation
 //
 object_t*
@@ -5353,72 +5115,6 @@ PrivateAPI_privateToggleSubaccountLoginGet(apiClient_t *apiClient ,int sid ,stat
     free(keyQuery_state);
     free(valueQuery_state);
     keyValuePair_free(keyPairQuery_state);
-    return elementToReturn;
-end:
-    return NULL;
-
-}
-
-// Unsubscribe from one or more channels.
-//
-object_t*
-PrivateAPI_privateUnsubscribeGet(apiClient_t *apiClient ,list_t * channels)
-{
-    list_t    *localVarQueryParameters = list_create();
-    list_t    *localVarHeaderParameters = NULL;
-    list_t    *localVarFormParameters = NULL;
-    list_t *localVarHeaderType = list_create();
-    list_t *localVarContentType = NULL;
-    char      *localVarBodyParameters = NULL;
-
-    // create the path
-    long sizeOfPath = strlen("/private/unsubscribe")+1;
-    char *localVarPath = malloc(sizeOfPath);
-    snprintf(localVarPath, sizeOfPath, "/private/unsubscribe");
-
-
-
-
-    // query parameters
-    if (channels)
-    {
-        list_addElement(localVarQueryParameters,channels);
-    }
-    list_addElement(localVarHeaderType,"application/json"); //produces
-    apiClient_invoke(apiClient,
-                    localVarPath,
-                    localVarQueryParameters,
-                    localVarHeaderParameters,
-                    localVarFormParameters,
-                    localVarHeaderType,
-                    localVarContentType,
-                    localVarBodyParameters,
-                    "GET");
-
-    if (apiClient->response_code == 200) {
-        printf("%s\n","ok response");
-    }
-    if (apiClient->response_code == 401) {
-        printf("%s\n","not authorised");
-    }
-    //nonprimitive not container
-    cJSON *PrivateAPIlocalVarJSON = cJSON_Parse(apiClient->dataReceived);
-    object_t *elementToReturn = object_parseFromJSON(PrivateAPIlocalVarJSON);
-    cJSON_Delete(PrivateAPIlocalVarJSON);
-    if(elementToReturn == NULL) {
-        // return 0;
-    }
-
-    //return type
-    if (apiClient->dataReceived) {
-        free(apiClient->dataReceived);
-    }
-    list_free(localVarQueryParameters);
-    
-    
-    list_free(localVarHeaderType);
-    
-    free(localVarPath);
     return elementToReturn;
 end:
     return NULL;
