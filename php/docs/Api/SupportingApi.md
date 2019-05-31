@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**publicGetTimeGet**](SupportingApi.md#publicGetTimeGet) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
-[**publicHelloGet**](SupportingApi.md#publicHelloGet) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
 [**publicTestGet**](SupportingApi.md#publicTestGet) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 
 
@@ -46,67 +45,6 @@ try {
 ### Parameters
 
 This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## publicHelloGet
-
-> object publicHelloGet($client_name, $client_version)
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\SupportingApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$client_name = My Trading Software; // string | Client software name
-$client_version = 1.0.2; // string | Client software version
-
-try {
-    $result = $apiInstance->publicHelloGet($client_name, $client_version);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling SupportingApi->publicHelloGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client_name** | **string**| Client software name |
- **client_version** | **string**| Client software version |
 
 ### Return type
 

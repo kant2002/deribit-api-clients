@@ -34,41 +34,6 @@ export default class AuthenticationApi {
 
 
     /**
-     * Callback function to receive the result of the privateLogoutGet operation.
-     * @callback module:api/AuthenticationApi~privateLogoutGetCallback
-     * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     * @param {module:api/AuthenticationApi~privateLogoutGetCallback} callback The callback function, accepting three arguments: error, data, response
-     */
-    privateLogoutGet(callback) {
-      let postBody = null;
-
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = null;
-      return this.apiClient.callApi(
-        '/private/logout', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the publicAuthGet operation.
      * @callback module:api/AuthenticationApi~publicAuthGetCallback
      * @param {String} error Error message, if any.

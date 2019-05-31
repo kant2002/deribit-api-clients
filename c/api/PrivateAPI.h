@@ -79,12 +79,6 @@ object_t*
 PrivateAPI_privateCreateSubaccountGet(apiClient_t *apiClient);
 
 
-// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-//
-object_t*
-PrivateAPI_privateDisableCancelOnDisconnectGet(apiClient_t *apiClient);
-
-
 // Disable two factor authentication for a subaccount.
 //
 object_t*
@@ -101,12 +95,6 @@ PrivateAPI_privateDisableTfaWithRecoveryCodeGet(apiClient_t *apiClient ,char * p
 //
 object_t*
 PrivateAPI_privateEditGet(apiClient_t *apiClient ,char * order_id ,double amount ,double price ,int post_only ,advanced_e advanced ,double stop_price);
-
-
-// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-//
-object_t*
-PrivateAPI_privateEnableCancelOnDisconnectGet(apiClient_t *apiClient);
 
 
 // Retrieves user account summary.
@@ -259,12 +247,6 @@ object_t*
 PrivateAPI_privateGetWithdrawalsGet(apiClient_t *apiClient ,currency_e currency ,int count ,int offset);
 
 
-// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-//
-void
-PrivateAPI_privateLogoutGet(apiClient_t *apiClient);
-
-
 // Adds new entry to address book of given type
 //
 object_t*
@@ -313,14 +295,6 @@ object_t*
 PrivateAPI_privateSubmitTransferToUserGet(apiClient_t *apiClient ,currency_e currency ,double amount ,char * destination ,char * tfa);
 
 
-// Subscribe to one or more channels.
-//
-// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-//
-object_t*
-PrivateAPI_privateSubscribeGet(apiClient_t *apiClient ,list_t * channels);
-
-
 // Enable or disable deposit address creation
 //
 object_t*
@@ -337,12 +311,6 @@ PrivateAPI_privateToggleNotificationsFromSubaccountGet(apiClient_t *apiClient ,i
 //
 object_t*
 PrivateAPI_privateToggleSubaccountLoginGet(apiClient_t *apiClient ,int sid ,state_e state);
-
-
-// Unsubscribe from one or more channels.
-//
-object_t*
-PrivateAPI_privateUnsubscribeGet(apiClient_t *apiClient ,list_t * channels);
 
 
 // Creates a new withdrawal request

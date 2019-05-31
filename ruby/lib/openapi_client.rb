@@ -45,12 +45,9 @@ require 'openapi_client/api/internal_api'
 require 'openapi_client/api/market_data_api'
 require 'openapi_client/api/private_api'
 require 'openapi_client/api/public_api'
-require 'openapi_client/api/session_management_api'
-require 'openapi_client/api/subscription_management_api'
 require 'openapi_client/api/supporting_api'
 require 'openapi_client/api/trading_api'
 require 'openapi_client/api/wallet_api'
-require 'openapi_client/api/websocket_only_api'
 
 module OpenapiClient
   class << self

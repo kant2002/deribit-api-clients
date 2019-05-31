@@ -43,45 +43,6 @@ open class SupportingAPI {
     }
 
     /**
-     Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-     
-     - parameter clientName: (query) Client software name 
-     - parameter clientVersion: (query) Client software version 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func publicHelloGet(clientName: String, clientVersion: String, completion: @escaping ((_ data: Any?,_ error: Error?) -> Void)) {
-        publicHelloGetWithRequestBuilder(clientName: clientName, clientVersion: clientVersion).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-     - GET /public/hello
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter clientName: (query) Client software name 
-     - parameter clientVersion: (query) Client software version 
-     - returns: RequestBuilder<Any> 
-     */
-    open class func publicHelloGetWithRequestBuilder(clientName: String, clientVersion: String) -> RequestBuilder<Any> {
-        let path = "/public/hello"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "client_name": clientName, 
-            "client_version": clientVersion
-        ])
-
-        let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
      * enum for parameter expectedResult
      */
     public enum ExpectedResult_publicTestGet: String {

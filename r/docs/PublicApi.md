@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**PublicAuthGet**](PublicApi.md#PublicAuthGet) | **GET** /public/auth | Authenticate
-[**PublicDisableHeartbeatGet**](PublicApi.md#PublicDisableHeartbeatGet) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 [**PublicGetAnnouncementsGet**](PublicApi.md#PublicGetAnnouncementsGet) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 [**PublicGetBookSummaryByCurrencyGet**](PublicApi.md#PublicGetBookSummaryByCurrencyGet) | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 [**PublicGetBookSummaryByInstrumentGet**](PublicApi.md#PublicGetBookSummaryByInstrumentGet) | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -25,9 +24,6 @@ Method | HTTP request | Description
 [**PublicGetTimeGet**](PublicApi.md#PublicGetTimeGet) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 [**PublicGetTradeVolumesGet**](PublicApi.md#PublicGetTradeVolumesGet) | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 [**PublicGetTradingviewChartDataGet**](PublicApi.md#PublicGetTradingviewChartDataGet) | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-[**PublicHelloGet**](PublicApi.md#PublicHelloGet) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-[**PublicSetHeartbeatGet**](PublicApi.md#PublicSetHeartbeatGet) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-[**PublicSubscribeGet**](PublicApi.md#PublicSubscribeGet) | **GET** /public/subscribe | Subscribe to one or more channels.
 [**PublicTestGet**](PublicApi.md#PublicTestGet) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 [**PublicTickerGet**](PublicApi.md#PublicTickerGet) | **GET** /public/ticker | Get ticker for an instrument.
 [**PublicValidateFieldGet**](PublicApi.md#PublicValidateFieldGet) | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
@@ -80,43 +76,6 @@ Name | Type | Description  | Notes
  **nonce** | **character**| Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token | [optional] 
  **state** | **character**| Will be passed back in the response | [optional] 
  **scope** | **character**| Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; | [optional] 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PublicDisableHeartbeatGet**
-> object PublicDisableHeartbeatGet()
-
-Stop sending heartbeat messages.
-
-### Example
-```R
-library(openapi)
-
-
-#Stop sending heartbeat messages.
-api.instance <- PublicApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PublicDisableHeartbeatGet()
-dput(result)
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -954,133 +913,6 @@ Name | Type | Description  | Notes
  **instrument.name** | **character**| Instrument name | 
  **start.timestamp** | **integer**| The earliest timestamp to return result for | 
  **end.timestamp** | **integer**| The most recent timestamp to return result for | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PublicHelloGet**
-> object PublicHelloGet(client.name, client.version)
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example
-```R
-library(openapi)
-
-var.client.name <- 'My Trading Software' # character | Client software name
-var.client.version <- '1.0.2' # character | Client software version
-
-#Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-api.instance <- PublicApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PublicHelloGet(var.client.name, var.client.version)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client.name** | **character**| Client software name | 
- **client.version** | **character**| Client software version | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PublicSetHeartbeatGet**
-> object PublicSetHeartbeatGet(interval)
-
-Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-
-### Example
-```R
-library(openapi)
-
-var.interval <- 60 # numeric | The heartbeat interval in seconds, but not less than 10
-
-#Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-api.instance <- PublicApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PublicSetHeartbeatGet(var.interval)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **interval** | **numeric**| The heartbeat interval in seconds, but not less than 10 | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PublicSubscribeGet**
-> object PublicSubscribeGet(channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
-
-### Example
-```R
-library(openapi)
-
-var.channels <- list("inner_example") # character | A list of channels to subscribe to.
-
-#Subscribe to one or more channels.
-api.instance <- PublicApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PublicSubscribeGet(var.channels)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**character**](character.md)| A list of channels to subscribe to. | 
 
 ### Return type
 

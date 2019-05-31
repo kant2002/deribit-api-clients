@@ -86,17 +86,6 @@ namespace Org.OpenAPITools.Test
         }
         
         /// <summary>
-        /// Test PublicDisableHeartbeatGet
-        /// </summary>
-        [Test]
-        public void PublicDisableHeartbeatGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.PublicDisableHeartbeatGet();
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
         /// Test PublicGetAnnouncementsGet
         /// </summary>
         [Test]
@@ -354,43 +343,6 @@ namespace Org.OpenAPITools.Test
             //int? startTimestamp = null;
             //int? endTimestamp = null;
             //var response = instance.PublicGetTradingviewChartDataGet(instrumentName, startTimestamp, endTimestamp);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
-        /// Test PublicHelloGet
-        /// </summary>
-        [Test]
-        public void PublicHelloGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //string clientName = null;
-            //string clientVersion = null;
-            //var response = instance.PublicHelloGet(clientName, clientVersion);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
-        /// Test PublicSetHeartbeatGet
-        /// </summary>
-        [Test]
-        public void PublicSetHeartbeatGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //decimal? interval = null;
-            //var response = instance.PublicSetHeartbeatGet(interval);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
-        /// Test PublicSubscribeGet
-        /// </summary>
-        [Test]
-        public void PublicSubscribeGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //List<string> channels = null;
-            //var response = instance.PublicSubscribeGet(channels);
             //Assert.IsInstanceOf<Object> (response, "response is Object");
         }
         

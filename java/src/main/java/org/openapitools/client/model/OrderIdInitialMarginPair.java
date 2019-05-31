@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 /**
  * OrderIdInitialMarginPair
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-20T13:09:18.457+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-31T10:31:59.717+02:00[Europe/Paris]")
 public class OrderIdInitialMarginPair {
   public static final String SERIALIZED_NAME_ORDER_ID = "order_id";
   @SerializedName(SERIALIZED_NAME_ORDER_ID)

@@ -49,58 +49,6 @@ NSInteger kOAIAuthenticationApiMissingParamErrorCode = 234513;
 #pragma mark - Api Methods
 
 ///
-/// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-/// 
-///  @returns void
-///
--(NSURLSessionTask*) privateLogoutGetWithCompletionHandler: 
-    (void (^)(NSError* error)) handler {
-    NSMutableString* resourcePath = [NSMutableString stringWithFormat:@"/private/logout"];
-
-    NSMutableDictionary *pathParams = [[NSMutableDictionary alloc] init];
-
-    NSMutableDictionary* queryParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary* headerParams = [NSMutableDictionary dictionaryWithDictionary:self.apiClient.configuration.defaultHeaders];
-    [headerParams addEntriesFromDictionary:self.defaultHeaders];
-    // HTTP header `Accept`
-    NSString *acceptHeader = [self.apiClient.sanitizer selectHeaderAccept:@[@"application/json"]];
-    if(acceptHeader.length > 0) {
-        headerParams[@"Accept"] = acceptHeader;
-    }
-
-    // response content type
-    NSString *responseContentType = [[acceptHeader componentsSeparatedByString:@", "] firstObject] ?: @"";
-
-    // request content type
-    NSString *requestContentType = [self.apiClient.sanitizer selectHeaderContentType:@[]];
-
-    // Authentication setting
-    NSArray *authSettings = @[@"bearerAuth"];
-
-    id bodyParam = nil;
-    NSMutableDictionary *formParams = [[NSMutableDictionary alloc] init];
-    NSMutableDictionary *localVarFiles = [[NSMutableDictionary alloc] init];
-
-    return [self.apiClient requestWithPath: resourcePath
-                                    method: @"GET"
-                                pathParams: pathParams
-                               queryParams: queryParams
-                                formParams: formParams
-                                     files: localVarFiles
-                                      body: bodyParam
-                              headerParams: headerParams
-                              authSettings: authSettings
-                        requestContentType: requestContentType
-                       responseContentType: responseContentType
-                              responseType: nil
-                           completionBlock: ^(id data, NSError *error) {
-                                if(handler) {
-                                    handler(error);
-                                }
-                            }];
-}
-
-///
 /// Authenticate
 /// Retrieve an Oauth access token, to be used for authentication of 'private' requests.  Three methods of authentication are supported:  - <code>password</code> - using email and and password as when logging on to the website - <code>client_credentials</code> - using the access key and access secret that can be found on the API page on the website - <code>client_signature</code> - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials) - <code>refresh_token</code> - using a refresh token that was received from an earlier invocation  The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. 
 ///  @param grantType Method of authentication 

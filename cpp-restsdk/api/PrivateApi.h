@@ -209,14 +209,6 @@ public:
     pplx::task<std::shared_ptr<Object>> privateCreateSubaccountGet(
     );
     /// <summary>
-    /// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    pplx::task<std::shared_ptr<Object>> privateDisableCancelOnDisconnectGet(
-    );
-    /// <summary>
     /// Disable two factor authentication for a subaccount.
     /// </summary>
     /// <remarks>
@@ -257,14 +249,6 @@ public:
         boost::optional<bool> postOnly,
         boost::optional<utility::string_t> advanced,
         boost::optional<double> stopPrice
-    );
-    /// <summary>
-    /// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    pplx::task<std::shared_ptr<Object>> privateEnableCancelOnDisconnectGet(
     );
     /// <summary>
     /// Retrieves user account summary.
@@ -613,14 +597,6 @@ public:
         boost::optional<int32_t> offset
     );
     /// <summary>
-    /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    pplx::task<void> privateLogoutGet(
-    );
-    /// <summary>
     /// Adds new entry to address book of given type
     /// </summary>
     /// <remarks>
@@ -743,16 +719,6 @@ public:
         boost::optional<utility::string_t> tfa
     );
     /// <summary>
-    /// Subscribe to one or more channels.
-    /// </summary>
-    /// <remarks>
-    /// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-    /// </remarks>
-    /// <param name="channels">A list of channels to subscribe to.</param>
-    pplx::task<std::shared_ptr<Object>> privateSubscribeGet(
-        std::vector<utility::string_t> channels
-    );
-    /// <summary>
     /// Enable or disable deposit address creation
     /// </summary>
     /// <remarks>
@@ -787,16 +753,6 @@ public:
     pplx::task<std::shared_ptr<Object>> privateToggleSubaccountLoginGet(
         int32_t sid,
         utility::string_t state
-    );
-    /// <summary>
-    /// Unsubscribe from one or more channels.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    /// <param name="channels">A list of channels to unsubscribe from.</param>
-    pplx::task<std::shared_ptr<Object>> privateUnsubscribeGet(
-        std::vector<utility::string_t> channels
     );
     /// <summary>
     /// Creates a new withdrawal request

@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 /**
  * CurrencyPortfolio
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-20T13:09:18.457+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-31T10:31:59.717+02:00[Europe/Paris]")
 public class CurrencyPortfolio {
   public static final String SERIALIZED_NAME_MAINTENANCE_MARGIN = "maintenance_margin";
   @SerializedName(SERIALIZED_NAME_MAINTENANCE_MARGIN)

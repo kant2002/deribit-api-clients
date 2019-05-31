@@ -186,16 +186,6 @@ describe 'PrivateApi' do
     end
   end
 
-  # unit tests for private_disable_cancel_on_disconnect_get
-  # Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-  # @param [Hash] opts the optional parameters
-  # @return [Object]
-  describe 'private_disable_cancel_on_disconnect_get test' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
   # unit tests for private_disable_tfa_for_subaccount_get
   # Disable two factor authentication for a subaccount.
   # @param sid The user id for the subaccount
@@ -230,16 +220,6 @@ describe 'PrivateApi' do
   # @option opts [Float] :stop_price Stop price, required for stop limit orders (Only for stop orders)
   # @return [Object]
   describe 'private_edit_get test' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
-  # unit tests for private_enable_cancel_on_disconnect_get
-  # Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-  # @param [Hash] opts the optional parameters
-  # @return [Object]
-  describe 'private_enable_cancel_on_disconnect_get test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
@@ -568,16 +548,6 @@ describe 'PrivateApi' do
     end
   end
 
-  # unit tests for private_logout_get
-  # Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-  # @param [Hash] opts the optional parameters
-  # @return [nil]
-  describe 'private_logout_get test' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
   # unit tests for private_remove_from_address_book_get
   # Adds new entry to address book of given type
   # @param currency The currency symbol
@@ -687,18 +657,6 @@ describe 'PrivateApi' do
     end
   end
 
-  # unit tests for private_subscribe_get
-  # Subscribe to one or more channels.
-  # Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-  # @param channels A list of channels to subscribe to.
-  # @param [Hash] opts the optional parameters
-  # @return [Object]
-  describe 'private_subscribe_get test' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
   # unit tests for private_toggle_deposit_address_creation_get
   # Enable or disable deposit address creation
   # @param currency The currency symbol
@@ -730,17 +688,6 @@ describe 'PrivateApi' do
   # @param [Hash] opts the optional parameters
   # @return [Object]
   describe 'private_toggle_subaccount_login_get test' do
-    it 'should work' do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
-  # unit tests for private_unsubscribe_get
-  # Unsubscribe from one or more channels.
-  # @param channels A list of channels to unsubscribe from.
-  # @param [Hash] opts the optional parameters
-  # @return [Object]
-  describe 'private_unsubscribe_get test' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end

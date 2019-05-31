@@ -68,12 +68,9 @@ Import the following:
 #import <OpenAPIClient/OAIMarketDataApi.h>
 #import <OpenAPIClient/OAIPrivateApi.h>
 #import <OpenAPIClient/OAIPublicApi.h>
-#import <OpenAPIClient/OAISessionManagementApi.h>
-#import <OpenAPIClient/OAISubscriptionManagementApi.h>
 #import <OpenAPIClient/OAISupportingApi.h>
 #import <OpenAPIClient/OAITradingApi.h>
 #import <OpenAPIClient/OAIWalletApi.h>
-#import <OpenAPIClient/OAIWebsocketOnlyApi.h>
 
 ```
 
@@ -134,7 +131,6 @@ Class | Method | HTTP request | Description
 *OAIAccountManagementApi* | [**privateToggleNotificationsFromSubaccountGet**](docs/OAIAccountManagementApi.md#privatetogglenotificationsfromsubaccountget) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 *OAIAccountManagementApi* | [**privateToggleSubaccountLoginGet**](docs/OAIAccountManagementApi.md#privatetogglesubaccountloginget) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
 *OAIAccountManagementApi* | [**publicGetAnnouncementsGet**](docs/OAIAccountManagementApi.md#publicgetannouncementsget) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
-*OAIAuthenticationApi* | [**privateLogoutGet**](docs/OAIAuthenticationApi.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 *OAIAuthenticationApi* | [**publicAuthGet**](docs/OAIAuthenticationApi.md#publicauthget) | **GET** /public/auth | Authenticate
 *OAIInternalApi* | [**privateAddToAddressBookGet**](docs/OAIInternalApi.md#privateaddtoaddressbookget) | **GET** /private/add_to_address_book | Adds new entry to address book of given type
 *OAIInternalApi* | [**privateDisableTfaWithRecoveryCodeGet**](docs/OAIInternalApi.md#privatedisabletfawithrecoverycodeget) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
@@ -176,11 +172,9 @@ Class | Method | HTTP request | Description
 *OAIPrivateApi* | [**privateClosePositionGet**](docs/OAIPrivateApi.md#privateclosepositionget) | **GET** /private/close_position | Makes closing position reduce only order .
 *OAIPrivateApi* | [**privateCreateDepositAddressGet**](docs/OAIPrivateApi.md#privatecreatedepositaddressget) | **GET** /private/create_deposit_address | Creates deposit address in currency
 *OAIPrivateApi* | [**privateCreateSubaccountGet**](docs/OAIPrivateApi.md#privatecreatesubaccountget) | **GET** /private/create_subaccount | Create a new subaccount
-*OAIPrivateApi* | [**privateDisableCancelOnDisconnectGet**](docs/OAIPrivateApi.md#privatedisablecancelondisconnectget) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 *OAIPrivateApi* | [**privateDisableTfaForSubaccountGet**](docs/OAIPrivateApi.md#privatedisabletfaforsubaccountget) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 *OAIPrivateApi* | [**privateDisableTfaWithRecoveryCodeGet**](docs/OAIPrivateApi.md#privatedisabletfawithrecoverycodeget) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 *OAIPrivateApi* | [**privateEditGet**](docs/OAIPrivateApi.md#privateeditget) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-*OAIPrivateApi* | [**privateEnableCancelOnDisconnectGet**](docs/OAIPrivateApi.md#privateenablecancelondisconnectget) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 *OAIPrivateApi* | [**privateGetAccountSummaryGet**](docs/OAIPrivateApi.md#privategetaccountsummaryget) | **GET** /private/get_account_summary | Retrieves user account summary.
 *OAIPrivateApi* | [**privateGetAddressBookGet**](docs/OAIPrivateApi.md#privategetaddressbookget) | **GET** /private/get_address_book | Retrieves address book of given type
 *OAIPrivateApi* | [**privateGetCurrentDepositAddressGet**](docs/OAIPrivateApi.md#privategetcurrentdepositaddressget) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -206,7 +200,6 @@ Class | Method | HTTP request | Description
 *OAIPrivateApi* | [**privateGetUserTradesByInstrumentGet**](docs/OAIPrivateApi.md#privategetusertradesbyinstrumentget) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 *OAIPrivateApi* | [**privateGetUserTradesByOrderGet**](docs/OAIPrivateApi.md#privategetusertradesbyorderget) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 *OAIPrivateApi* | [**privateGetWithdrawalsGet**](docs/OAIPrivateApi.md#privategetwithdrawalsget) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-*OAIPrivateApi* | [**privateLogoutGet**](docs/OAIPrivateApi.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 *OAIPrivateApi* | [**privateRemoveFromAddressBookGet**](docs/OAIPrivateApi.md#privateremovefromaddressbookget) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 *OAIPrivateApi* | [**privateSellGet**](docs/OAIPrivateApi.md#privatesellget) | **GET** /private/sell | Places a sell order for an instrument.
 *OAIPrivateApi* | [**privateSetAnnouncementAsReadGet**](docs/OAIPrivateApi.md#privatesetannouncementasreadget) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -215,14 +208,11 @@ Class | Method | HTTP request | Description
 *OAIPrivateApi* | [**privateSetPasswordForSubaccountGet**](docs/OAIPrivateApi.md#privatesetpasswordforsubaccountget) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 *OAIPrivateApi* | [**privateSubmitTransferToSubaccountGet**](docs/OAIPrivateApi.md#privatesubmittransfertosubaccountget) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 *OAIPrivateApi* | [**privateSubmitTransferToUserGet**](docs/OAIPrivateApi.md#privatesubmittransfertouserget) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-*OAIPrivateApi* | [**privateSubscribeGet**](docs/OAIPrivateApi.md#privatesubscribeget) | **GET** /private/subscribe | Subscribe to one or more channels.
 *OAIPrivateApi* | [**privateToggleDepositAddressCreationGet**](docs/OAIPrivateApi.md#privatetoggledepositaddresscreationget) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 *OAIPrivateApi* | [**privateToggleNotificationsFromSubaccountGet**](docs/OAIPrivateApi.md#privatetogglenotificationsfromsubaccountget) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 *OAIPrivateApi* | [**privateToggleSubaccountLoginGet**](docs/OAIPrivateApi.md#privatetogglesubaccountloginget) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-*OAIPrivateApi* | [**privateUnsubscribeGet**](docs/OAIPrivateApi.md#privateunsubscribeget) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 *OAIPrivateApi* | [**privateWithdrawGet**](docs/OAIPrivateApi.md#privatewithdrawget) | **GET** /private/withdraw | Creates a new withdrawal request
 *OAIPublicApi* | [**publicAuthGet**](docs/OAIPublicApi.md#publicauthget) | **GET** /public/auth | Authenticate
-*OAIPublicApi* | [**publicDisableHeartbeatGet**](docs/OAIPublicApi.md#publicdisableheartbeatget) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 *OAIPublicApi* | [**publicGetAnnouncementsGet**](docs/OAIPublicApi.md#publicgetannouncementsget) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 *OAIPublicApi* | [**publicGetBookSummaryByCurrencyGet**](docs/OAIPublicApi.md#publicgetbooksummarybycurrencyget) | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 *OAIPublicApi* | [**publicGetBookSummaryByInstrumentGet**](docs/OAIPublicApi.md#publicgetbooksummarybyinstrumentget) | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -242,22 +232,10 @@ Class | Method | HTTP request | Description
 *OAIPublicApi* | [**publicGetTimeGet**](docs/OAIPublicApi.md#publicgettimeget) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 *OAIPublicApi* | [**publicGetTradeVolumesGet**](docs/OAIPublicApi.md#publicgettradevolumesget) | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 *OAIPublicApi* | [**publicGetTradingviewChartDataGet**](docs/OAIPublicApi.md#publicgettradingviewchartdataget) | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-*OAIPublicApi* | [**publicHelloGet**](docs/OAIPublicApi.md#publichelloget) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-*OAIPublicApi* | [**publicSetHeartbeatGet**](docs/OAIPublicApi.md#publicsetheartbeatget) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-*OAIPublicApi* | [**publicSubscribeGet**](docs/OAIPublicApi.md#publicsubscribeget) | **GET** /public/subscribe | Subscribe to one or more channels.
 *OAIPublicApi* | [**publicTestGet**](docs/OAIPublicApi.md#publictestget) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 *OAIPublicApi* | [**publicTickerGet**](docs/OAIPublicApi.md#publictickerget) | **GET** /public/ticker | Get ticker for an instrument.
 *OAIPublicApi* | [**publicValidateFieldGet**](docs/OAIPublicApi.md#publicvalidatefieldget) | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-*OAISessionManagementApi* | [**privateDisableCancelOnDisconnectGet**](docs/OAISessionManagementApi.md#privatedisablecancelondisconnectget) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-*OAISessionManagementApi* | [**privateEnableCancelOnDisconnectGet**](docs/OAISessionManagementApi.md#privateenablecancelondisconnectget) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-*OAISessionManagementApi* | [**publicDisableHeartbeatGet**](docs/OAISessionManagementApi.md#publicdisableheartbeatget) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
-*OAISessionManagementApi* | [**publicSetHeartbeatGet**](docs/OAISessionManagementApi.md#publicsetheartbeatget) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-*OAISubscriptionManagementApi* | [**privateSubscribeGet**](docs/OAISubscriptionManagementApi.md#privatesubscribeget) | **GET** /private/subscribe | Subscribe to one or more channels.
-*OAISubscriptionManagementApi* | [**privateUnsubscribeGet**](docs/OAISubscriptionManagementApi.md#privateunsubscribeget) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
-*OAISubscriptionManagementApi* | [**publicSubscribeGet**](docs/OAISubscriptionManagementApi.md#publicsubscribeget) | **GET** /public/subscribe | Subscribe to one or more channels.
-*OAISubscriptionManagementApi* | [**publicUnsubscribeGet**](docs/OAISubscriptionManagementApi.md#publicunsubscribeget) | **GET** /public/unsubscribe | Unsubscribe from one or more channels.
 *OAISupportingApi* | [**publicGetTimeGet**](docs/OAISupportingApi.md#publicgettimeget) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
-*OAISupportingApi* | [**publicHelloGet**](docs/OAISupportingApi.md#publichelloget) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
 *OAISupportingApi* | [**publicTestGet**](docs/OAISupportingApi.md#publictestget) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 *OAITradingApi* | [**privateBuyGet**](docs/OAITradingApi.md#privatebuyget) | **GET** /private/buy | Places a buy order for an instrument.
 *OAITradingApi* | [**privateCancelAllByCurrencyGet**](docs/OAITradingApi.md#privatecancelallbycurrencyget) | **GET** /private/cancel_all_by_currency | Cancels all orders by currency, optionally filtered by instrument kind and/or order type.
@@ -295,16 +273,6 @@ Class | Method | HTTP request | Description
 *OAIWalletApi* | [**privateSubmitTransferToUserGet**](docs/OAIWalletApi.md#privatesubmittransfertouserget) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
 *OAIWalletApi* | [**privateToggleDepositAddressCreationGet**](docs/OAIWalletApi.md#privatetoggledepositaddresscreationget) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 *OAIWalletApi* | [**privateWithdrawGet**](docs/OAIWalletApi.md#privatewithdrawget) | **GET** /private/withdraw | Creates a new withdrawal request
-*OAIWebsocketOnlyApi* | [**privateDisableCancelOnDisconnectGet**](docs/OAIWebsocketOnlyApi.md#privatedisablecancelondisconnectget) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-*OAIWebsocketOnlyApi* | [**privateEnableCancelOnDisconnectGet**](docs/OAIWebsocketOnlyApi.md#privateenablecancelondisconnectget) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-*OAIWebsocketOnlyApi* | [**privateLogoutGet**](docs/OAIWebsocketOnlyApi.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-*OAIWebsocketOnlyApi* | [**privateSubscribeGet**](docs/OAIWebsocketOnlyApi.md#privatesubscribeget) | **GET** /private/subscribe | Subscribe to one or more channels.
-*OAIWebsocketOnlyApi* | [**privateUnsubscribeGet**](docs/OAIWebsocketOnlyApi.md#privateunsubscribeget) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
-*OAIWebsocketOnlyApi* | [**publicDisableHeartbeatGet**](docs/OAIWebsocketOnlyApi.md#publicdisableheartbeatget) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
-*OAIWebsocketOnlyApi* | [**publicHelloGet**](docs/OAIWebsocketOnlyApi.md#publichelloget) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-*OAIWebsocketOnlyApi* | [**publicSetHeartbeatGet**](docs/OAIWebsocketOnlyApi.md#publicsetheartbeatget) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-*OAIWebsocketOnlyApi* | [**publicSubscribeGet**](docs/OAIWebsocketOnlyApi.md#publicsubscribeget) | **GET** /public/subscribe | Subscribe to one or more channels.
-*OAIWebsocketOnlyApi* | [**publicUnsubscribeGet**](docs/OAIWebsocketOnlyApi.md#publicunsubscribeget) | **GET** /public/unsubscribe | Unsubscribe from one or more channels.
 
 
 ## Documentation For Models

@@ -4,55 +4,8 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**private_logout_get**](AuthenticationApi.md#private_logout_get) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**public_auth_get**](AuthenticationApi.md#public_auth_get) | **GET** /public/auth | Authenticate
 
-
-
-## private_logout_get
-
-> private_logout_get
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-
-```ruby
-# load the gem
-require 'openapi_client'
-# setup authorization
-OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
-end
-
-api_instance = OpenapiClient::AuthenticationApi.new
-
-begin
-  #Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-  api_instance.private_logout_get
-rescue OpenapiClient::ApiError => e
-  puts "Exception when calling AuthenticationApi->private_logout_get: #{e}"
-end
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-nil (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
 
 
 ## public_auth_get

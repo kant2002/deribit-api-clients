@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**publicAuthGet**](PublicAPI.md#publicauthget) | **GET** /public/auth | Authenticate
-[**publicDisableHeartbeatGet**](PublicAPI.md#publicdisableheartbeatget) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 [**publicGetAnnouncementsGet**](PublicAPI.md#publicgetannouncementsget) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 [**publicGetBookSummaryByCurrencyGet**](PublicAPI.md#publicgetbooksummarybycurrencyget) | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 [**publicGetBookSummaryByInstrumentGet**](PublicAPI.md#publicgetbooksummarybyinstrumentget) | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -25,9 +24,6 @@ Method | HTTP request | Description
 [**publicGetTimeGet**](PublicAPI.md#publicgettimeget) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 [**publicGetTradeVolumesGet**](PublicAPI.md#publicgettradevolumesget) | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 [**publicGetTradingviewChartDataGet**](PublicAPI.md#publicgettradingviewchartdataget) | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-[**publicHelloGet**](PublicAPI.md#publichelloget) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-[**publicSetHeartbeatGet**](PublicAPI.md#publicsetheartbeatget) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-[**publicSubscribeGet**](PublicAPI.md#publicsubscribeget) | **GET** /public/subscribe | Subscribe to one or more channels.
 [**publicTestGet**](PublicAPI.md#publictestget) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 [**publicTickerGet**](PublicAPI.md#publictickerget) | **GET** /public/ticker | Get ticker for an instrument.
 [**publicValidateFieldGet**](PublicAPI.md#publicvalidatefieldget) | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
@@ -87,50 +83,6 @@ Name | Type | Description  | Notes
  **nonce** | **String** | Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token | [optional] 
  **state** | **String** | Will be passed back in the response | [optional] 
  **scope** | **String** | Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; | [optional] 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicDisableHeartbeatGet**
-```swift
-    open class func publicDisableHeartbeatGet(completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Stop sending heartbeat messages.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-
-// Stop sending heartbeat messages.
-PublicAPI.publicDisableHeartbeatGet() { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -1101,154 +1053,6 @@ Name | Type | Description  | Notes
  **instrumentName** | **String** | Instrument name | 
  **startTimestamp** | **Int** | The earliest timestamp to return result for | 
  **endTimestamp** | **Int** | The most recent timestamp to return result for | 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicHelloGet**
-```swift
-    open class func publicHelloGet(clientName: String, clientVersion: String, completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-let clientName = "clientName_example" // String | Client software name
-let clientVersion = "clientVersion_example" // String | Client software version
-
-// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-PublicAPI.publicHelloGet(clientName: clientName, clientVersion: clientVersion) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **clientName** | **String** | Client software name | 
- **clientVersion** | **String** | Client software version | 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicSetHeartbeatGet**
-```swift
-    open class func publicSetHeartbeatGet(interval: Double, completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-let interval = 987 // Double | The heartbeat interval in seconds, but not less than 10
-
-// Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-PublicAPI.publicSetHeartbeatGet(interval: interval) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **interval** | **Double** | The heartbeat interval in seconds, but not less than 10 | 
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicSubscribeGet**
-```swift
-    open class func publicSubscribeGet(channels: [String], completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-let channels = ["inner_example"] // [String] | A list of channels to subscribe to.
-
-// Subscribe to one or more channels.
-PublicAPI.publicSubscribeGet(channels: channels) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**[String]**](String.md) | A list of channels to subscribe to. | 
 
 ### Return type
 

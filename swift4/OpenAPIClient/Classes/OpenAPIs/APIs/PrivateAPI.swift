@@ -624,37 +624,6 @@ open class PrivateAPI {
     }
 
     /**
-     Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func privateDisableCancelOnDisconnectGet(completion: @escaping ((_ data: Any?,_ error: Error?) -> Void)) {
-        privateDisableCancelOnDisconnectGetWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-     - GET /private/disable_cancel_on_disconnect
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<Any> 
-     */
-    open class func privateDisableCancelOnDisconnectGetWithRequestBuilder() -> RequestBuilder<Any> {
-        let path = "/private/disable_cancel_on_disconnect"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        let url = URLComponents(string: URLString)
-
-        let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
      Disable two factor authentication for a subaccount.
      
      - parameter sid: (query) The user id for the subaccount 
@@ -782,37 +751,6 @@ open class PrivateAPI {
             "advanced": advanced?.rawValue, 
             "stop_price": stopPrice
         ])
-
-        let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-     Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func privateEnableCancelOnDisconnectGet(completion: @escaping ((_ data: Any?,_ error: Error?) -> Void)) {
-        privateEnableCancelOnDisconnectGetWithRequestBuilder().execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-     - GET /private/enable_cancel_on_disconnect
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<Any> 
-     */
-    open class func privateEnableCancelOnDisconnectGetWithRequestBuilder() -> RequestBuilder<Any> {
-        let path = "/private/enable_cancel_on_disconnect"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        let url = URLComponents(string: URLString)
 
         let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
 
@@ -2089,41 +2027,6 @@ open class PrivateAPI {
     }
 
     /**
-     Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func privateLogoutGet(completion: @escaping ((_ data: Void?,_ error: Error?) -> Void)) {
-        privateLogoutGetWithRequestBuilder().execute { (response, error) -> Void in
-            if error == nil {
-                completion((), error)
-            } else {
-                completion(nil, error)
-            }
-        }
-    }
-
-    /**
-     Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     - GET /private/logout
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - returns: RequestBuilder<Void> 
-     */
-    open class func privateLogoutGetWithRequestBuilder() -> RequestBuilder<Void> {
-        let path = "/private/logout"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        let url = URLComponents(string: URLString)
-
-        let requestBuilder: RequestBuilder<Void>.Type = OpenAPIClientAPI.requestBuilderFactory.getNonDecodableBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
      * enum for parameter currency
      */
     public enum Currency_privateRemoveFromAddressBookGet: String {
@@ -2543,43 +2446,6 @@ open class PrivateAPI {
     }
 
     /**
-     Subscribe to one or more channels.
-     
-     - parameter channels: (query) A list of channels to subscribe to. 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func privateSubscribeGet(channels: [String], completion: @escaping ((_ data: Any?,_ error: Error?) -> Void)) {
-        privateSubscribeGetWithRequestBuilder(channels: channels).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Subscribe to one or more channels.
-     - GET /private/subscribe
-     - Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter channels: (query) A list of channels to subscribe to. 
-     - returns: RequestBuilder<Any> 
-     */
-    open class func privateSubscribeGetWithRequestBuilder(channels: [String]) -> RequestBuilder<Any> {
-        let path = "/private/subscribe"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "channels": channels
-        ])
-
-        let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
      * enum for parameter currency
      */
     public enum Currency_privateToggleDepositAddressCreationGet: String {
@@ -2705,42 +2571,6 @@ open class PrivateAPI {
         url?.queryItems = APIHelper.mapValuesToQueryItems([
             "sid": sid.encodeToJSON(), 
             "state": state.rawValue
-        ])
-
-        let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()
-
-        return requestBuilder.init(method: "GET", URLString: (url?.string ?? URLString), parameters: parameters, isBody: false)
-    }
-
-    /**
-     Unsubscribe from one or more channels.
-     
-     - parameter channels: (query) A list of channels to unsubscribe from. 
-     - parameter completion: completion handler to receive the data and the error objects
-     */
-    open class func privateUnsubscribeGet(channels: [String], completion: @escaping ((_ data: Any?,_ error: Error?) -> Void)) {
-        privateUnsubscribeGetWithRequestBuilder(channels: channels).execute { (response, error) -> Void in
-            completion(response?.body, error)
-        }
-    }
-
-    /**
-     Unsubscribe from one or more channels.
-     - GET /private/unsubscribe
-     - BASIC:
-       - type: http
-       - name: bearerAuth
-     - parameter channels: (query) A list of channels to unsubscribe from. 
-     - returns: RequestBuilder<Any> 
-     */
-    open class func privateUnsubscribeGetWithRequestBuilder(channels: [String]) -> RequestBuilder<Any> {
-        let path = "/private/unsubscribe"
-        let URLString = OpenAPIClientAPI.basePath + path
-        let parameters: [String:Any]? = nil
-        
-        var url = URLComponents(string: URLString)
-        url?.queryItems = APIHelper.mapValuesToQueryItems([
-            "channels": channels
         ])
 
         let requestBuilder: RequestBuilder<Any>.Type = OpenAPIClientAPI.requestBuilderFactory.getBuilder()

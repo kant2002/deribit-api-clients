@@ -47,38 +47,6 @@ class SupportingApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") 
     }
 
     /**
-    * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-    * 
-    * @param clientName Client software name 
-    * @param clientVersion Client software version 
-    * @return kotlin.Any
-    */
-    @Suppress("UNCHECKED_CAST")
-    fun publicHelloGet(clientName: kotlin.String, clientVersion: kotlin.String) : kotlin.Any {
-        val localVariableBody: kotlin.Any? = null
-        val localVariableQuery: MultiValueMap = mapOf("clientName" to listOf("$clientName"), "clientVersion" to listOf("$clientVersion"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
-        val localVariableConfig = RequestConfig(
-            RequestMethod.GET,
-            "/public/hello",
-            query = localVariableQuery,
-            headers = localVariableHeaders
-        )
-        val response = request<kotlin.Any>(
-            localVariableConfig,
-            localVariableBody
-        )
-
-        return when (response.responseType) {
-            ResponseType.Success -> (response as Success<*>).data as kotlin.Any
-            ResponseType.Informational -> TODO()
-            ResponseType.Redirection -> TODO()
-            ResponseType.ClientError -> throw ClientException((response as ClientError<*>).body as? String ?: "Client error")
-            ResponseType.ServerError -> throw ServerException((response as ServerError<*>).message ?: "Server error")
-        }
-    }
-
-    /**
     * Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
     * 
     * @param expectedResult The value \&quot;exception\&quot; will trigger an error response. This may be useful for testing wrapper libraries. (optional)

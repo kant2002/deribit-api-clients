@@ -64,17 +64,6 @@ namespace Org.OpenAPITools.Test
 
         
         /// <summary>
-        /// Test PrivateLogoutGet
-        /// </summary>
-        [Test]
-        public void PrivateLogoutGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //instance.PrivateLogoutGet();
-            
-        }
-        
-        /// <summary>
         /// Test PublicAuthGet
         /// </summary>
         [Test]

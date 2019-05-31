@@ -23,21 +23,6 @@ object AuthenticationApi {
 class AuthenticationApi(baseUrl: String) {
   
   /**
-   * Expected answers:
-   *   code 200 :  (closes WS connection)
-   *   code 400 : Any (result when used via rest/HTTP)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   */
-  def privateLogoutGet()(implicit basicAuth: BasicCredentials): ApiRequest[Unit] =
-    ApiRequest[Unit](ApiMethods.GET, "https://www.deribit.com/api/v2", "/private/logout", "application/json")
-      .withCredentials(basicAuth)
-      .withSuccessResponse[Unit](200)
-      .withErrorResponse[Any](400)
-      
-
-  /**
    * Retrieve an Oauth access token, to be used for authentication of 'private' requests.  Three methods of authentication are supported:  - <code>password</code> - using email and and password as when logging on to the website - <code>client_credentials</code> - using the access key and access secret that can be found on the API page on the website - <code>client_signature</code> - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials) - <code>refresh_token</code> - using a refresh token that was received from an earlier invocation  The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. 
    * 
    * Expected answers:

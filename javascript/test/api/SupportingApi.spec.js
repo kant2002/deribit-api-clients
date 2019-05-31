@@ -58,16 +58,6 @@
         done();
       });
     });
-    describe('publicHelloGet', function() {
-      it('should call publicHelloGet successfully', function(done) {
-        //uncomment below and update the code to test publicHelloGet
-        //instance.publicHelloGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('publicTestGet', function() {
       it('should call publicTestGet successfully', function(done) {
         //uncomment below and update the code to test publicTestGet

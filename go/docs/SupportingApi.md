@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**PublicGetTimeGet**](SupportingApi.md#PublicGetTimeGet) | **Get** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
-[**PublicHelloGet**](SupportingApi.md#PublicHelloGet) | **Get** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
 [**PublicTestGet**](SupportingApi.md#PublicTestGet) | **Get** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 
 
@@ -18,38 +17,6 @@ Retrieves the current time (in milliseconds). This API endpoint can be used to c
 ### Required Parameters
 
 This endpoint does not need any parameter.
-
-### Return type
-
-[**map[string]interface{}**](map[string]interface{}.md)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## PublicHelloGet
-
-> map[string]interface{} PublicHelloGet(ctx, clientName, clientVersion)
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Required Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**clientName** | **string**| Client software name | 
-**clientVersion** | **string**| Client software version | 
 
 ### Return type
 

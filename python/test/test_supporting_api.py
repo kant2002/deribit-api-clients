@@ -35,13 +35,6 @@ class TestSupportingApi(unittest.TestCase):
         """
         pass
 
-    def test_public_hello_get(self):
-        """Test case for public_hello_get
-
-        Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.  # noqa: E501
-        """
-        pass
-
     def test_public_test_get(self):
         """Test case for public_test_get
 

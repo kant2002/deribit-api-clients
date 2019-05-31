@@ -5,16 +5,6 @@ context("Test AuthenticationApi")
 
 api.instance <- AuthenticationApi$new()
 
-test_that("PrivateLogoutGet", {
-  # tests for PrivateLogoutGet
-  # base path: https://www.deribit.com/api/v2
-  # Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-  # @return [Void]
-
-  # uncomment below to test the operation
-  #expect_equal(result, "EXPECTED_RESULT")
-})
-
 test_that("PublicAuthGet", {
   # tests for PublicAuthGet
   # base path: https://www.deribit.com/api/v2

@@ -59,21 +59,6 @@ public class PublicApiTest {
     }
     
     /**
-     * Stop sending heartbeat messages.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publicDisableHeartbeatGetTest() throws ApiException {
-        Object response = api.publicDisableHeartbeatGet();
-
-        // TODO: test validations
-    }
-    
-    /**
      * Retrieves announcements from the last 30 days.
      *
      * 
@@ -406,55 +391,6 @@ public class PublicApiTest {
         Integer startTimestamp = null;
         Integer endTimestamp = null;
         Object response = api.publicGetTradingviewChartDataGet(instrumentName, startTimestamp, endTimestamp);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publicHelloGetTest() throws ApiException {
-        String clientName = null;
-        String clientVersion = null;
-        Object response = api.publicHelloGet(clientName, clientVersion);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publicSetHeartbeatGetTest() throws ApiException {
-        BigDecimal interval = null;
-        Object response = api.publicSetHeartbeatGet(interval);
-
-        // TODO: test validations
-    }
-    
-    /**
-     * Subscribe to one or more channels.
-     *
-     * Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publicSubscribeGetTest() throws ApiException {
-        List<String> channels = null;
-        Object response = api.publicSubscribeGet(channels);
 
         // TODO: test validations
     }

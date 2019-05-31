@@ -212,18 +212,6 @@ extern NSInteger kOAIPrivateApiMissingParamErrorCode;
     (void (^)(NSObject* output, NSError* error)) handler;
 
 
-/// Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-/// 
-///
-/// 
-///  code:200 message:"ok response",
-///  code:400 message:"result when used via rest/HTTP"
-///
-/// @return NSObject*
--(NSURLSessionTask*) privateDisableCancelOnDisconnectGetWithCompletionHandler: 
-    (void (^)(NSObject* output, NSError* error)) handler;
-
-
 /// Disable two factor authentication for a subaccount.
 /// 
 ///
@@ -270,18 +258,6 @@ extern NSInteger kOAIPrivateApiMissingParamErrorCode;
     advanced: (NSString*) advanced
     stopPrice: (NSNumber*) stopPrice
     completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
-/// Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-/// 
-///
-/// 
-///  code:200 message:"ok response",
-///  code:400 message:"result when used via rest/HTTP"
-///
-/// @return NSObject*
--(NSURLSessionTask*) privateEnableCancelOnDisconnectGetWithCompletionHandler: 
-    (void (^)(NSObject* output, NSError* error)) handler;
 
 
 /// Retrieves user account summary.
@@ -686,18 +662,6 @@ extern NSInteger kOAIPrivateApiMissingParamErrorCode;
     completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
 
 
-/// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-/// 
-///
-/// 
-///  code:200 message:"closes WS connection",
-///  code:400 message:"result when used via rest/HTTP"
-///
-/// @return void
--(NSURLSessionTask*) privateLogoutGetWithCompletionHandler: 
-    (void (^)(NSError* error)) handler;
-
-
 /// Adds new entry to address book of given type
 /// 
 ///
@@ -836,19 +800,6 @@ extern NSInteger kOAIPrivateApiMissingParamErrorCode;
     completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
 
 
-/// Subscribe to one or more channels.
-/// Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-///
-/// @param channels A list of channels to subscribe to.
-/// 
-///  code:200 message:"ok response",
-///  code:401 message:"not authorised"
-///
-/// @return NSObject*
--(NSURLSessionTask*) privateSubscribeGetWithChannels: (NSArray<NSString*>*) channels
-    completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
 /// Enable or disable deposit address creation
 /// 
 ///
@@ -888,19 +839,6 @@ extern NSInteger kOAIPrivateApiMissingParamErrorCode;
 /// @return NSObject*
 -(NSURLSessionTask*) privateToggleSubaccountLoginGetWithSid: (NSNumber*) sid
     state: (NSString*) state
-    completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
-
-
-/// Unsubscribe from one or more channels.
-/// 
-///
-/// @param channels A list of channels to unsubscribe from.
-/// 
-///  code:200 message:"ok response",
-///  code:401 message:"not authorised"
-///
-/// @return NSObject*
--(NSURLSessionTask*) privateUnsubscribeGetWithChannels: (NSArray<NSString*>*) channels
     completionHandler: (void (^)(NSObject* output, NSError* error)) handler;
 
 

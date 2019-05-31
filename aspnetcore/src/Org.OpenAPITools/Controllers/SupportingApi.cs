@@ -50,31 +50,6 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
-        /// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-        /// </summary>
-        /// <param name="clientName">Client software name</param>
-        /// <param name="clientVersion">Client software version</param>
-        /// <response code="200"></response>
-        [HttpGet]
-        [Route("/api/v2/public/hello")]
-        [ValidateModelState]
-        [SwaggerOperation("PublicHelloGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "")]
-        public virtual IActionResult PublicHelloGet([FromQuery][Required()]string clientName, [FromQuery][Required()]string clientVersion)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
         /// Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
         /// </summary>
         /// <param name="expectedResult">The value \&quot;exception\&quot; will trigger an error response. This may be useful for testing wrapper libraries.</param>

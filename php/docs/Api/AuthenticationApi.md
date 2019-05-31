@@ -4,63 +4,8 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**privateLogoutGet**](AuthenticationApi.md#privateLogoutGet) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**publicAuthGet**](AuthenticationApi.md#publicAuthGet) | **GET** /public/auth | Authenticate
 
-
-
-## privateLogoutGet
-
-> privateLogoutGet()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\AuthenticationApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $apiInstance->privateLogoutGet();
-} catch (Exception $e) {
-    echo 'Exception when calling AuthenticationApi->privateLogoutGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
 
 
 ## publicAuthGet

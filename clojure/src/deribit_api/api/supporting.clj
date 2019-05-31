@@ -48,28 +48,6 @@
        res)))
 
 
-(defn-spec public-hello-get-with-http-info any?
-  "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself."
-  [client_name string?, client_version string?]
-  (check-required-params client_name client_version)
-  (call-api "/public/hello" :get
-            {:path-params   {}
-             :header-params {}
-             :query-params  {"client_name" client_name "client_version" client_version }
-             :form-params   {}
-             :content-types []
-             :accepts       ["application/json"]
-             :auth-names    ["bearerAuth"]}))
-
-(defn-spec public-hello-get any?
-  "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself."
-  [client_name string?, client_version string?]
-  (let [res (:data (public-hello-get-with-http-info client_name client_version))]
-    (if (:decode-models *api-context*)
-       (st/decode any? res st/string-transformer)
-       res)))
-
-
 (defn-spec public-test-get-with-http-info any?
   "Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version."
   ([] (public-test-get-with-http-info nil))

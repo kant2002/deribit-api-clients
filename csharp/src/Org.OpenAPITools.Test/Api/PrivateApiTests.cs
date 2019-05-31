@@ -230,17 +230,6 @@ namespace Org.OpenAPITools.Test
         }
         
         /// <summary>
-        /// Test PrivateDisableCancelOnDisconnectGet
-        /// </summary>
-        [Test]
-        public void PrivateDisableCancelOnDisconnectGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.PrivateDisableCancelOnDisconnectGet();
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
         /// Test PrivateDisableTfaForSubaccountGet
         /// </summary>
         [Test]
@@ -279,17 +268,6 @@ namespace Org.OpenAPITools.Test
             //string advanced = null;
             //decimal? stopPrice = null;
             //var response = instance.PrivateEditGet(orderId, amount, price, postOnly, advanced, stopPrice);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
-        /// Test PrivateEnableCancelOnDisconnectGet
-        /// </summary>
-        [Test]
-        public void PrivateEnableCancelOnDisconnectGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //var response = instance.PrivateEnableCancelOnDisconnectGet();
             //Assert.IsInstanceOf<Object> (response, "response is Object");
         }
         
@@ -642,17 +620,6 @@ namespace Org.OpenAPITools.Test
         }
         
         /// <summary>
-        /// Test PrivateLogoutGet
-        /// </summary>
-        [Test]
-        public void PrivateLogoutGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //instance.PrivateLogoutGet();
-            
-        }
-        
-        /// <summary>
         /// Test PrivateRemoveFromAddressBookGet
         /// </summary>
         [Test]
@@ -770,18 +737,6 @@ namespace Org.OpenAPITools.Test
         }
         
         /// <summary>
-        /// Test PrivateSubscribeGet
-        /// </summary>
-        [Test]
-        public void PrivateSubscribeGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //List<string> channels = null;
-            //var response = instance.PrivateSubscribeGet(channels);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
         /// Test PrivateToggleDepositAddressCreationGet
         /// </summary>
         [Test]
@@ -817,18 +772,6 @@ namespace Org.OpenAPITools.Test
             //int? sid = null;
             //string state = null;
             //var response = instance.PrivateToggleSubaccountLoginGet(sid, state);
-            //Assert.IsInstanceOf<Object> (response, "response is Object");
-        }
-        
-        /// <summary>
-        /// Test PrivateUnsubscribeGet
-        /// </summary>
-        [Test]
-        public void PrivateUnsubscribeGetTest()
-        {
-            // TODO uncomment below to test the method and replace null with proper value
-            //List<string> channels = null;
-            //var response = instance.PrivateUnsubscribeGet(channels);
             //Assert.IsInstanceOf<Object> (response, "response is Object");
         }
         

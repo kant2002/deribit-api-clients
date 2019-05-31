@@ -16,11 +16,9 @@ Method | HTTP request | Description
 [**PrivateClosePositionGet**](PrivateApi.md#privateclosepositionget) | **GET** /private/close_position | Makes closing position reduce only order .
 [**PrivateCreateDepositAddressGet**](PrivateApi.md#privatecreatedepositaddressget) | **GET** /private/create_deposit_address | Creates deposit address in currency
 [**PrivateCreateSubaccountGet**](PrivateApi.md#privatecreatesubaccountget) | **GET** /private/create_subaccount | Create a new subaccount
-[**PrivateDisableCancelOnDisconnectGet**](PrivateApi.md#privatedisablecancelondisconnectget) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**PrivateDisableTfaForSubaccountGet**](PrivateApi.md#privatedisabletfaforsubaccountget) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 [**PrivateDisableTfaWithRecoveryCodeGet**](PrivateApi.md#privatedisabletfawithrecoverycodeget) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 [**PrivateEditGet**](PrivateApi.md#privateeditget) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-[**PrivateEnableCancelOnDisconnectGet**](PrivateApi.md#privateenablecancelondisconnectget) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**PrivateGetAccountSummaryGet**](PrivateApi.md#privategetaccountsummaryget) | **GET** /private/get_account_summary | Retrieves user account summary.
 [**PrivateGetAddressBookGet**](PrivateApi.md#privategetaddressbookget) | **GET** /private/get_address_book | Retrieves address book of given type
 [**PrivateGetCurrentDepositAddressGet**](PrivateApi.md#privategetcurrentdepositaddressget) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -46,7 +44,6 @@ Method | HTTP request | Description
 [**PrivateGetUserTradesByInstrumentGet**](PrivateApi.md#privategetusertradesbyinstrumentget) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 [**PrivateGetUserTradesByOrderGet**](PrivateApi.md#privategetusertradesbyorderget) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 [**PrivateGetWithdrawalsGet**](PrivateApi.md#privategetwithdrawalsget) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-[**PrivateLogoutGet**](PrivateApi.md#privatelogoutget) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**PrivateRemoveFromAddressBookGet**](PrivateApi.md#privateremovefromaddressbookget) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 [**PrivateSellGet**](PrivateApi.md#privatesellget) | **GET** /private/sell | Places a sell order for an instrument.
 [**PrivateSetAnnouncementAsReadGet**](PrivateApi.md#privatesetannouncementasreadget) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -55,11 +52,9 @@ Method | HTTP request | Description
 [**PrivateSetPasswordForSubaccountGet**](PrivateApi.md#privatesetpasswordforsubaccountget) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 [**PrivateSubmitTransferToSubaccountGet**](PrivateApi.md#privatesubmittransfertosubaccountget) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 [**PrivateSubmitTransferToUserGet**](PrivateApi.md#privatesubmittransfertouserget) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-[**PrivateSubscribeGet**](PrivateApi.md#privatesubscribeget) | **GET** /private/subscribe | Subscribe to one or more channels.
 [**PrivateToggleDepositAddressCreationGet**](PrivateApi.md#privatetoggledepositaddresscreationget) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 [**PrivateToggleNotificationsFromSubaccountGet**](PrivateApi.md#privatetogglenotificationsfromsubaccountget) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 [**PrivateToggleSubaccountLoginGet**](PrivateApi.md#privatetogglesubaccountloginget) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-[**PrivateUnsubscribeGet**](PrivateApi.md#privateunsubscribeget) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 [**PrivateWithdrawGet**](PrivateApi.md#privatewithdrawget) | **GET** /private/withdraw | Creates a new withdrawal request
 
 
@@ -932,71 +927,6 @@ This endpoint does not need any parameter.
 [[Back to README]](../README.md)
 
 
-## PrivateDisableCancelOnDisconnectGet
-
-> Object PrivateDisableCancelOnDisconnectGet ()
-
-Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class PrivateDisableCancelOnDisconnectGetExample
-    {
-        public void main()
-        {
-            // Configure HTTP basic authorization: bearerAuth
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-
-            var apiInstance = new PrivateApi();
-
-            try
-            {
-                // Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-                Object result = apiInstance.PrivateDisableCancelOnDisconnectGet();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PrivateApi.PrivateDisableCancelOnDisconnectGet: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## PrivateDisableTfaForSubaccountGet
 
 > Object PrivateDisableTfaForSubaccountGet (int? sid)
@@ -1196,71 +1126,6 @@ Name | Type | Description  | Notes
  **postOnly** | **bool?**| &lt;p&gt;If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.&lt;/p&gt; &lt;p&gt;Only valid in combination with time_in_force&#x3D;&#x60;\&quot;good_til_cancelled\&quot;&#x60;&lt;/p&gt; | [optional] [default to true]
  **advanced** | **string**| Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) | [optional] 
  **stopPrice** | **decimal?**| Stop price, required for stop limit orders (Only for stop orders) | [optional] 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## PrivateEnableCancelOnDisconnectGet
-
-> Object PrivateEnableCancelOnDisconnectGet ()
-
-Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class PrivateEnableCancelOnDisconnectGetExample
-    {
-        public void main()
-        {
-            // Configure HTTP basic authorization: bearerAuth
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-
-            var apiInstance = new PrivateApi();
-
-            try
-            {
-                // Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-                Object result = apiInstance.PrivateEnableCancelOnDisconnectGet();
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PrivateApi.PrivateEnableCancelOnDisconnectGet: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -3098,70 +2963,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## PrivateLogoutGet
-
-> void PrivateLogoutGet ()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class PrivateLogoutGetExample
-    {
-        public void main()
-        {
-            // Configure HTTP basic authorization: bearerAuth
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-
-            var apiInstance = new PrivateApi();
-
-            try
-            {
-                // Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-                apiInstance.PrivateLogoutGet();
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PrivateApi.PrivateLogoutGet: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## PrivateRemoveFromAddressBookGet
 
 > Object PrivateRemoveFromAddressBookGet (string currency, string type, string address, string tfa = null)
@@ -3756,77 +3557,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## PrivateSubscribeGet
-
-> Object PrivateSubscribeGet (List<string> channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-
-### Example
-
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class PrivateSubscribeGetExample
-    {
-        public void main()
-        {
-            // Configure HTTP basic authorization: bearerAuth
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-
-            var apiInstance = new PrivateApi();
-            var channels = new List<string>(); // List<string> | A list of channels to subscribe to.
-
-            try
-            {
-                // Subscribe to one or more channels.
-                Object result = apiInstance.PrivateSubscribeGet(channels);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PrivateApi.PrivateSubscribeGet: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**List&lt;string&gt;**](string.md)| A list of channels to subscribe to. | 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## PrivateToggleDepositAddressCreationGet
 
 > Object PrivateToggleDepositAddressCreationGet (string currency, bool? state)
@@ -4020,75 +3750,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sid** | **int?**| The user id for the subaccount | 
  **state** | **string**| enable or disable login. | 
-
-### Return type
-
-**Object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#)
-[[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## PrivateUnsubscribeGet
-
-> Object PrivateUnsubscribeGet (List<string> channels)
-
-Unsubscribe from one or more channels.
-
-### Example
-
-```csharp
-using System;
-using System.Diagnostics;
-using Org.OpenAPITools.Api;
-using Org.OpenAPITools.Client;
-using Org.OpenAPITools.Model;
-
-namespace Example
-{
-    public class PrivateUnsubscribeGetExample
-    {
-        public void main()
-        {
-            // Configure HTTP basic authorization: bearerAuth
-            Configuration.Default.Username = "YOUR_USERNAME";
-            Configuration.Default.Password = "YOUR_PASSWORD";
-
-            var apiInstance = new PrivateApi();
-            var channels = new List<string>(); // List<string> | A list of channels to unsubscribe from.
-
-            try
-            {
-                // Unsubscribe from one or more channels.
-                Object result = apiInstance.PrivateUnsubscribeGet(channels);
-                Debug.WriteLine(result);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling PrivateApi.PrivateUnsubscribeGet: " + e.Message );
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**List&lt;string&gt;**](string.md)| A list of channels to unsubscribe from. | 
 
 ### Return type
 

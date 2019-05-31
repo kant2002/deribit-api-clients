@@ -904,60 +904,6 @@ module OpenapiClient
       return data, status_code, headers
     end
 
-    # Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-    # @param [Hash] opts the optional parameters
-    # @return [Object]
-    def private_disable_cancel_on_disconnect_get(opts = {})
-      data, _status_code, _headers = private_disable_cancel_on_disconnect_get_with_http_info(opts)
-      data
-    end
-
-    # Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def private_disable_cancel_on_disconnect_get_with_http_info(opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: PrivateApi.private_disable_cancel_on_disconnect_get ...'
-      end
-      # resource path
-      local_var_path = '/private/disable_cancel_on_disconnect'
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
-      # return_type
-      return_type = opts[:return_type] || 'Object' 
-
-      # auth_names
-      auth_names = opts[:auth_names] || ['bearerAuth']
-
-      new_options = opts.merge(
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PrivateApi#private_disable_cancel_on_disconnect_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # Disable two factor authentication for a subaccount.
     # @param sid [Integer] The user id for the subaccount
     # @param [Hash] opts the optional parameters
@@ -1171,60 +1117,6 @@ module OpenapiClient
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PrivateApi#private_edit_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-    # @param [Hash] opts the optional parameters
-    # @return [Object]
-    def private_enable_cancel_on_disconnect_get(opts = {})
-      data, _status_code, _headers = private_enable_cancel_on_disconnect_get_with_http_info(opts)
-      data
-    end
-
-    # Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def private_enable_cancel_on_disconnect_get_with_http_info(opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: PrivateApi.private_enable_cancel_on_disconnect_get ...'
-      end
-      # resource path
-      local_var_path = '/private/enable_cancel_on_disconnect'
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
-      # return_type
-      return_type = opts[:return_type] || 'Object' 
-
-      # auth_names
-      auth_names = opts[:auth_names] || ['bearerAuth']
-
-      new_options = opts.merge(
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PrivateApi#private_enable_cancel_on_disconnect_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
@@ -3035,60 +2927,6 @@ module OpenapiClient
       return data, status_code, headers
     end
 
-    # Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-    # @param [Hash] opts the optional parameters
-    # @return [nil]
-    def private_logout_get(opts = {})
-      private_logout_get_with_http_info(opts)
-      nil
-    end
-
-    # Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(nil, Integer, Hash)>] nil, response status code and response headers
-    def private_logout_get_with_http_info(opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: PrivateApi.private_logout_get ...'
-      end
-      # resource path
-      local_var_path = '/private/logout'
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
-      # return_type
-      return_type = opts[:return_type] 
-
-      # auth_names
-      auth_names = opts[:auth_names] || ['bearerAuth']
-
-      new_options = opts.merge(
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PrivateApi#private_logout_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # Adds new entry to address book of given type
     # @param currency [String] The currency symbol
     # @param type [String] Address book type
@@ -3712,69 +3550,6 @@ module OpenapiClient
       return data, status_code, headers
     end
 
-    # Subscribe to one or more channels.
-    # Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-    # @param channels [Array<String>] A list of channels to subscribe to.
-    # @param [Hash] opts the optional parameters
-    # @return [Object]
-    def private_subscribe_get(channels, opts = {})
-      data, _status_code, _headers = private_subscribe_get_with_http_info(channels, opts)
-      data
-    end
-
-    # Subscribe to one or more channels.
-    # Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-    # @param channels [Array<String>] A list of channels to subscribe to.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def private_subscribe_get_with_http_info(channels, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: PrivateApi.private_subscribe_get ...'
-      end
-      # verify the required parameter 'channels' is set
-      if @api_client.config.client_side_validation && channels.nil?
-        fail ArgumentError, "Missing the required parameter 'channels' when calling PrivateApi.private_subscribe_get"
-      end
-      # resource path
-      local_var_path = '/private/subscribe'
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-      query_params[:'channels'] = @api_client.build_collection_param(channels, :multi)
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
-      # return_type
-      return_type = opts[:return_type] || 'Object' 
-
-      # auth_names
-      auth_names = opts[:auth_names] || ['bearerAuth']
-
-      new_options = opts.merge(
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PrivateApi#private_subscribe_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # Enable or disable deposit address creation
     # @param currency [String] The currency symbol
     # @param state [Boolean] 
@@ -3985,67 +3760,6 @@ module OpenapiClient
       data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: PrivateApi#private_toggle_subaccount_login_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Unsubscribe from one or more channels.
-    # @param channels [Array<String>] A list of channels to unsubscribe from.
-    # @param [Hash] opts the optional parameters
-    # @return [Object]
-    def private_unsubscribe_get(channels, opts = {})
-      data, _status_code, _headers = private_unsubscribe_get_with_http_info(channels, opts)
-      data
-    end
-
-    # Unsubscribe from one or more channels.
-    # @param channels [Array<String>] A list of channels to unsubscribe from.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Object, Integer, Hash)>] Object data, response status code and response headers
-    def private_unsubscribe_get_with_http_info(channels, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: PrivateApi.private_unsubscribe_get ...'
-      end
-      # verify the required parameter 'channels' is set
-      if @api_client.config.client_side_validation && channels.nil?
-        fail ArgumentError, "Missing the required parameter 'channels' when calling PrivateApi.private_unsubscribe_get"
-      end
-      # resource path
-      local_var_path = '/private/unsubscribe'
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-      query_params[:'channels'] = @api_client.build_collection_param(channels, :multi)
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-
-      # http body (model)
-      post_body = opts[:body] 
-
-      # return_type
-      return_type = opts[:return_type] || 'Object' 
-
-      # auth_names
-      auth_names = opts[:auth_names] || ['bearerAuth']
-
-      new_options = opts.merge(
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type
-      )
-
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path, new_options)
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: PrivateApi#private_unsubscribe_get\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

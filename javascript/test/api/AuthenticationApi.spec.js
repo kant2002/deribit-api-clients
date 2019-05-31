@@ -48,16 +48,6 @@
   }
 
   describe('AuthenticationApi', function() {
-    describe('privateLogoutGet', function() {
-      it('should call privateLogoutGet successfully', function(done) {
-        //uncomment below and update the code to test privateLogoutGet
-        //instance.privateLogoutGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('publicAuthGet', function() {
       it('should call publicAuthGet successfully', function(done) {
         //uncomment below and update the code to test publicAuthGet

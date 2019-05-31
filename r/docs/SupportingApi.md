@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**PublicGetTimeGet**](SupportingApi.md#PublicGetTimeGet) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
-[**PublicHelloGet**](SupportingApi.md#PublicHelloGet) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
 [**PublicTestGet**](SupportingApi.md#PublicTestGet) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 
 
@@ -30,49 +29,6 @@ dput(result)
 
 ### Parameters
 This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PublicHelloGet**
-> object PublicHelloGet(client.name, client.version)
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example
-```R
-library(openapi)
-
-var.client.name <- 'My Trading Software' # character | Client software name
-var.client.version <- '1.0.2' # character | Client software version
-
-#Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-api.instance <- SupportingApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PublicHelloGet(var.client.name, var.client.version)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client.name** | **character**| Client software name | 
- **client.version** | **character**| Client software version | 
 
 ### Return type
 

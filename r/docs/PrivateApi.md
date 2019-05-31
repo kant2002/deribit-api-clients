@@ -16,11 +16,9 @@ Method | HTTP request | Description
 [**PrivateClosePositionGet**](PrivateApi.md#PrivateClosePositionGet) | **GET** /private/close_position | Makes closing position reduce only order .
 [**PrivateCreateDepositAddressGet**](PrivateApi.md#PrivateCreateDepositAddressGet) | **GET** /private/create_deposit_address | Creates deposit address in currency
 [**PrivateCreateSubaccountGet**](PrivateApi.md#PrivateCreateSubaccountGet) | **GET** /private/create_subaccount | Create a new subaccount
-[**PrivateDisableCancelOnDisconnectGet**](PrivateApi.md#PrivateDisableCancelOnDisconnectGet) | **GET** /private/disable_cancel_on_disconnect | Disable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**PrivateDisableTfaForSubaccountGet**](PrivateApi.md#PrivateDisableTfaForSubaccountGet) | **GET** /private/disable_tfa_for_subaccount | Disable two factor authentication for a subaccount.
 [**PrivateDisableTfaWithRecoveryCodeGet**](PrivateApi.md#PrivateDisableTfaWithRecoveryCodeGet) | **GET** /private/disable_tfa_with_recovery_code | Disables TFA with one time recovery code
 [**PrivateEditGet**](PrivateApi.md#PrivateEditGet) | **GET** /private/edit | Change price, amount and/or other properties of an order.
-[**PrivateEnableCancelOnDisconnectGet**](PrivateApi.md#PrivateEnableCancelOnDisconnectGet) | **GET** /private/enable_cancel_on_disconnect | Enable Cancel On Disconnect for the connection. This does not change the default account setting.
 [**PrivateGetAccountSummaryGet**](PrivateApi.md#PrivateGetAccountSummaryGet) | **GET** /private/get_account_summary | Retrieves user account summary.
 [**PrivateGetAddressBookGet**](PrivateApi.md#PrivateGetAddressBookGet) | **GET** /private/get_address_book | Retrieves address book of given type
 [**PrivateGetCurrentDepositAddressGet**](PrivateApi.md#PrivateGetCurrentDepositAddressGet) | **GET** /private/get_current_deposit_address | Retrieve deposit address for currency
@@ -46,7 +44,6 @@ Method | HTTP request | Description
 [**PrivateGetUserTradesByInstrumentGet**](PrivateApi.md#PrivateGetUserTradesByInstrumentGet) | **GET** /private/get_user_trades_by_instrument | Retrieve the latest user trades that have occurred for a specific instrument.
 [**PrivateGetUserTradesByOrderGet**](PrivateApi.md#PrivateGetUserTradesByOrderGet) | **GET** /private/get_user_trades_by_order | Retrieve the list of user trades that was created for given order
 [**PrivateGetWithdrawalsGet**](PrivateApi.md#PrivateGetWithdrawalsGet) | **GET** /private/get_withdrawals | Retrieve the latest users withdrawals
-[**PrivateLogoutGet**](PrivateApi.md#PrivateLogoutGet) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**PrivateRemoveFromAddressBookGet**](PrivateApi.md#PrivateRemoveFromAddressBookGet) | **GET** /private/remove_from_address_book | Adds new entry to address book of given type
 [**PrivateSellGet**](PrivateApi.md#PrivateSellGet) | **GET** /private/sell | Places a sell order for an instrument.
 [**PrivateSetAnnouncementAsReadGet**](PrivateApi.md#PrivateSetAnnouncementAsReadGet) | **GET** /private/set_announcement_as_read | Marks an announcement as read, so it will not be shown in &#x60;get_new_announcements&#x60;.
@@ -55,11 +52,9 @@ Method | HTTP request | Description
 [**PrivateSetPasswordForSubaccountGet**](PrivateApi.md#PrivateSetPasswordForSubaccountGet) | **GET** /private/set_password_for_subaccount | Set the password for the subaccount
 [**PrivateSubmitTransferToSubaccountGet**](PrivateApi.md#PrivateSubmitTransferToSubaccountGet) | **GET** /private/submit_transfer_to_subaccount | Transfer funds to a subaccount.
 [**PrivateSubmitTransferToUserGet**](PrivateApi.md#PrivateSubmitTransferToUserGet) | **GET** /private/submit_transfer_to_user | Transfer funds to a another user.
-[**PrivateSubscribeGet**](PrivateApi.md#PrivateSubscribeGet) | **GET** /private/subscribe | Subscribe to one or more channels.
 [**PrivateToggleDepositAddressCreationGet**](PrivateApi.md#PrivateToggleDepositAddressCreationGet) | **GET** /private/toggle_deposit_address_creation | Enable or disable deposit address creation
 [**PrivateToggleNotificationsFromSubaccountGet**](PrivateApi.md#PrivateToggleNotificationsFromSubaccountGet) | **GET** /private/toggle_notifications_from_subaccount | Enable or disable sending of notifications for the subaccount.
 [**PrivateToggleSubaccountLoginGet**](PrivateApi.md#PrivateToggleSubaccountLoginGet) | **GET** /private/toggle_subaccount_login | Enable or disable login for a subaccount. If login is disabled and a session for the subaccount exists, this session will be terminated.
-[**PrivateUnsubscribeGet**](PrivateApi.md#PrivateUnsubscribeGet) | **GET** /private/unsubscribe | Unsubscribe from one or more channels.
 [**PrivateWithdrawGet**](PrivateApi.md#PrivateWithdrawGet) | **GET** /private/withdraw | Creates a new withdrawal request
 
 
@@ -595,43 +590,6 @@ This endpoint does not need any parameter.
 
 
 
-# **PrivateDisableCancelOnDisconnectGet**
-> object PrivateDisableCancelOnDisconnectGet()
-
-Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-```R
-library(openapi)
-
-
-#Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-api.instance <- PrivateApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PrivateDisableCancelOnDisconnectGet()
-dput(result)
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
 # **PrivateDisableTfaForSubaccountGet**
 > object PrivateDisableTfaForSubaccountGet(sid)
 
@@ -751,43 +709,6 @@ Name | Type | Description  | Notes
  **post.only** | **character**| &lt;p&gt;If true, the order is considered post-only. If the new price would cause the order to be filled immediately (as taker), the price will be changed to be just below the bid.&lt;/p&gt; &lt;p&gt;Only valid in combination with time_in_force&#x3D;&#x60;\&quot;good_til_cancelled\&quot;&#x60;&lt;/p&gt; | [optional] [default to TRUE]
  **advanced** | **character**| Advanced option order type. If you have posted an advanced option order, it is necessary to re-supply this parameter when editing it (Only for options) | [optional] 
  **stop.price** | **numeric**| Stop price, required for stop limit orders (Only for stop orders) | [optional] 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PrivateEnableCancelOnDisconnectGet**
-> object PrivateEnableCancelOnDisconnectGet()
-
-Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-
-### Example
-```R
-library(openapi)
-
-
-#Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-api.instance <- PrivateApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PrivateEnableCancelOnDisconnectGet()
-dput(result)
-```
-
-### Parameters
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -1921,42 +1842,6 @@ Name | Type | Description  | Notes
 
 
 
-# **PrivateLogoutGet**
-> PrivateLogoutGet()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-```R
-library(openapi)
-
-
-#Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-api.instance <- PrivateApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-api.instance$PrivateLogoutGet()
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
 # **PrivateRemoveFromAddressBookGet**
 > object PrivateRemoveFromAddressBookGet(currency, type, address, tfa=var.tfa)
 
@@ -2327,49 +2212,6 @@ Name | Type | Description  | Notes
 
 
 
-# **PrivateSubscribeGet**
-> object PrivateSubscribeGet(channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-
-### Example
-```R
-library(openapi)
-
-var.channels <- list("inner_example") # character | A list of channels to subscribe to.
-
-#Subscribe to one or more channels.
-api.instance <- PrivateApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PrivateSubscribeGet(var.channels)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**character**](character.md)| A list of channels to subscribe to. | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
 # **PrivateToggleDepositAddressCreationGet**
 > object PrivateToggleDepositAddressCreationGet(currency, state)
 
@@ -2483,47 +2325,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **sid** | **integer**| The user id for the subaccount | 
  **state** | **character**| enable or disable login. | 
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-
-# **PrivateUnsubscribeGet**
-> object PrivateUnsubscribeGet(channels)
-
-Unsubscribe from one or more channels.
-
-### Example
-```R
-library(openapi)
-
-var.channels <- list("inner_example") # character | A list of channels to unsubscribe from.
-
-#Unsubscribe from one or more channels.
-api.instance <- PrivateApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-result <- api.instance$PrivateUnsubscribeGet(var.channels)
-dput(result)
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**character**](character.md)| A list of channels to unsubscribe from. | 
 
 ### Return type
 

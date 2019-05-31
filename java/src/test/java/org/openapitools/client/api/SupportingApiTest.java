@@ -47,23 +47,6 @@ public class SupportingApiTest {
     }
     
     /**
-     * Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void publicHelloGetTest() throws ApiException {
-        String clientName = null;
-        String clientVersion = null;
-        Object response = api.publicHelloGet(clientName, clientVersion);
-
-        // TODO: test validations
-    }
-    
-    /**
      * Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
      *
      * 

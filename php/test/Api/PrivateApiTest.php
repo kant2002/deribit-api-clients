@@ -193,16 +193,6 @@ class PrivateApiTest extends TestCase
     }
 
     /**
-     * Test case for privateDisableCancelOnDisconnectGet
-     *
-     * Disable Cancel On Disconnect for the connection. This does not change the default account setting..
-     *
-     */
-    public function testPrivateDisableCancelOnDisconnectGet()
-    {
-    }
-
-    /**
      * Test case for privateDisableTfaForSubaccountGet
      *
      * Disable two factor authentication for a subaccount..
@@ -229,16 +219,6 @@ class PrivateApiTest extends TestCase
      *
      */
     public function testPrivateEditGet()
-    {
-    }
-
-    /**
-     * Test case for privateEnableCancelOnDisconnectGet
-     *
-     * Enable Cancel On Disconnect for the connection. This does not change the default account setting..
-     *
-     */
-    public function testPrivateEnableCancelOnDisconnectGet()
     {
     }
 
@@ -493,16 +473,6 @@ class PrivateApiTest extends TestCase
     }
 
     /**
-     * Test case for privateLogoutGet
-     *
-     * Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled.
-     *
-     */
-    public function testPrivateLogoutGet()
-    {
-    }
-
-    /**
      * Test case for privateRemoveFromAddressBookGet
      *
      * Adds new entry to address book of given type.
@@ -583,16 +553,6 @@ class PrivateApiTest extends TestCase
     }
 
     /**
-     * Test case for privateSubscribeGet
-     *
-     * Subscribe to one or more channels..
-     *
-     */
-    public function testPrivateSubscribeGet()
-    {
-    }
-
-    /**
      * Test case for privateToggleDepositAddressCreationGet
      *
      * Enable or disable deposit address creation.
@@ -619,16 +579,6 @@ class PrivateApiTest extends TestCase
      *
      */
     public function testPrivateToggleSubaccountLoginGet()
-    {
-    }
-
-    /**
-     * Test case for privateUnsubscribeGet
-     *
-     * Unsubscribe from one or more channels..
-     *
-     */
-    public function testPrivateUnsubscribeGet()
     {
     }
 

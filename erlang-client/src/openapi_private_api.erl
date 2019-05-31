@@ -12,11 +12,9 @@
          private_close_position_get/3, private_close_position_get/4,
          private_create_deposit_address_get/2, private_create_deposit_address_get/3,
          private_create_subaccount_get/1, private_create_subaccount_get/2,
-         private_disable_cancel_on_disconnect_get/1, private_disable_cancel_on_disconnect_get/2,
          private_disable_tfa_for_subaccount_get/2, private_disable_tfa_for_subaccount_get/3,
          private_disable_tfa_with_recovery_code_get/3, private_disable_tfa_with_recovery_code_get/4,
          private_edit_get/4, private_edit_get/5,
-         private_enable_cancel_on_disconnect_get/1, private_enable_cancel_on_disconnect_get/2,
          private_get_account_summary_get/2, private_get_account_summary_get/3,
          private_get_address_book_get/3, private_get_address_book_get/4,
          private_get_current_deposit_address_get/2, private_get_current_deposit_address_get/3,
@@ -42,7 +40,6 @@
          private_get_user_trades_by_instrument_get/2, private_get_user_trades_by_instrument_get/3,
          private_get_user_trades_by_order_get/2, private_get_user_trades_by_order_get/3,
          private_get_withdrawals_get/2, private_get_withdrawals_get/3,
-         private_logout_get/1, private_logout_get/2,
          private_remove_from_address_book_get/4, private_remove_from_address_book_get/5,
          private_sell_get/3, private_sell_get/4,
          private_set_announcement_as_read_get/2, private_set_announcement_as_read_get/3,
@@ -51,11 +48,9 @@
          private_set_password_for_subaccount_get/3, private_set_password_for_subaccount_get/4,
          private_submit_transfer_to_subaccount_get/4, private_submit_transfer_to_subaccount_get/5,
          private_submit_transfer_to_user_get/4, private_submit_transfer_to_user_get/5,
-         private_subscribe_get/2, private_subscribe_get/3,
          private_toggle_deposit_address_creation_get/3, private_toggle_deposit_address_creation_get/4,
          private_toggle_notifications_from_subaccount_get/3, private_toggle_notifications_from_subaccount_get/4,
          private_toggle_subaccount_login_get/3, private_toggle_subaccount_login_get/4,
-         private_unsubscribe_get/2, private_unsubscribe_get/3,
          private_withdraw_get/4, private_withdraw_get/5]).
 
 -define(BASE_URL, "/api/v2").
@@ -312,27 +307,6 @@ private_create_subaccount_get(Ctx, Optional) ->
 
     openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
-%% @doc Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-%% 
--spec private_disable_cancel_on_disconnect_get(ctx:ctx()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_disable_cancel_on_disconnect_get(Ctx) ->
-    private_disable_cancel_on_disconnect_get(Ctx, #{}).
-
--spec private_disable_cancel_on_disconnect_get(ctx:ctx(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_disable_cancel_on_disconnect_get(Ctx, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/private/disable_cancel_on_disconnect"],
-    QS = [],
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
 %% @doc Disable two factor authentication for a subaccount.
 %% 
 -spec private_disable_tfa_for_subaccount_get(ctx:ctx(), integer()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
@@ -389,27 +363,6 @@ private_edit_get(Ctx, OrderId, Amount, Price, Optional) ->
     Method = get,
     Path = ["/private/edit"],
     QS = lists:flatten([{<<"order_id">>, OrderId}, {<<"amount">>, Amount}, {<<"price">>, Price}])++openapi_utils:optional_params(['post_only', 'advanced', 'stop_price'], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
-%% @doc Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-%% 
--spec private_enable_cancel_on_disconnect_get(ctx:ctx()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_enable_cancel_on_disconnect_get(Ctx) ->
-    private_enable_cancel_on_disconnect_get(Ctx, #{}).
-
--spec private_enable_cancel_on_disconnect_get(ctx:ctx(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_enable_cancel_on_disconnect_get(Ctx, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/private/enable_cancel_on_disconnect"],
-    QS = [],
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),
@@ -942,27 +895,6 @@ private_get_withdrawals_get(Ctx, Currency, Optional) ->
 
     openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
-%% @doc Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-%% 
--spec private_logout_get(ctx:ctx()) -> {ok, [], openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_logout_get(Ctx) ->
-    private_logout_get(Ctx, #{}).
-
--spec private_logout_get(ctx:ctx(), maps:map()) -> {ok, [], openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_logout_get(Ctx, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/private/logout"],
-    QS = [],
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
 %% @doc Adds new entry to address book of given type
 %% 
 -spec private_remove_from_address_book_get(ctx:ctx(), binary(), binary(), binary()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
@@ -1131,27 +1063,6 @@ private_submit_transfer_to_user_get(Ctx, Currency, Amount, Destination, Optional
 
     openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
 
-%% @doc Subscribe to one or more channels.
-%% Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
--spec private_subscribe_get(ctx:ctx(), list()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_subscribe_get(Ctx, Channels) ->
-    private_subscribe_get(Ctx, Channels, #{}).
-
--spec private_subscribe_get(ctx:ctx(), list(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_subscribe_get(Ctx, Channels, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/private/subscribe"],
-    QS = lists:flatten([[{<<"channels">>, X} || X <- Channels]])++openapi_utils:optional_params([], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
 %% @doc Enable or disable deposit address creation
 %% 
 -spec private_toggle_deposit_address_creation_get(ctx:ctx(), binary(), boolean()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
@@ -1208,27 +1119,6 @@ private_toggle_subaccount_login_get(Ctx, Sid, State, Optional) ->
     Method = get,
     Path = ["/private/toggle_subaccount_login"],
     QS = lists:flatten([{<<"sid">>, Sid}, {<<"state">>, State}])++openapi_utils:optional_params([], _OptionalParams),
-    Headers = [],
-    Body1 = [],
-    ContentTypeHeader = openapi_utils:select_header_content_type([]),
-    Opts = maps:get(hackney_opts, Optional, []),
-
-    openapi_utils:request(Ctx, Method, [?BASE_URL, Path], QS, ContentTypeHeader++Headers, Body1, Opts, Cfg).
-
-%% @doc Unsubscribe from one or more channels.
-%% 
--spec private_unsubscribe_get(ctx:ctx(), list()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_unsubscribe_get(Ctx, Channels) ->
-    private_unsubscribe_get(Ctx, Channels, #{}).
-
--spec private_unsubscribe_get(ctx:ctx(), list(), maps:map()) -> {ok, maps:map(), openapi_utils:response_info()} | {ok, hackney:client_ref()} | {error, term(), openapi_utils:response_info()}.
-private_unsubscribe_get(Ctx, Channels, Optional) ->
-    _OptionalParams = maps:get(params, Optional, #{}),
-    Cfg = maps:get(cfg, Optional, application:get_env(kuberl, config, #{})),
-
-    Method = get,
-    Path = ["/private/unsubscribe"],
-    QS = lists:flatten([[{<<"channels">>, X} || X <- Channels]])++openapi_utils:optional_params([], _OptionalParams),
     Headers = [],
     Body1 = [],
     ContentTypeHeader = openapi_utils:select_header_content_type([]),

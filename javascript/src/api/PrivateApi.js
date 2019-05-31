@@ -618,42 +618,6 @@ export default class PrivateApi {
     }
 
     /**
-     * Callback function to receive the result of the privateDisableCancelOnDisconnectGet operation.
-     * @callback module:api/PrivateApi~privateDisableCancelOnDisconnectGetCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Disable Cancel On Disconnect for the connection. This does not change the default account setting.
-     * @param {module:api/PrivateApi~privateDisableCancelOnDisconnectGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Object}
-     */
-    privateDisableCancelOnDisconnectGet(callback) {
-      let postBody = null;
-
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = Object;
-      return this.apiClient.callApi(
-        '/private/disable_cancel_on_disconnect', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the privateDisableTfaForSubaccountGet operation.
      * @callback module:api/PrivateApi~privateDisableTfaForSubaccountGetCallback
      * @param {String} error Error message, if any.
@@ -800,42 +764,6 @@ export default class PrivateApi {
       let returnType = Object;
       return this.apiClient.callApi(
         '/private/edit', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the privateEnableCancelOnDisconnectGet operation.
-     * @callback module:api/PrivateApi~privateEnableCancelOnDisconnectGetCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Enable Cancel On Disconnect for the connection. This does not change the default account setting.
-     * @param {module:api/PrivateApi~privateEnableCancelOnDisconnectGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Object}
-     */
-    privateEnableCancelOnDisconnectGet(callback) {
-      let postBody = null;
-
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = Object;
-      return this.apiClient.callApi(
-        '/private/enable_cancel_on_disconnect', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );
@@ -2038,41 +1966,6 @@ export default class PrivateApi {
     }
 
     /**
-     * Callback function to receive the result of the privateLogoutGet operation.
-     * @callback module:api/PrivateApi~privateLogoutGetCallback
-     * @param {String} error Error message, if any.
-     * @param data This operation does not return a value.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-     * @param {module:api/PrivateApi~privateLogoutGetCallback} callback The callback function, accepting three arguments: error, data, response
-     */
-    privateLogoutGet(callback) {
-      let postBody = null;
-
-      let pathParams = {
-      };
-      let queryParams = {
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = null;
-      return this.apiClient.callApi(
-        '/private/logout', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the privateRemoveFromAddressBookGet operation.
      * @callback module:api/PrivateApi~privateRemoveFromAddressBookGetCallback
      * @param {String} error Error message, if any.
@@ -2493,49 +2386,6 @@ export default class PrivateApi {
     }
 
     /**
-     * Callback function to receive the result of the privateSubscribeGet operation.
-     * @callback module:api/PrivateApi~privateSubscribeGetCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Subscribe to one or more channels.
-     * Subscribe to one or more channels.  The name of the channel determines what information will be provided, and in what form. 
-     * @param {Array.<String>} channels A list of channels to subscribe to.
-     * @param {module:api/PrivateApi~privateSubscribeGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Object}
-     */
-    privateSubscribeGet(channels, callback) {
-      let postBody = null;
-      // verify the required parameter 'channels' is set
-      if (channels === undefined || channels === null) {
-        throw new Error("Missing the required parameter 'channels' when calling privateSubscribeGet");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'channels': this.apiClient.buildCollectionParam(channels, 'multi')
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = Object;
-      return this.apiClient.callApi(
-        '/private/subscribe', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
      * Callback function to receive the result of the privateToggleDepositAddressCreationGet operation.
      * @callback module:api/PrivateApi~privateToggleDepositAddressCreationGetCallback
      * @param {String} error Error message, if any.
@@ -2674,48 +2524,6 @@ export default class PrivateApi {
       let returnType = Object;
       return this.apiClient.callApi(
         '/private/toggle_subaccount_login', 'GET',
-        pathParams, queryParams, headerParams, formParams, postBody,
-        authNames, contentTypes, accepts, returnType, null, callback
-      );
-    }
-
-    /**
-     * Callback function to receive the result of the privateUnsubscribeGet operation.
-     * @callback module:api/PrivateApi~privateUnsubscribeGetCallback
-     * @param {String} error Error message, if any.
-     * @param {Object} data The data returned by the service call.
-     * @param {String} response The complete HTTP response.
-     */
-
-    /**
-     * Unsubscribe from one or more channels.
-     * @param {Array.<String>} channels A list of channels to unsubscribe from.
-     * @param {module:api/PrivateApi~privateUnsubscribeGetCallback} callback The callback function, accepting three arguments: error, data, response
-     * data is of type: {@link Object}
-     */
-    privateUnsubscribeGet(channels, callback) {
-      let postBody = null;
-      // verify the required parameter 'channels' is set
-      if (channels === undefined || channels === null) {
-        throw new Error("Missing the required parameter 'channels' when calling privateUnsubscribeGet");
-      }
-
-      let pathParams = {
-      };
-      let queryParams = {
-        'channels': this.apiClient.buildCollectionParam(channels, 'multi')
-      };
-      let headerParams = {
-      };
-      let formParams = {
-      };
-
-      let authNames = ['bearerAuth'];
-      let contentTypes = [];
-      let accepts = ['application/json'];
-      let returnType = Object;
-      return this.apiClient.callApi(
-        '/private/unsubscribe', 'GET',
         pathParams, queryParams, headerParams, formParams, postBody,
         authNames, contentTypes, accepts, returnType, null, callback
       );

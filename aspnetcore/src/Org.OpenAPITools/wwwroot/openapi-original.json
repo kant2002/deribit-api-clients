@@ -46,16 +46,13 @@
     "name" : "wallet"
   } ],
   "paths" : {
-    "/private/logout" : {
+    "/public/get_trade_volumes" : {
       "get" : {
-        "tags" : [ "websocket_only", "authentication", "private" ],
-        "summary" : "Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled",
+        "tags" : [ "market_data", "public" ],
+        "summary" : "Retrieves aggregated 24h trade volumes for different instrument types and currencies.",
+        "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "closes WS connection"
-          },
-          "400" : {
-            "description" : "result when used via rest/HTTP",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -93,17 +90,45 @@
                       }
                     }
                   }, {
-                    "required" : [ "error", "message" ],
+                    "required" : [ "result" ],
                     "type" : "object",
                     "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
+                      "result" : {
+                        "type" : "array",
+                        "items" : {
+                          "required" : [ "calls_volume", "currency_pair", "futures_volume", "puts_volume" ],
+                          "type" : "object",
+                          "properties" : {
+                            "calls_volume" : {
+                              "type" : "number",
+                              "description" : "Total 24h trade volume for call options. This is expressed in the base currency, e.g. BTC for `btc_usd`",
+                              "example" : 2.1
+                            },
+                            "puts_volume" : {
+                              "type" : "number",
+                              "description" : "Total 24h trade volume for put options. This is expressed in the base currency, e.g. BTC for `btc_usd`",
+                              "example" : 60.2
+                            },
+                            "currency_pair" : {
+                              "type" : "string",
+                              "description" : "Currency pair: `\"btc_usd\"` or `\"eth_usd\"`",
+                              "enum" : [ "btc_usd", "eth_usd" ]
+                            },
+                            "futures_volume" : {
+                              "type" : "number",
+                              "description" : "Total 24h trade volume for futures. This is expressed in the base currency, e.g. BTC for `btc_usd`",
+                              "example" : 30.5178
+                            }
+                          }
+                        }
                       }
                     }
                   } ]
+                },
+                "examples" : {
+                  "jsonObject" : {
+                    "externalValue" : "examples/public/get_trade_volumes.response.json"
+                  }
                 }
               }
             }
@@ -387,6 +412,231 @@
         }
       }
     },
+    "/private/get_open_orders_by_currency" : {
+      "get" : {
+        "tags" : [ "trading", "private" ],
+        "summary" : "Retrieves list of user's open orders.",
+        "parameters" : [ {
+          "name" : "currency",
+          "in" : "query",
+          "description" : "The currency symbol",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
+            "enum" : [ "BTC", "ETH" ]
+          }
+        }, {
+          "name" : "kind",
+          "in" : "query",
+          "description" : "Instrument kind, if not provided instruments of all kinds are considered",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Instrument kind, `\"future\"` or `\"option\"`",
+            "enum" : [ "future", "option" ]
+          }
+        }, {
+          "name" : "type",
+          "in" : "query",
+          "description" : "Order type, default - `all`",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "description" : "Order type, `\"all\"`, `\"limit\"`, `\"stop_all\"`, `\"stop_limit\"` or `\"stop_market\"`",
+            "enum" : [ "all", "limit", "stop_all", "stop_limit", "stop_market" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "allOf" : [ {
+                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
+                    "properties" : {
+                      "testnet" : {
+                        "type" : "boolean",
+                        "description" : "false for production server, true for test server",
+                        "x-hide-in-docs" : true
+                      },
+                      "jsonrpc" : {
+                        "type" : "string",
+                        "description" : "The JSON-RPC version (2.0)",
+                        "enum" : [ "2.0" ]
+                      },
+                      "usDiff" : {
+                        "type" : "integer",
+                        "description" : "Duration of the handling of the request, in microseconds",
+                        "x-hide-in-docs" : true
+                      },
+                      "id" : {
+                        "type" : "integer",
+                        "description" : "The id that was sent in the request"
+                      },
+                      "usOut" : {
+                        "type" : "integer",
+                        "description" : "The timestamp (in microseconds) of sending of the response",
+                        "x-hide-in-docs" : true
+                      },
+                      "usIn" : {
+                        "type" : "integer",
+                        "description" : "The timestamp (in microseconds) of receipt of the request",
+                        "x-hide-in-docs" : true
+                      }
+                    }
+                  }, {
+                    "required" : [ "result" ],
+                    "type" : "object",
+                    "properties" : {
+                      "result" : {
+                        "type" : "array",
+                        "items" : {
+                          "required" : [ "api", "creation_timestamp", "direction", "instrument", "is_liquidation", "label", "last_update_timestamp", "max_show", "order_id", "order_state", "order_type", "post_only", "price", "time_in_force" ],
+                          "type" : "object",
+                          "properties" : {
+                            "direction" : {
+                              "type" : "string",
+                              "description" : "direction, `buy` or `sell`",
+                              "enum" : [ "buy", "sell" ]
+                            },
+                            "reduce_only" : {
+                              "type" : "boolean",
+                              "description" : "`true` for reduce-only orders only"
+                            },
+                            "triggered" : {
+                              "type" : "boolean",
+                              "description" : "Whether the stop order has been triggered (Only for stop orders)"
+                            },
+                            "order_id" : {
+                              "type" : "string",
+                              "description" : "Unique order identifier",
+                              "example" : "ETH-100234"
+                            },
+                            "price" : {
+                              "type" : "number",
+                              "description" : "Price in base currency"
+                            },
+                            "time_in_force" : {
+                              "type" : "string",
+                              "description" : "Order time in force: `\"good_til_cancelled\"`, `\"fill_or_kill\"`, `\"immediate_or_cancel\"`",
+                              "enum" : [ "good_til_cancelled", "fill_or_kill", "immediate_or_cancel" ]
+                            },
+                            "api" : {
+                              "type" : "boolean",
+                              "description" : "`true` if created with API"
+                            },
+                            "order_state" : {
+                              "type" : "string",
+                              "description" : "order state, `\"open\"`, `\"filled\"`, `\"rejected\"`, `\"cancelled\"`, `\"untriggered\"`",
+                              "enum" : [ "open", "filled", "rejected", "cancelled", "untriggered", "triggered" ]
+                            },
+                            "implv" : {
+                              "type" : "number",
+                              "description" : "Implied volatility in percent. (Only if `advanced=\"implv\"`)"
+                            },
+                            "advanced" : {
+                              "type" : "string",
+                              "description" : "advanced type: `\"usd\"` or `\"implv\"` (Only for options; field is omitted if not applicable).\n",
+                              "enum" : [ "usd", "implv" ]
+                            },
+                            "post_only" : {
+                              "type" : "boolean",
+                              "description" : "`true` for post-only orders only"
+                            },
+                            "usd" : {
+                              "type" : "number",
+                              "description" : "Option price in USD (Only if `advanced=\"usd\"`)"
+                            },
+                            "stop_price" : {
+                              "type" : "number",
+                              "description" : "stop price (Only for future stop orders)"
+                            },
+                            "order_type" : {
+                              "type" : "string",
+                              "description" : "order type, `\"limit\"`, `\"market\"`, `\"stop_limit\"`, `\"stop_market\"`",
+                              "enum" : [ "market", "limit", "stop_market", "stop_limit" ]
+                            },
+                            "last_update_timestamp" : {
+                              "type" : "integer",
+                              "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
+                              "example" : 1536569522277
+                            },
+                            "original_order_type" : {
+                              "type" : "string",
+                              "description" : "Original order type. Optional field",
+                              "enum" : [ "market" ]
+                            },
+                            "max_show" : {
+                              "type" : "number",
+                              "description" : "Maximum amount within an order to be shown to other traders, 0 for invisible order."
+                            },
+                            "profit_loss" : {
+                              "type" : "number",
+                              "description" : "Profit and loss in base currency."
+                            },
+                            "is_liquidation" : {
+                              "type" : "boolean",
+                              "description" : "`true` if order was automatically created during liquidation"
+                            },
+                            "filled_amount" : {
+                              "type" : "number",
+                              "description" : "Filled amount of the order. For perpetual and futures the filled_amount is in USD units, for options - in units or corresponding cryptocurrency contracts, e.g., BTC or ETH."
+                            },
+                            "label" : {
+                              "type" : "string",
+                              "description" : "user defined label (up to 32 characters)"
+                            },
+                            "commission" : {
+                              "type" : "number",
+                              "description" : "Commission paid so far (in base currency)"
+                            },
+                            "amount" : {
+                              "type" : "number",
+                              "description" : "It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH."
+                            },
+                            "trigger" : {
+                              "type" : "string",
+                              "description" : "Trigger type (Only for stop orders). Allowed values: `\"index_price\"`, `\"mark_price\"`, `\"last_price\"`.",
+                              "enum" : [ "index_price", "mark_price", "last_price" ]
+                            },
+                            "instrument_name" : {
+                              "type" : "string",
+                              "description" : "Unique instrument identifier",
+                              "example" : "BTC-PERPETUAL"
+                            },
+                            "creation_timestamp" : {
+                              "type" : "integer",
+                              "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
+                              "example" : 1536569522277
+                            },
+                            "average_price" : {
+                              "type" : "number",
+                              "description" : "Average fill price of the order"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  } ]
+                },
+                "examples" : {
+                  "jsonObject" : {
+                    "externalValue" : "examples/private/get_open_orders_by_currency.response.json"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/private/cancel_all_by_currency" : {
       "get" : {
         "tags" : [ "trading", "private" ],
@@ -489,266 +739,6 @@
         }
       }
     },
-    "/public/disable_heartbeat" : {
-      "get" : {
-        "tags" : [ "websocket_only", "session_management", "public" ],
-        "summary" : "Stop sending heartbeat messages.",
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "string",
-                        "description" : "Result of method execution. `ok` in case of success",
-                        "enum" : [ "ok" ]
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/disable_heartbeat.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "result when used via rest/HTTP",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/private/subscribe" : {
-      "get" : {
-        "tags" : [ "private", "websocket_only", "subscription_management" ],
-        "summary" : "Subscribe to one or more channels.",
-        "description" : "Subscribe to one or more channels.\n\nThe name of the channel determines what information will be provided, and\nin what form.\n",
-        "parameters" : [ {
-          "name" : "channels",
-          "in" : "query",
-          "description" : "A list of channels to subscribe to.",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "example" : "deribit_price_index.btc_usd",
-              "x-deribit-type" : "channel"
-            }
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "array",
-                        "description" : "A list of subscribed channels.",
-                        "items" : {
-                          "type" : "string",
-                          "example" : "deribit_price_index.btc_usd"
-                        }
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/private/subscribe.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "not authorised",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/private/cancel_all_by_instrument" : {
       "get" : {
         "tags" : [ "trading", "private" ],
@@ -839,21 +829,21 @@
         }
       }
     },
-    "/public/get_historical_volatility" : {
+    "/public/get_contract_size" : {
       "get" : {
         "tags" : [ "public", "market_data" ],
-        "summary" : "Provides information about historical volatility for given cryptocurrency.",
+        "summary" : "Retrieves contract size of provided instrument.",
         "parameters" : [ {
-          "name" : "currency",
+          "name" : "instrument_name",
           "in" : "query",
-          "description" : "The currency symbol",
+          "description" : "Instrument name",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
-            "enum" : [ "BTC", "ETH" ]
+            "description" : "Unique instrument identifier",
+            "example" : "BTC-PERPETUAL"
           }
         } ],
         "responses" : {
@@ -900,18 +890,18 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "type" : "array",
-                        "items" : {
-                          "type" : "timestamp-value pair"
+                        "required" : [ "contract_size" ],
+                        "type" : "object",
+                        "properties" : {
+                          "contract_size" : {
+                            "type" : "integer",
+                            "description" : "Contract size, for futures in USD, for options in BTC.",
+                            "example" : 10
+                          }
                         }
                       }
                     }
                   } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/get_historical_volatility.response.json"
-                  }
                 }
               }
             }
@@ -1237,28 +1227,55 @@
         }
       }
     },
-    "/public/unsubscribe" : {
+    "/private/submit_transfer_to_user" : {
       "get" : {
-        "tags" : [ "websocket_only", "subscription_management" ],
-        "summary" : "Unsubscribe from one or more channels.",
+        "tags" : [ "private", "wallet", "internal" ],
+        "summary" : "Transfer funds to a another user.",
         "parameters" : [ {
-          "name" : "channels",
+          "name" : "currency",
           "in" : "query",
-          "description" : "A list of channels to unsubscribe from.",
+          "description" : "The currency symbol",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "example" : "deribit_price_index.btc_usd"
-            }
+            "type" : "string",
+            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
+            "enum" : [ "BTC", "ETH" ]
+          }
+        }, {
+          "name" : "amount",
+          "in" : "query",
+          "description" : "Amount of funds to be transferred",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "destination",
+          "in" : "query",
+          "description" : "Destination address from address book",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "tfa",
+          "in" : "query",
+          "description" : "TFA code, required when TFA is enabled for current account",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "ok response",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -1300,274 +1317,53 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "type" : "array",
-                        "description" : "A list of subscribed channels.",
-                        "items" : {
-                          "type" : "string",
-                          "example" : "deribit_price_index.btc_usd"
-                        }
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/unsubscribe.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "not authorised",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/public/auth" : {
-      "get" : {
-        "tags" : [ "public", "authentication" ],
-        "summary" : "Authenticate",
-        "description" : "Retrieve an Oauth access token, to be used for authentication of 'private' requests.\n\nThree methods of authentication are supported:\n\n- <code>password</code> - using email and and password as when logging on to the website\n- <code>client_credentials</code> - using the access key and access secret that can be found on the API page on the website\n- <code>client_signature</code> - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials)\n- <code>refresh_token</code> - using a refresh token that was received from an earlier invocation\n\nThe response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can\nbe used to get a new set of tokens.\n",
-        "parameters" : [ {
-          "name" : "grant_type",
-          "in" : "query",
-          "description" : "Method of authentication",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "enum" : [ "password", "client_credentials", "client_signature", "refresh_token" ]
-          }
-        }, {
-          "name" : "username",
-          "in" : "query",
-          "description" : "Required for grant type `password`",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "example" : "your_email@mail.com"
-          }
-        }, {
-          "name" : "password",
-          "in" : "query",
-          "description" : "Required for grant type `password`",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "example" : "your_password"
-          }
-        }, {
-          "name" : "client_id",
-          "in" : "query",
-          "description" : "Required for grant type `client_credentials` and `client_signature`",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "client_secret",
-          "in" : "query",
-          "description" : "Required for grant type `client_credentials`",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "refresh_token",
-          "in" : "query",
-          "description" : "Required for grant type `refresh_token`",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "timestamp",
-          "in" : "query",
-          "description" : "Required for grant type `client_signature`, provides time when request has been generated",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "signature",
-          "in" : "query",
-          "description" : "Required for grant type `client_signature`; it's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `SHA256` hash algorithm",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "nonce",
-          "in" : "query",
-          "description" : "Optional for grant type `client_signature`; delivers user generated initialization vector for the server token",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "state",
-          "in" : "query",
-          "description" : "Will be passed back in the response",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "scope",
-          "in" : "query",
-          "description" : "Describes type of the access for assigned token, possible values: `connection`, `session`, `session:name`, `trade:[read, read_write, none]`, `wallet:[read, read_write, none]`, `account:[read, read_write, none]`, `expires:NUMBER` (token will expire after `NUMBER` of seconds).</BR></BR> **NOTICE:** Depending on choosing an authentication method (```grant type```) some scopes could be narrowed by the server. e.g. when ```grant_type = client_credentials``` and ```scope = wallet:read_write``` it's modified by the server as ```scope = wallet:read```",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "example" : "connection"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "required" : [ "access_token", "expires_in", "refresh_token", "scope", "token_type" ],
+                        "required" : [ "amount", "created_timestamp", "currency", "id", "other_side", "other_side_type", "state", "type", "updated_timestamp" ],
                         "type" : "object",
                         "properties" : {
-                          "token_type" : {
+                          "updated_timestamp" : {
+                            "type" : "integer",
+                            "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
+                            "example" : 1536569522277
+                          },
+                          "direction" : {
                             "type" : "string",
-                            "description" : "Authorization type, allowed value - `bearer`",
-                            "enum" : [ "bearer" ]
+                            "description" : "Transfer direction",
+                            "enum" : [ "payment", "income" ]
+                          },
+                          "amount" : {
+                            "type" : "number",
+                            "description" : "Amount of funds in given currency",
+                            "example" : 1
+                          },
+                          "other_side" : {
+                            "type" : "string",
+                            "description" : "For transfer from/to subaccount returns this subaccount name, for transfer to other account returns address, for transfer from other account returns that accounts username.",
+                            "example" : "Smith"
+                          },
+                          "currency" : {
+                            "type" : "string",
+                            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
+                            "enum" : [ "BTC", "ETH" ]
                           },
                           "state" : {
                             "type" : "string",
-                            "description" : "Copied from the input (if applicable)"
+                            "description" : "Transfer state, allowed values : `prepared`, `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`",
+                            "enum" : [ "prepared", "confirmed", "cancelled", "waiting_for_admin", "rejection_reason" ]
                           },
-                          "scope" : {
-                            "type" : "string",
-                            "description" : "Type of the access for assigned token"
-                          },
-                          "acccess_token" : {
-                            "type" : "string",
-                            "example" : "843SehgeX5n6XxEU4XbABx4Cny5Akai5iHiJePTsvUw7"
-                          },
-                          "expires_in" : {
+                          "created_timestamp" : {
                             "type" : "integer",
-                            "description" : "Token lifetime in seconds",
-                            "example" : 315360000
+                            "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
+                            "example" : 1536569522277
                           },
-                          "refresh_token" : {
+                          "type" : {
                             "type" : "string",
-                            "description" : "Can be used to request a new token (with a new lifetime)",
-                            "example" : "6faf8L36JdaSqsjCEEiwqifPpj6JB18RWwiWHrsGTZ91"
+                            "description" : "Type of transfer: `user` - sent to user, `subaccount` - sent to subaccount",
+                            "enum" : [ "user", "subaccount" ]
+                          },
+                          "id" : {
+                            "type" : "integer",
+                            "description" : "Id of transfer",
+                            "example" : 12
                           }
                         }
                       }
@@ -1576,62 +1372,8 @@
                 },
                 "examples" : {
                   "jsonObject" : {
-                    "externalValue" : "examples/public/auth.response.json"
+                    "externalValue" : "examples/private/submit_transfer_to_user.response.json"
                   }
-                }
-              }
-            }
-          },
-          "429" : {
-            "description" : "over limit",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
                 }
               }
             }
@@ -4505,146 +4247,6 @@
         }
       }
     },
-    "/public/subscribe" : {
-      "get" : {
-        "tags" : [ "public", "subscription_management", "websocket_only" ],
-        "summary" : "Subscribe to one or more channels.",
-        "description" : "Subscribe to one or more channels.\n\nThis is the same method as [/private/subscribe](#private_subscribe), but it can only\nbe used for 'public' channels.\n",
-        "parameters" : [ {
-          "name" : "channels",
-          "in" : "query",
-          "description" : "A list of channels to subscribe to.",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "example" : "deribit_price_index.btc_usd",
-              "x-deribit-type" : "channel"
-            }
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "array",
-                        "description" : "A list of subscribed channels.",
-                        "items" : {
-                          "type" : "string",
-                          "example" : "deribit_price_index.btc_usd"
-                        }
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/subscribe.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "not authorised",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/private/set_password_for_subaccount" : {
       "get" : {
         "tags" : [ "private", "account_management" ],
@@ -5168,21 +4770,21 @@
         }
       }
     },
-    "/public/get_contract_size" : {
+    "/public/get_historical_volatility" : {
       "get" : {
         "tags" : [ "public", "market_data" ],
-        "summary" : "Retrieves contract size of provided instrument.",
+        "summary" : "Provides information about historical volatility for given cryptocurrency.",
         "parameters" : [ {
-          "name" : "instrument_name",
+          "name" : "currency",
           "in" : "query",
-          "description" : "Instrument name",
+          "description" : "The currency symbol",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "description" : "Unique instrument identifier",
-            "example" : "BTC-PERPETUAL"
+            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
+            "enum" : [ "BTC", "ETH" ]
           }
         } ],
         "responses" : {
@@ -5229,18 +4831,18 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "required" : [ "contract_size" ],
-                        "type" : "object",
-                        "properties" : {
-                          "contract_size" : {
-                            "type" : "integer",
-                            "description" : "Contract size, for futures in USD, for options in BTC.",
-                            "example" : 10
-                          }
+                        "type" : "array",
+                        "items" : {
+                          "type" : "timestamp-value pair"
                         }
                       }
                     }
                   } ]
+                },
+                "examples" : {
+                  "jsonObject" : {
+                    "externalValue" : "examples/public/get_historical_volatility.response.json"
+                  }
                 }
               }
             }
@@ -5632,265 +5234,6 @@
                   "jsonObject" : {
                     "externalValue" : "examples/private/cancel_transfer_by_id.response.json"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/private/enable_cancel_on_disconnect" : {
-      "get" : {
-        "tags" : [ "websocket_only", "session_management", "private" ],
-        "summary" : "Enable Cancel On Disconnect for the connection. This does not change the default account setting.",
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "string",
-                        "description" : "Result of method execution. `ok` in case of success",
-                        "enum" : [ "ok" ]
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/private/enable_cancel_on_disconnect.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "result when used via rest/HTTP",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      },
-      "x-order" : 100
-    },
-    "/private/unsubscribe" : {
-      "get" : {
-        "tags" : [ "private", "websocket_only", "subscription_management" ],
-        "summary" : "Unsubscribe from one or more channels.",
-        "parameters" : [ {
-          "name" : "channels",
-          "in" : "query",
-          "description" : "A list of channels to unsubscribe from.",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "array",
-            "items" : {
-              "type" : "string",
-              "example" : "deribit_price_index.btc_usd"
-            }
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "array",
-                        "description" : "A list of subscribed channels.",
-                        "items" : {
-                          "type" : "string",
-                          "example" : "deribit_price_index.btc_usd"
-                        }
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/private/unsubscribe.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "not authorised",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
                 }
               }
             }
@@ -7426,126 +6769,6 @@
         }
       }
     },
-    "/private/disable_cancel_on_disconnect" : {
-      "get" : {
-        "tags" : [ "websocket_only", "session_management", "private" ],
-        "summary" : "Disable Cancel On Disconnect for the connection. This does not change the default account setting.",
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "string",
-                        "description" : "Result of method execution. `ok` in case of success",
-                        "enum" : [ "ok" ]
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/private/disable_cancel_on_disconnect.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "400" : {
-            "description" : "result when used via rest/HTTP",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/private/get_position" : {
       "get" : {
         "tags" : [ "private", "account_management" ],
@@ -8169,46 +7392,23 @@
         }
       }
     },
-    "/private/get_transfers" : {
+    "/private/get_subaccounts" : {
       "get" : {
-        "tags" : [ "wallet", "private" ],
-        "summary" : "Adds new entry to address book of given type",
+        "tags" : [ "private", "account_management" ],
+        "summary" : "Get information about subaccounts",
         "parameters" : [ {
-          "name" : "currency",
+          "name" : "with_portfolio",
           "in" : "query",
-          "description" : "The currency symbol",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
-            "enum" : [ "BTC", "ETH" ]
-          }
-        }, {
-          "name" : "count",
-          "in" : "query",
-          "description" : "Number of requested items, default - `10`",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "integer"
-          }
-        }, {
-          "name" : "offset",
-          "in" : "query",
-          "description" : "The offset for pagination, default - `0`",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer",
-            "example" : 10
+            "type" : "boolean"
           }
         } ],
         "responses" : {
           "200" : {
+            "description" : "ok response",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -8250,66 +7450,118 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "required" : [ "count", "data" ],
-                        "type" : "object",
-                        "properties" : {
-                          "count" : {
-                            "type" : "integer",
-                            "description" : "Total number of results available",
-                            "example" : 101
-                          },
-                          "data" : {
-                            "type" : "array",
-                            "items" : {
-                              "required" : [ "amount", "created_timestamp", "currency", "id", "other_side", "other_side_type", "state", "type", "updated_timestamp" ],
+                        "type" : "array",
+                        "items" : {
+                          "required" : [ "email", "id", "is_password", "receive_notifications", "system_name", "tfa_enabled", "type", "username" ],
+                          "type" : "object",
+                          "properties" : {
+                            "username" : {
+                              "type" : "string"
+                            },
+                            "system_name" : {
+                              "type" : "string",
+                              "description" : "System generated user nickname"
+                            },
+                            "is_password" : {
+                              "type" : "boolean",
+                              "description" : "`true` when password for the subaccount has been configured"
+                            },
+                            "type" : {
+                              "type" : "string",
+                              "enum" : [ "main", "subaccount" ]
+                            },
+                            "tfa_enabled" : {
+                              "type" : "boolean",
+                              "description" : "Whether the two factor authentication is enabled"
+                            },
+                            "receive_notifications" : {
+                              "type" : "boolean",
+                              "description" : "When `true` - receive all notification emails on the main email"
+                            },
+                            "id" : {
+                              "type" : "integer",
+                              "description" : "Account/Subaccount identifier"
+                            },
+                            "not_confirmed_email" : {
+                              "type" : "string",
+                              "description" : "New email address that has not yet been confirmed. This field is only included if `with_portfolio` == `true`."
+                            },
+                            "portfolio" : {
+                              "required" : [ "btc", "eth" ],
                               "type" : "object",
                               "properties" : {
-                                "updated_timestamp" : {
-                                  "type" : "integer",
-                                  "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
-                                  "example" : 1536569522277
+                                "eth" : {
+                                  "required" : [ "available_funds", "available_withdrawal_funds", "balance", "currency", "equity", "initial_margin", "maintenance_margin", "margin_balance" ],
+                                  "type" : "object",
+                                  "properties" : {
+                                    "maintenance_margin" : {
+                                      "type" : "number"
+                                    },
+                                    "available_withdrawal_funds" : {
+                                      "type" : "number"
+                                    },
+                                    "initial_margin" : {
+                                      "type" : "number"
+                                    },
+                                    "available_funds" : {
+                                      "type" : "number"
+                                    },
+                                    "currency" : {
+                                      "type" : "string",
+                                      "enum" : [ "btc", "eth" ]
+                                    },
+                                    "margin_balance" : {
+                                      "type" : "number"
+                                    },
+                                    "equity" : {
+                                      "type" : "number"
+                                    },
+                                    "balance" : {
+                                      "type" : "number"
+                                    }
+                                  }
                                 },
-                                "direction" : {
-                                  "type" : "string",
-                                  "description" : "Transfer direction",
-                                  "enum" : [ "payment", "income" ]
-                                },
-                                "amount" : {
-                                  "type" : "number",
-                                  "description" : "Amount of funds in given currency",
-                                  "example" : 1
-                                },
-                                "other_side" : {
-                                  "type" : "string",
-                                  "description" : "For transfer from/to subaccount returns this subaccount name, for transfer to other account returns address, for transfer from other account returns that accounts username.",
-                                  "example" : "Smith"
-                                },
-                                "currency" : {
-                                  "type" : "string",
-                                  "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
-                                  "enum" : [ "BTC", "ETH" ]
-                                },
-                                "state" : {
-                                  "type" : "string",
-                                  "description" : "Transfer state, allowed values : `prepared`, `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`",
-                                  "enum" : [ "prepared", "confirmed", "cancelled", "waiting_for_admin", "rejection_reason" ]
-                                },
-                                "created_timestamp" : {
-                                  "type" : "integer",
-                                  "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
-                                  "example" : 1536569522277
-                                },
-                                "type" : {
-                                  "type" : "string",
-                                  "description" : "Type of transfer: `user` - sent to user, `subaccount` - sent to subaccount",
-                                  "enum" : [ "user", "subaccount" ]
-                                },
-                                "id" : {
-                                  "type" : "integer",
-                                  "description" : "Id of transfer",
-                                  "example" : 12
+                                "btc" : {
+                                  "required" : [ "available_funds", "available_withdrawal_funds", "balance", "currency", "equity", "initial_margin", "maintenance_margin", "margin_balance" ],
+                                  "type" : "object",
+                                  "properties" : {
+                                    "maintenance_margin" : {
+                                      "type" : "number"
+                                    },
+                                    "available_withdrawal_funds" : {
+                                      "type" : "number"
+                                    },
+                                    "initial_margin" : {
+                                      "type" : "number"
+                                    },
+                                    "available_funds" : {
+                                      "type" : "number"
+                                    },
+                                    "currency" : {
+                                      "type" : "string",
+                                      "enum" : [ "btc", "eth" ]
+                                    },
+                                    "margin_balance" : {
+                                      "type" : "number"
+                                    },
+                                    "equity" : {
+                                      "type" : "number"
+                                    },
+                                    "balance" : {
+                                      "type" : "number"
+                                    }
+                                  }
                                 }
-                              }
+                              },
+                              "description" : "Only if with_portfolio == true"
+                            },
+                            "login_enabled" : {
+                              "type" : "boolean",
+                              "description" : "Informs whether login to the subaccount is enabled"
+                            },
+                            "email" : {
+                              "type" : "string",
+                              "description" : "User email"
                             }
                           }
                         }
@@ -8319,8 +7571,62 @@
                 },
                 "examples" : {
                   "jsonObject" : {
-                    "externalValue" : "examples/private/get_transfers.response.json"
+                    "externalValue" : "examples/private/get_subaccounts.response.json"
                   }
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authorised",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "allOf" : [ {
+                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
+                    "properties" : {
+                      "testnet" : {
+                        "type" : "boolean",
+                        "description" : "false for production server, true for test server",
+                        "x-hide-in-docs" : true
+                      },
+                      "jsonrpc" : {
+                        "type" : "string",
+                        "description" : "The JSON-RPC version (2.0)",
+                        "enum" : [ "2.0" ]
+                      },
+                      "usDiff" : {
+                        "type" : "integer",
+                        "description" : "Duration of the handling of the request, in microseconds",
+                        "x-hide-in-docs" : true
+                      },
+                      "id" : {
+                        "type" : "integer",
+                        "description" : "The id that was sent in the request"
+                      },
+                      "usOut" : {
+                        "type" : "integer",
+                        "description" : "The timestamp (in microseconds) of sending of the response",
+                        "x-hide-in-docs" : true
+                      },
+                      "usIn" : {
+                        "type" : "integer",
+                        "description" : "The timestamp (in microseconds) of receipt of the request",
+                        "x-hide-in-docs" : true
+                      }
+                    }
+                  }, {
+                    "required" : [ "error", "message" ],
+                    "type" : "object",
+                    "properties" : {
+                      "message" : {
+                        "type" : "string"
+                      },
+                      "error" : {
+                        "type" : "integer"
+                      }
+                    }
+                  } ]
                 }
               }
             }
@@ -9634,248 +8940,6 @@
         }
       }
     },
-    "/private/get_subaccounts" : {
-      "get" : {
-        "tags" : [ "private", "account_management" ],
-        "summary" : "Get information about subaccounts",
-        "parameters" : [ {
-          "name" : "with_portfolio",
-          "in" : "query",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "boolean"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "ok response",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "array",
-                        "items" : {
-                          "required" : [ "email", "id", "is_password", "receive_notifications", "system_name", "tfa_enabled", "type", "username" ],
-                          "type" : "object",
-                          "properties" : {
-                            "username" : {
-                              "type" : "string"
-                            },
-                            "system_name" : {
-                              "type" : "string",
-                              "description" : "System generated user nickname"
-                            },
-                            "is_password" : {
-                              "type" : "boolean",
-                              "description" : "`true` when password for the subaccount has been configured"
-                            },
-                            "type" : {
-                              "type" : "string",
-                              "enum" : [ "main", "subaccount" ]
-                            },
-                            "tfa_enabled" : {
-                              "type" : "boolean",
-                              "description" : "Whether the two factor authentication is enabled"
-                            },
-                            "receive_notifications" : {
-                              "type" : "boolean",
-                              "description" : "When `true` - receive all notification emails on the main email"
-                            },
-                            "id" : {
-                              "type" : "integer",
-                              "description" : "Account/Subaccount identifier"
-                            },
-                            "not_confirmed_email" : {
-                              "type" : "string",
-                              "description" : "New email address that has not yet been confirmed. This field is only included if `with_portfolio` == `true`."
-                            },
-                            "portfolio" : {
-                              "required" : [ "btc", "eth" ],
-                              "type" : "object",
-                              "properties" : {
-                                "eth" : {
-                                  "required" : [ "available_funds", "available_withdrawal_funds", "balance", "currency", "equity", "initial_margin", "maintenance_margin", "margin_balance" ],
-                                  "type" : "object",
-                                  "properties" : {
-                                    "maintenance_margin" : {
-                                      "type" : "number"
-                                    },
-                                    "available_withdrawal_funds" : {
-                                      "type" : "number"
-                                    },
-                                    "initial_margin" : {
-                                      "type" : "number"
-                                    },
-                                    "available_funds" : {
-                                      "type" : "number"
-                                    },
-                                    "currency" : {
-                                      "type" : "string",
-                                      "enum" : [ "btc", "eth" ]
-                                    },
-                                    "margin_balance" : {
-                                      "type" : "number"
-                                    },
-                                    "equity" : {
-                                      "type" : "number"
-                                    },
-                                    "balance" : {
-                                      "type" : "number"
-                                    }
-                                  }
-                                },
-                                "btc" : {
-                                  "required" : [ "available_funds", "available_withdrawal_funds", "balance", "currency", "equity", "initial_margin", "maintenance_margin", "margin_balance" ],
-                                  "type" : "object",
-                                  "properties" : {
-                                    "maintenance_margin" : {
-                                      "type" : "number"
-                                    },
-                                    "available_withdrawal_funds" : {
-                                      "type" : "number"
-                                    },
-                                    "initial_margin" : {
-                                      "type" : "number"
-                                    },
-                                    "available_funds" : {
-                                      "type" : "number"
-                                    },
-                                    "currency" : {
-                                      "type" : "string",
-                                      "enum" : [ "btc", "eth" ]
-                                    },
-                                    "margin_balance" : {
-                                      "type" : "number"
-                                    },
-                                    "equity" : {
-                                      "type" : "number"
-                                    },
-                                    "balance" : {
-                                      "type" : "number"
-                                    }
-                                  }
-                                }
-                              },
-                              "description" : "Only if with_portfolio == true"
-                            },
-                            "login_enabled" : {
-                              "type" : "boolean",
-                              "description" : "Informs whether login to the subaccount is enabled"
-                            },
-                            "email" : {
-                              "type" : "string",
-                              "description" : "User email"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/private/get_subaccounts.response.json"
-                  }
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "not authorised",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "error", "message" ],
-                    "type" : "object",
-                    "properties" : {
-                      "message" : {
-                        "type" : "string"
-                      },
-                      "error" : {
-                        "type" : "integer"
-                      }
-                    }
-                  } ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/public/get_book_summary_by_currency" : {
       "get" : {
         "tags" : [ "market_data", "public" ],
@@ -10766,88 +9830,10 @@
       },
       "x-order" : 10200
     },
-    "/public/set_heartbeat" : {
+    "/private/get_transfers" : {
       "get" : {
-        "tags" : [ "public", "session_management", "websocket_only" ],
-        "summary" : "Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections.\nWhen heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.",
-        "parameters" : [ {
-          "name" : "interval",
-          "in" : "query",
-          "description" : "The heartbeat interval in seconds, but not less than 10",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "number",
-            "example" : 60
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "string",
-                        "description" : "Result of method execution. `ok` in case of success",
-                        "enum" : [ "ok" ]
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/set_heartbeat.response.json"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "x-order" : 100
-    },
-    "/private/get_open_orders_by_currency" : {
-      "get" : {
-        "tags" : [ "trading", "private" ],
-        "summary" : "Retrieves list of user's open orders.",
+        "tags" : [ "wallet", "private" ],
+        "summary" : "Adds new entry to address book of given type",
         "parameters" : [ {
           "name" : "currency",
           "in" : "query",
@@ -10861,28 +9847,25 @@
             "enum" : [ "BTC", "ETH" ]
           }
         }, {
-          "name" : "kind",
+          "name" : "count",
           "in" : "query",
-          "description" : "Instrument kind, if not provided instruments of all kinds are considered",
+          "description" : "Number of requested items, default - `10`",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string",
-            "description" : "Instrument kind, `\"future\"` or `\"option\"`",
-            "enum" : [ "future", "option" ]
+            "type" : "integer"
           }
         }, {
-          "name" : "type",
+          "name" : "offset",
           "in" : "query",
-          "description" : "Order type, default - `all`",
+          "description" : "The offset for pagination, default - `0`",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "string",
-            "description" : "Order type, `\"all\"`, `\"limit\"`, `\"stop_all\"`, `\"stop_limit\"` or `\"stop_market\"`",
-            "enum" : [ "all", "limit", "stop_all", "stop_limit", "stop_market" ]
+            "type" : "integer",
+            "example" : 10
           }
         } ],
         "responses" : {
@@ -10928,129 +9911,66 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "type" : "array",
-                        "items" : {
-                          "required" : [ "api", "creation_timestamp", "direction", "instrument", "is_liquidation", "label", "last_update_timestamp", "max_show", "order_id", "order_state", "order_type", "post_only", "price", "time_in_force" ],
-                          "type" : "object",
-                          "properties" : {
-                            "direction" : {
-                              "type" : "string",
-                              "description" : "direction, `buy` or `sell`",
-                              "enum" : [ "buy", "sell" ]
-                            },
-                            "reduce_only" : {
-                              "type" : "boolean",
-                              "description" : "`true` for reduce-only orders only"
-                            },
-                            "triggered" : {
-                              "type" : "boolean",
-                              "description" : "Whether the stop order has been triggered (Only for stop orders)"
-                            },
-                            "order_id" : {
-                              "type" : "string",
-                              "description" : "Unique order identifier",
-                              "example" : "ETH-100234"
-                            },
-                            "price" : {
-                              "type" : "number",
-                              "description" : "Price in base currency"
-                            },
-                            "time_in_force" : {
-                              "type" : "string",
-                              "description" : "Order time in force: `\"good_til_cancelled\"`, `\"fill_or_kill\"`, `\"immediate_or_cancel\"`",
-                              "enum" : [ "good_til_cancelled", "fill_or_kill", "immediate_or_cancel" ]
-                            },
-                            "api" : {
-                              "type" : "boolean",
-                              "description" : "`true` if created with API"
-                            },
-                            "order_state" : {
-                              "type" : "string",
-                              "description" : "order state, `\"open\"`, `\"filled\"`, `\"rejected\"`, `\"cancelled\"`, `\"untriggered\"`",
-                              "enum" : [ "open", "filled", "rejected", "cancelled", "untriggered", "triggered" ]
-                            },
-                            "implv" : {
-                              "type" : "number",
-                              "description" : "Implied volatility in percent. (Only if `advanced=\"implv\"`)"
-                            },
-                            "advanced" : {
-                              "type" : "string",
-                              "description" : "advanced type: `\"usd\"` or `\"implv\"` (Only for options; field is omitted if not applicable).\n",
-                              "enum" : [ "usd", "implv" ]
-                            },
-                            "post_only" : {
-                              "type" : "boolean",
-                              "description" : "`true` for post-only orders only"
-                            },
-                            "usd" : {
-                              "type" : "number",
-                              "description" : "Option price in USD (Only if `advanced=\"usd\"`)"
-                            },
-                            "stop_price" : {
-                              "type" : "number",
-                              "description" : "stop price (Only for future stop orders)"
-                            },
-                            "order_type" : {
-                              "type" : "string",
-                              "description" : "order type, `\"limit\"`, `\"market\"`, `\"stop_limit\"`, `\"stop_market\"`",
-                              "enum" : [ "market", "limit", "stop_market", "stop_limit" ]
-                            },
-                            "last_update_timestamp" : {
-                              "type" : "integer",
-                              "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
-                              "example" : 1536569522277
-                            },
-                            "original_order_type" : {
-                              "type" : "string",
-                              "description" : "Original order type. Optional field",
-                              "enum" : [ "market" ]
-                            },
-                            "max_show" : {
-                              "type" : "number",
-                              "description" : "Maximum amount within an order to be shown to other traders, 0 for invisible order."
-                            },
-                            "profit_loss" : {
-                              "type" : "number",
-                              "description" : "Profit and loss in base currency."
-                            },
-                            "is_liquidation" : {
-                              "type" : "boolean",
-                              "description" : "`true` if order was automatically created during liquidation"
-                            },
-                            "filled_amount" : {
-                              "type" : "number",
-                              "description" : "Filled amount of the order. For perpetual and futures the filled_amount is in USD units, for options - in units or corresponding cryptocurrency contracts, e.g., BTC or ETH."
-                            },
-                            "label" : {
-                              "type" : "string",
-                              "description" : "user defined label (up to 32 characters)"
-                            },
-                            "commission" : {
-                              "type" : "number",
-                              "description" : "Commission paid so far (in base currency)"
-                            },
-                            "amount" : {
-                              "type" : "number",
-                              "description" : "It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH."
-                            },
-                            "trigger" : {
-                              "type" : "string",
-                              "description" : "Trigger type (Only for stop orders). Allowed values: `\"index_price\"`, `\"mark_price\"`, `\"last_price\"`.",
-                              "enum" : [ "index_price", "mark_price", "last_price" ]
-                            },
-                            "instrument_name" : {
-                              "type" : "string",
-                              "description" : "Unique instrument identifier",
-                              "example" : "BTC-PERPETUAL"
-                            },
-                            "creation_timestamp" : {
-                              "type" : "integer",
-                              "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
-                              "example" : 1536569522277
-                            },
-                            "average_price" : {
-                              "type" : "number",
-                              "description" : "Average fill price of the order"
+                        "required" : [ "count", "data" ],
+                        "type" : "object",
+                        "properties" : {
+                          "count" : {
+                            "type" : "integer",
+                            "description" : "Total number of results available",
+                            "example" : 101
+                          },
+                          "data" : {
+                            "type" : "array",
+                            "items" : {
+                              "required" : [ "amount", "created_timestamp", "currency", "id", "other_side", "other_side_type", "state", "type", "updated_timestamp" ],
+                              "type" : "object",
+                              "properties" : {
+                                "updated_timestamp" : {
+                                  "type" : "integer",
+                                  "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
+                                  "example" : 1536569522277
+                                },
+                                "direction" : {
+                                  "type" : "string",
+                                  "description" : "Transfer direction",
+                                  "enum" : [ "payment", "income" ]
+                                },
+                                "amount" : {
+                                  "type" : "number",
+                                  "description" : "Amount of funds in given currency",
+                                  "example" : 1
+                                },
+                                "other_side" : {
+                                  "type" : "string",
+                                  "description" : "For transfer from/to subaccount returns this subaccount name, for transfer to other account returns address, for transfer from other account returns that accounts username.",
+                                  "example" : "Smith"
+                                },
+                                "currency" : {
+                                  "type" : "string",
+                                  "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
+                                  "enum" : [ "BTC", "ETH" ]
+                                },
+                                "state" : {
+                                  "type" : "string",
+                                  "description" : "Transfer state, allowed values : `prepared`, `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`",
+                                  "enum" : [ "prepared", "confirmed", "cancelled", "waiting_for_admin", "rejection_reason" ]
+                                },
+                                "created_timestamp" : {
+                                  "type" : "integer",
+                                  "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
+                                  "example" : 1536569522277
+                                },
+                                "type" : {
+                                  "type" : "string",
+                                  "description" : "Type of transfer: `user` - sent to user, `subaccount` - sent to subaccount",
+                                  "enum" : [ "user", "subaccount" ]
+                                },
+                                "id" : {
+                                  "type" : "integer",
+                                  "description" : "Id of transfer",
+                                  "example" : 12
+                                }
+                              }
                             }
                           }
                         }
@@ -11060,7 +9980,7 @@
                 },
                 "examples" : {
                   "jsonObject" : {
-                    "externalValue" : "examples/private/get_open_orders_by_currency.response.json"
+                    "externalValue" : "examples/private/get_transfers.response.json"
                   }
                 }
               }
@@ -12499,166 +11419,6 @@
         }
       }
     },
-    "/public/get_time" : {
-      "get" : {
-        "tags" : [ "supporting", "public" ],
-        "summary" : "Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit's systems.",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "type" : "integer",
-                        "description" : "Current timestamp (milliseconds)",
-                        "example" : 1517329113791
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/get_time.response.json"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/public/hello" : {
-      "get" : {
-        "tags" : [ "public", "supporting", "websocket_only" ],
-        "summary" : "Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.",
-        "parameters" : [ {
-          "name" : "client_name",
-          "in" : "query",
-          "description" : "Client software name",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "example" : "My Trading Software"
-          }
-        }, {
-          "name" : "client_version",
-          "in" : "query",
-          "description" : "Client software version",
-          "required" : true,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string",
-            "example" : "1.0.2"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "allOf" : [ {
-                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
-                    "properties" : {
-                      "testnet" : {
-                        "type" : "boolean",
-                        "description" : "false for production server, true for test server",
-                        "x-hide-in-docs" : true
-                      },
-                      "jsonrpc" : {
-                        "type" : "string",
-                        "description" : "The JSON-RPC version (2.0)",
-                        "enum" : [ "2.0" ]
-                      },
-                      "usDiff" : {
-                        "type" : "integer",
-                        "description" : "Duration of the handling of the request, in microseconds",
-                        "x-hide-in-docs" : true
-                      },
-                      "id" : {
-                        "type" : "integer",
-                        "description" : "The id that was sent in the request"
-                      },
-                      "usOut" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of sending of the response",
-                        "x-hide-in-docs" : true
-                      },
-                      "usIn" : {
-                        "type" : "integer",
-                        "description" : "The timestamp (in microseconds) of receipt of the request",
-                        "x-hide-in-docs" : true
-                      }
-                    }
-                  }, {
-                    "required" : [ "result" ],
-                    "type" : "object",
-                    "properties" : {
-                      "result" : {
-                        "required" : [ "version" ],
-                        "type" : "object",
-                        "properties" : {
-                          "version" : {
-                            "type" : "string",
-                            "description" : "The API version",
-                            "example" : "2.1.26"
-                          }
-                        }
-                      }
-                    }
-                  } ]
-                },
-                "examples" : {
-                  "jsonObject" : {
-                    "externalValue" : "examples/public/hello.response.json"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/public/get_announcements" : {
       "get" : {
         "tags" : [ "account_management", "public" ],
@@ -13224,36 +11984,48 @@
         }
       }
     },
-    "/private/submit_transfer_to_user" : {
+    "/public/auth" : {
       "get" : {
-        "tags" : [ "private", "wallet", "internal" ],
-        "summary" : "Transfer funds to a another user.",
+        "tags" : [ "public", "authentication" ],
+        "summary" : "Authenticate",
+        "description" : "Retrieve an Oauth access token, to be used for authentication of 'private' requests.\n\nThree methods of authentication are supported:\n\n- <code>password</code> - using email and and password as when logging on to the website\n- <code>client_credentials</code> - using the access key and access secret that can be found on the API page on the website\n- <code>client_signature</code> - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials)\n- <code>refresh_token</code> - using a refresh token that was received from an earlier invocation\n\nThe response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can\nbe used to get a new set of tokens.\n",
         "parameters" : [ {
-          "name" : "currency",
+          "name" : "grant_type",
           "in" : "query",
-          "description" : "The currency symbol",
+          "description" : "Method of authentication",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
             "type" : "string",
-            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
-            "enum" : [ "BTC", "ETH" ]
+            "enum" : [ "password", "client_credentials", "client_signature", "refresh_token" ]
           }
         }, {
-          "name" : "amount",
+          "name" : "username",
           "in" : "query",
-          "description" : "Amount of funds to be transferred",
+          "description" : "Required for grant type `password`",
           "required" : true,
           "style" : "form",
           "explode" : true,
           "schema" : {
-            "type" : "number"
+            "type" : "string",
+            "example" : "your_email@mail.com"
           }
         }, {
-          "name" : "destination",
+          "name" : "password",
           "in" : "query",
-          "description" : "Destination address from address book",
+          "description" : "Required for grant type `password`",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "your_password"
+          }
+        }, {
+          "name" : "client_id",
+          "in" : "query",
+          "description" : "Required for grant type `client_credentials` and `client_signature`",
           "required" : true,
           "style" : "form",
           "explode" : true,
@@ -13261,18 +12033,80 @@
             "type" : "string"
           }
         }, {
-          "name" : "tfa",
+          "name" : "client_secret",
           "in" : "query",
-          "description" : "TFA code, required when TFA is enabled for current account",
+          "description" : "Required for grant type `client_credentials`",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "refresh_token",
+          "in" : "query",
+          "description" : "Required for grant type `refresh_token`",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "timestamp",
+          "in" : "query",
+          "description" : "Required for grant type `client_signature`, provides time when request has been generated",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "signature",
+          "in" : "query",
+          "description" : "Required for grant type `client_signature`; it's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `SHA256` hash algorithm",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "nonce",
+          "in" : "query",
+          "description" : "Optional for grant type `client_signature`; delivers user generated initialization vector for the server token",
           "required" : false,
           "style" : "form",
           "explode" : true,
           "schema" : {
             "type" : "string"
           }
+        }, {
+          "name" : "state",
+          "in" : "query",
+          "description" : "Will be passed back in the response",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "scope",
+          "in" : "query",
+          "description" : "Describes type of the access for assigned token, possible values: `connection`, `session`, `session:name`, `trade:[read, read_write, none]`, `wallet:[read, read_write, none]`, `account:[read, read_write, none]`, `expires:NUMBER` (token will expire after `NUMBER` of seconds).</BR></BR> **NOTICE:** Depending on choosing an authentication method (```grant type```) some scopes could be narrowed by the server. e.g. when ```grant_type = client_credentials``` and ```scope = wallet:read_write``` it's modified by the server as ```scope = wallet:read```",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string",
+            "example" : "connection"
+          }
         } ],
         "responses" : {
           "200" : {
+            "description" : "ok response",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -13314,53 +12148,35 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "required" : [ "amount", "created_timestamp", "currency", "id", "other_side", "other_side_type", "state", "type", "updated_timestamp" ],
+                        "required" : [ "access_token", "expires_in", "refresh_token", "scope", "token_type" ],
                         "type" : "object",
                         "properties" : {
-                          "updated_timestamp" : {
-                            "type" : "integer",
-                            "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
-                            "example" : 1536569522277
-                          },
-                          "direction" : {
+                          "token_type" : {
                             "type" : "string",
-                            "description" : "Transfer direction",
-                            "enum" : [ "payment", "income" ]
-                          },
-                          "amount" : {
-                            "type" : "number",
-                            "description" : "Amount of funds in given currency",
-                            "example" : 1
-                          },
-                          "other_side" : {
-                            "type" : "string",
-                            "description" : "For transfer from/to subaccount returns this subaccount name, for transfer to other account returns address, for transfer from other account returns that accounts username.",
-                            "example" : "Smith"
-                          },
-                          "currency" : {
-                            "type" : "string",
-                            "description" : "Currency, i.e `\"BTC\"`, `\"ETH\"`",
-                            "enum" : [ "BTC", "ETH" ]
+                            "description" : "Authorization type, allowed value - `bearer`",
+                            "enum" : [ "bearer" ]
                           },
                           "state" : {
                             "type" : "string",
-                            "description" : "Transfer state, allowed values : `prepared`, `confirmed`, `cancelled`, `waiting_for_admin`, `rejection_reason`",
-                            "enum" : [ "prepared", "confirmed", "cancelled", "waiting_for_admin", "rejection_reason" ]
+                            "description" : "Copied from the input (if applicable)"
                           },
-                          "created_timestamp" : {
-                            "type" : "integer",
-                            "description" : "The timestamp (seconds since the Unix epoch, with millisecond precision)",
-                            "example" : 1536569522277
-                          },
-                          "type" : {
+                          "scope" : {
                             "type" : "string",
-                            "description" : "Type of transfer: `user` - sent to user, `subaccount` - sent to subaccount",
-                            "enum" : [ "user", "subaccount" ]
+                            "description" : "Type of the access for assigned token"
                           },
-                          "id" : {
+                          "acccess_token" : {
+                            "type" : "string",
+                            "example" : "843SehgeX5n6XxEU4XbABx4Cny5Akai5iHiJePTsvUw7"
+                          },
+                          "expires_in" : {
                             "type" : "integer",
-                            "description" : "Id of transfer",
-                            "example" : 12
+                            "description" : "Token lifetime in seconds",
+                            "example" : 315360000
+                          },
+                          "refresh_token" : {
+                            "type" : "string",
+                            "description" : "Can be used to request a new token (with a new lifetime)",
+                            "example" : "6faf8L36JdaSqsjCEEiwqifPpj6JB18RWwiWHrsGTZ91"
                           }
                         }
                       }
@@ -13369,8 +12185,62 @@
                 },
                 "examples" : {
                   "jsonObject" : {
-                    "externalValue" : "examples/private/submit_transfer_to_user.response.json"
+                    "externalValue" : "examples/public/auth.response.json"
                   }
+                }
+              }
+            }
+          },
+          "429" : {
+            "description" : "over limit",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "allOf" : [ {
+                    "required" : [ "jsonrpc", "testnet", "usDiff", "usIn", "usOut" ],
+                    "properties" : {
+                      "testnet" : {
+                        "type" : "boolean",
+                        "description" : "false for production server, true for test server",
+                        "x-hide-in-docs" : true
+                      },
+                      "jsonrpc" : {
+                        "type" : "string",
+                        "description" : "The JSON-RPC version (2.0)",
+                        "enum" : [ "2.0" ]
+                      },
+                      "usDiff" : {
+                        "type" : "integer",
+                        "description" : "Duration of the handling of the request, in microseconds",
+                        "x-hide-in-docs" : true
+                      },
+                      "id" : {
+                        "type" : "integer",
+                        "description" : "The id that was sent in the request"
+                      },
+                      "usOut" : {
+                        "type" : "integer",
+                        "description" : "The timestamp (in microseconds) of sending of the response",
+                        "x-hide-in-docs" : true
+                      },
+                      "usIn" : {
+                        "type" : "integer",
+                        "description" : "The timestamp (in microseconds) of receipt of the request",
+                        "x-hide-in-docs" : true
+                      }
+                    }
+                  }, {
+                    "required" : [ "error", "message" ],
+                    "type" : "object",
+                    "properties" : {
+                      "message" : {
+                        "type" : "string"
+                      },
+                      "error" : {
+                        "type" : "integer"
+                      }
+                    }
+                  } ]
                 }
               }
             }
@@ -13478,10 +12348,10 @@
         }
       }
     },
-    "/public/get_trade_volumes" : {
+    "/public/get_time" : {
       "get" : {
-        "tags" : [ "market_data", "public" ],
-        "summary" : "Retrieves aggregated 24h trade volumes for different instrument types and currencies.",
+        "tags" : [ "supporting", "public" ],
+        "summary" : "Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit's systems.",
         "parameters" : [ ],
         "responses" : {
           "200" : {
@@ -13526,40 +12396,16 @@
                     "type" : "object",
                     "properties" : {
                       "result" : {
-                        "type" : "array",
-                        "items" : {
-                          "required" : [ "calls_volume", "currency_pair", "futures_volume", "puts_volume" ],
-                          "type" : "object",
-                          "properties" : {
-                            "calls_volume" : {
-                              "type" : "number",
-                              "description" : "Total 24h trade volume for call options. This is expressed in the base currency, e.g. BTC for `btc_usd`",
-                              "example" : 2.1
-                            },
-                            "puts_volume" : {
-                              "type" : "number",
-                              "description" : "Total 24h trade volume for put options. This is expressed in the base currency, e.g. BTC for `btc_usd`",
-                              "example" : 60.2
-                            },
-                            "currency_pair" : {
-                              "type" : "string",
-                              "description" : "Currency pair: `\"btc_usd\"` or `\"eth_usd\"`",
-                              "enum" : [ "btc_usd", "eth_usd" ]
-                            },
-                            "futures_volume" : {
-                              "type" : "number",
-                              "description" : "Total 24h trade volume for futures. This is expressed in the base currency, e.g. BTC for `btc_usd`",
-                              "example" : 30.5178
-                            }
-                          }
-                        }
+                        "type" : "integer",
+                        "description" : "Current timestamp (milliseconds)",
+                        "example" : 1517329113791
                       }
                     }
                   } ]
                 },
                 "examples" : {
                   "jsonObject" : {
-                    "externalValue" : "examples/public/get_trade_volumes.response.json"
+                    "externalValue" : "examples/public/get_time.response.json"
                   }
                 }
               }

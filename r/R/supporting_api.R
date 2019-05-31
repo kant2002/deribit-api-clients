@@ -20,9 +20,6 @@
 #' PublicGetTimeGet Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 #'
 #'
-#' PublicHelloGet Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-#'
-#'
 #' PublicTestGet Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 #'
 #' }
@@ -47,41 +44,6 @@ SupportingApi <- R6::R6Class(
       headerParams <- c()
 
       urlPath <- "/public/get_time"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PublicHelloGet = function(client.name, client.version, ...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      if (missing(`client.name`)) {
-        stop("Missing required parameter `client.name`.")
-      }
-
-      if (missing(`client.version`)) {
-        stop("Missing required parameter `client.version`.")
-      }
-
-      queryParams['client_name'] <- client.name
-
-      queryParams['client_version'] <- client.version
-
-      urlPath <- "/public/hello"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

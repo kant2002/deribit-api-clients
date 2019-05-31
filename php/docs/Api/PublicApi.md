@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**publicAuthGet**](PublicApi.md#publicAuthGet) | **GET** /public/auth | Authenticate
-[**publicDisableHeartbeatGet**](PublicApi.md#publicDisableHeartbeatGet) | **GET** /public/disable_heartbeat | Stop sending heartbeat messages.
 [**publicGetAnnouncementsGet**](PublicApi.md#publicGetAnnouncementsGet) | **GET** /public/get_announcements | Retrieves announcements from the last 30 days.
 [**publicGetBookSummaryByCurrencyGet**](PublicApi.md#publicGetBookSummaryByCurrencyGet) | **GET** /public/get_book_summary_by_currency | Retrieves the summary information such as open interest, 24h volume, etc. for all instruments for the currency (optionally filtered by kind).
 [**publicGetBookSummaryByInstrumentGet**](PublicApi.md#publicGetBookSummaryByInstrumentGet) | **GET** /public/get_book_summary_by_instrument | Retrieves the summary information such as open interest, 24h volume, etc. for a specific instrument.
@@ -25,9 +24,6 @@ Method | HTTP request | Description
 [**publicGetTimeGet**](PublicApi.md#publicGetTimeGet) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
 [**publicGetTradeVolumesGet**](PublicApi.md#publicGetTradeVolumesGet) | **GET** /public/get_trade_volumes | Retrieves aggregated 24h trade volumes for different instrument types and currencies.
 [**publicGetTradingviewChartDataGet**](PublicApi.md#publicGetTradingviewChartDataGet) | **GET** /public/get_tradingview_chart_data | Publicly available market data used to generate a TradingView candle chart.
-[**publicHelloGet**](PublicApi.md#publicHelloGet) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-[**publicSetHeartbeatGet**](PublicApi.md#publicSetHeartbeatGet) | **GET** /public/set_heartbeat | Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-[**publicSubscribeGet**](PublicApi.md#publicSubscribeGet) | **GET** /public/subscribe | Subscribe to one or more channels.
 [**publicTestGet**](PublicApi.md#publicTestGet) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 [**publicTickerGet**](PublicApi.md#publicTickerGet) | **GET** /public/ticker | Get ticker for an instrument.
 [**publicValidateFieldGet**](PublicApi.md#publicValidateFieldGet) | **GET** /public/validate_field | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
@@ -96,61 +92,6 @@ Name | Type | Description  | Notes
  **nonce** | **string**| Optional for grant type &#x60;client_signature&#x60;; delivers user generated initialization vector for the server token | [optional]
  **state** | **string**| Will be passed back in the response | [optional]
  **scope** | **string**| Describes type of the access for assigned token, possible values: &#x60;connection&#x60;, &#x60;session&#x60;, &#x60;session:name&#x60;, &#x60;trade:[read, read_write, none]&#x60;, &#x60;wallet:[read, read_write, none]&#x60;, &#x60;account:[read, read_write, none]&#x60;, &#x60;expires:NUMBER&#x60; (token will expire after &#x60;NUMBER&#x60; of seconds).&lt;/BR&gt;&lt;/BR&gt; **NOTICE:** Depending on choosing an authentication method (&#x60;&#x60;&#x60;grant type&#x60;&#x60;&#x60;) some scopes could be narrowed by the server. e.g. when &#x60;&#x60;&#x60;grant_type &#x3D; client_credentials&#x60;&#x60;&#x60; and &#x60;&#x60;&#x60;scope &#x3D; wallet:read_write&#x60;&#x60;&#x60; it&#39;s modified by the server as &#x60;&#x60;&#x60;scope &#x3D; wallet:read&#x60;&#x60;&#x60; | [optional]
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## publicDisableHeartbeatGet
-
-> object publicDisableHeartbeatGet()
-
-Stop sending heartbeat messages.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PublicApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-
-try {
-    $result = $apiInstance->publicDisableHeartbeatGet();
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PublicApi->publicDisableHeartbeatGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
 
 ### Return type
 
@@ -1330,187 +1271,6 @@ Name | Type | Description  | Notes
  **instrument_name** | **string**| Instrument name |
  **start_timestamp** | **int**| The earliest timestamp to return result for |
  **end_timestamp** | **int**| The most recent timestamp to return result for |
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## publicHelloGet
-
-> object publicHelloGet($client_name, $client_version)
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PublicApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$client_name = My Trading Software; // string | Client software name
-$client_version = 1.0.2; // string | Client software version
-
-try {
-    $result = $apiInstance->publicHelloGet($client_name, $client_version);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PublicApi->publicHelloGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **client_name** | **string**| Client software name |
- **client_version** | **string**| Client software version |
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## publicSetHeartbeatGet
-
-> object publicSetHeartbeatGet($interval)
-
-Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send `heartbeat` messages and `test_request` messages. Your software should respond to `test_request` messages by sending a `/api/v2/public/test` request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PublicApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$interval = 60; // float | The heartbeat interval in seconds, but not less than 10
-
-try {
-    $result = $apiInstance->publicSetHeartbeatGet($interval);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PublicApi->publicSetHeartbeatGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **interval** | **float**| The heartbeat interval in seconds, but not less than 10 |
-
-### Return type
-
-**object**
-
-### Authorization
-
-[bearerAuth](../../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../../README.md#documentation-for-models)
-[[Back to README]](../../README.md)
-
-
-## publicSubscribeGet
-
-> object publicSubscribeGet($channels)
-
-Subscribe to one or more channels.
-
-Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels.
-
-### Example
-
-```php
-<?php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-
-// Configure Bearer (Auth. Token) authorization: bearerAuth
-$config = OpenAPI\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
-
-
-$apiInstance = new OpenAPI\Client\Api\PublicApi(
-    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
-    // This is optional, `GuzzleHttp\Client` will be used as default.
-    new GuzzleHttp\Client(),
-    $config
-);
-$channels = array('channels_example'); // string[] | A list of channels to subscribe to.
-
-try {
-    $result = $apiInstance->publicSubscribeGet($channels);
-    print_r($result);
-} catch (Exception $e) {
-    echo 'Exception when calling PublicApi->publicSubscribeGet: ', $e->getMessage(), PHP_EOL;
-}
-?>
-```
-
-### Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **channels** | [**string[]**](../Model/string.md)| A list of channels to subscribe to. |
 
 ### Return type
 

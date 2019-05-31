@@ -4,52 +4,8 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**privateLogoutGet**](AuthenticationApi.md#privateLogoutGet) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**publicAuthGet**](AuthenticationApi.md#publicAuthGet) | **GET** /public/auth | Authenticate
 
-
-
-## privateLogoutGet
-
-> privateLogoutGet()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-
-```javascript
-import DeribitApi from 'deribit_api';
-let defaultClient = DeribitApi.ApiClient.instance;
-// Configure Bearer (Auth. Token) access token for authorization: bearerAuth
-let bearerAuth = defaultClient.authentications['bearerAuth'];
-bearerAuth.accessToken = "YOUR ACCESS TOKEN"
-
-let apiInstance = new DeribitApi.AuthenticationApi();
-apiInstance.privateLogoutGet((error, data, response) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-});
-```
-
-### Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
 
 
 ## publicAuthGet

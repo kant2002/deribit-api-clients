@@ -168,16 +168,6 @@
         done();
       });
     });
-    describe('privateDisableCancelOnDisconnectGet', function() {
-      it('should call privateDisableCancelOnDisconnectGet successfully', function(done) {
-        //uncomment below and update the code to test privateDisableCancelOnDisconnectGet
-        //instance.privateDisableCancelOnDisconnectGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('privateDisableTfaForSubaccountGet', function() {
       it('should call privateDisableTfaForSubaccountGet successfully', function(done) {
         //uncomment below and update the code to test privateDisableTfaForSubaccountGet
@@ -202,16 +192,6 @@
       it('should call privateEditGet successfully', function(done) {
         //uncomment below and update the code to test privateEditGet
         //instance.privateEditGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('privateEnableCancelOnDisconnectGet', function() {
-      it('should call privateEnableCancelOnDisconnectGet successfully', function(done) {
-        //uncomment below and update the code to test privateEnableCancelOnDisconnectGet
-        //instance.privateEnableCancelOnDisconnectGet(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});
@@ -468,16 +448,6 @@
         done();
       });
     });
-    describe('privateLogoutGet', function() {
-      it('should call privateLogoutGet successfully', function(done) {
-        //uncomment below and update the code to test privateLogoutGet
-        //instance.privateLogoutGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('privateRemoveFromAddressBookGet', function() {
       it('should call privateRemoveFromAddressBookGet successfully', function(done) {
         //uncomment below and update the code to test privateRemoveFromAddressBookGet
@@ -558,16 +528,6 @@
         done();
       });
     });
-    describe('privateSubscribeGet', function() {
-      it('should call privateSubscribeGet successfully', function(done) {
-        //uncomment below and update the code to test privateSubscribeGet
-        //instance.privateSubscribeGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
     describe('privateToggleDepositAddressCreationGet', function() {
       it('should call privateToggleDepositAddressCreationGet successfully', function(done) {
         //uncomment below and update the code to test privateToggleDepositAddressCreationGet
@@ -592,16 +552,6 @@
       it('should call privateToggleSubaccountLoginGet successfully', function(done) {
         //uncomment below and update the code to test privateToggleSubaccountLoginGet
         //instance.privateToggleSubaccountLoginGet(function(error) {
-        //  if (error) throw error;
-        //expect().to.be();
-        //});
-        done();
-      });
-    });
-    describe('privateUnsubscribeGet', function() {
-      it('should call privateUnsubscribeGet successfully', function(done) {
-        //uncomment below and update the code to test privateUnsubscribeGet
-        //instance.privateUnsubscribeGet(function(error) {
         //  if (error) throw error;
         //expect().to.be();
         //});

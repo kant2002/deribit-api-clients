@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 /**
  * TradesVolumes
  */
-@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-20T13:09:18.457+02:00[Europe/Paris]")
+@javax.annotation.Generated(value = "org.openapitools.codegen.languages.JavaClientCodegen", date = "2019-05-31T10:31:59.717+02:00[Europe/Paris]")
 public class TradesVolumes {
   public static final String SERIALIZED_NAME_CALLS_VOLUME = "calls_volume";
   @SerializedName(SERIALIZED_NAME_CALLS_VOLUME)

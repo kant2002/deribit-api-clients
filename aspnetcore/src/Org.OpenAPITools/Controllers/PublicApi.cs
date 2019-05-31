@@ -67,34 +67,6 @@ namespace Org.OpenAPITools.Controllers
         }
 
         /// <summary>
-        /// Stop sending heartbeat messages.
-        /// </summary>
-        /// <response code="200">ok response</response>
-        /// <response code="400">result when used via rest/HTTP</response>
-        [HttpGet]
-        [Route("/api/v2/public/disable_heartbeat")]
-        [ValidateModelState]
-        [SwaggerOperation("PublicDisableHeartbeatGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "ok response")]
-        [SwaggerResponse(statusCode: 400, type: typeof(Object), description: "result when used via rest/HTTP")]
-        public virtual IActionResult PublicDisableHeartbeatGet()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
         /// Retrieves announcements from the last 30 days.
         /// </summary>
         /// <response code="200"></response>
@@ -573,85 +545,6 @@ namespace Org.OpenAPITools.Controllers
         { 
             //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
             // return StatusCode(200, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
-        /// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-        /// </summary>
-        /// <param name="clientName">Client software name</param>
-        /// <param name="clientVersion">Client software version</param>
-        /// <response code="200"></response>
-        [HttpGet]
-        [Route("/api/v2/public/hello")]
-        [ValidateModelState]
-        [SwaggerOperation("PublicHelloGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "")]
-        public virtual IActionResult PublicHelloGet([FromQuery][Required()]string clientName, [FromQuery][Required()]string clientVersion)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
-        /// Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-        /// </summary>
-        /// <param name="interval">The heartbeat interval in seconds, but not less than 10</param>
-        /// <response code="200"></response>
-        [HttpGet]
-        [Route("/api/v2/public/set_heartbeat")]
-        [ValidateModelState]
-        [SwaggerOperation("PublicSetHeartbeatGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "")]
-        public virtual IActionResult PublicSetHeartbeatGet([FromQuery][Required()]decimal? interval)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            string exampleJson = null;
-            
-            var example = exampleJson != null
-            ? JsonConvert.DeserializeObject<Object>(exampleJson)
-            : default(Object);
-            //TODO: Change the data returned
-            return new ObjectResult(example);
-        }
-
-        /// <summary>
-        /// Subscribe to one or more channels.
-        /// </summary>
-        /// <remarks>Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. </remarks>
-        /// <param name="channels">A list of channels to subscribe to.</param>
-        /// <response code="200">ok response</response>
-        /// <response code="401">not authorised</response>
-        [HttpGet]
-        [Route("/api/v2/public/subscribe")]
-        [ValidateModelState]
-        [SwaggerOperation("PublicSubscribeGet")]
-        [SwaggerResponse(statusCode: 200, type: typeof(Object), description: "ok response")]
-        [SwaggerResponse(statusCode: 401, type: typeof(Object), description: "not authorised")]
-        public virtual IActionResult PublicSubscribeGet([FromQuery][Required()]List<string> channels)
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200, default(Object));
-
-            //TODO: Uncomment the next line to return response 401 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(401, default(Object));
 
             string exampleJson = null;
             

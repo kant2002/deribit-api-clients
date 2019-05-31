@@ -75,14 +75,6 @@ public:
         boost::optional<utility::string_t> scope
     );
     /// <summary>
-    /// Stop sending heartbeat messages.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    pplx::task<std::shared_ptr<Object>> publicDisableHeartbeatGet(
-    );
-    /// <summary>
     /// Retrieves announcements from the last 30 days.
     /// </summary>
     /// <remarks>
@@ -337,38 +329,6 @@ public:
         utility::string_t instrumentName,
         int32_t startTimestamp,
         int32_t endTimestamp
-    );
-    /// <summary>
-    /// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    /// <param name="clientName">Client software name</param>
-    /// <param name="clientVersion">Client software version</param>
-    pplx::task<std::shared_ptr<Object>> publicHelloGet(
-        utility::string_t clientName,
-        utility::string_t clientVersion
-    );
-    /// <summary>
-    /// Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    /// <param name="interval">The heartbeat interval in seconds, but not less than 10</param>
-    pplx::task<std::shared_ptr<Object>> publicSetHeartbeatGet(
-        double interval
-    );
-    /// <summary>
-    /// Subscribe to one or more channels.
-    /// </summary>
-    /// <remarks>
-    /// Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for &#39;public&#39; channels. 
-    /// </remarks>
-    /// <param name="channels">A list of channels to subscribe to.</param>
-    pplx::task<std::shared_ptr<Object>> publicSubscribeGet(
-        std::vector<utility::string_t> channels
     );
     /// <summary>
     /// Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.

@@ -4,36 +4,8 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**PrivateLogoutGet**](AuthenticationApi.md#PrivateLogoutGet) | **Get** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**PublicAuthGet**](AuthenticationApi.md#PublicAuthGet) | **Get** /public/auth | Authenticate
 
-
-
-## PrivateLogoutGet
-
-> PrivateLogoutGet(ctx, )
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Required Parameters
-
-This endpoint does not need any parameter.
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
 
 
 ## PublicAuthGet

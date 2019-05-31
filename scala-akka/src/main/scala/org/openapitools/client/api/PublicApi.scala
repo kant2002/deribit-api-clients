@@ -64,21 +64,6 @@ class PublicApi(baseUrl: String) {
 
   /**
    * Expected answers:
-   *   code 200 : Any (ok response)
-   *   code 400 : Any (result when used via rest/HTTP)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   */
-  def publicDisableHeartbeatGet()(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/public/disable_heartbeat", "application/json")
-      .withCredentials(basicAuth)
-      .withSuccessResponse[Any](200)
-      .withErrorResponse[Any](400)
-      
-
-  /**
-   * Expected answers:
    *   code 200 : Any 
    * 
    * Available security schemes:
@@ -441,60 +426,6 @@ class PublicApi(baseUrl: String) {
       .withQueryParam("start_timestamp", startTimestamp)
       .withQueryParam("end_timestamp", endTimestamp)
       .withSuccessResponse[Any](200)
-      
-
-  /**
-   * Expected answers:
-   *   code 200 : Any 
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   * 
-   * @param clientName Client software name
-   * @param clientVersion Client software version
-   */
-  def publicHelloGet(clientName: String, clientVersion: String)(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/public/hello", "application/json")
-      .withCredentials(basicAuth)
-      .withQueryParam("client_name", clientName)
-      .withQueryParam("client_version", clientVersion)
-      .withSuccessResponse[Any](200)
-      
-
-  /**
-   * Expected answers:
-   *   code 200 : Any 
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   * 
-   * @param interval The heartbeat interval in seconds, but not less than 10
-   */
-  def publicSetHeartbeatGet(interval: Double)(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/public/set_heartbeat", "application/json")
-      .withCredentials(basicAuth)
-      .withQueryParam("interval", interval)
-      .withSuccessResponse[Any](200)
-      
-
-  /**
-   * Subscribe to one or more channels.  This is the same method as [/private/subscribe](#private_subscribe), but it can only be used for 'public' channels. 
-   * 
-   * Expected answers:
-   *   code 200 : Any (ok response)
-   *   code 401 : Any (not authorised)
-   * 
-   * Available security schemes:
-   *   bearerAuth (http)
-   * 
-   * @param channels A list of channels to subscribe to.
-   */
-  def publicSubscribeGet(channels: Seq[String])(implicit basicAuth: BasicCredentials): ApiRequest[Any] =
-    ApiRequest[Any](ApiMethods.GET, "https://www.deribit.com/api/v2", "/public/subscribe", "application/json")
-      .withCredentials(basicAuth)
-      .withQueryParam("channels", ArrayValues(channels, MULTI))
-      .withSuccessResponse[Any](200)
-      .withErrorResponse[Any](401)
       
 
   /**

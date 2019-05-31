@@ -20,9 +20,6 @@
 #' PublicAuthGet Authenticate
 #'
 #'
-#' PublicDisableHeartbeatGet Stop sending heartbeat messages.
-#'
-#'
 #' PublicGetAnnouncementsGet Retrieves announcements from the last 30 days.
 #'
 #'
@@ -78,15 +75,6 @@
 #'
 #'
 #' PublicGetTradingviewChartDataGet Publicly available market data used to generate a TradingView candle chart.
-#'
-#'
-#' PublicHelloGet Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-#'
-#'
-#' PublicSetHeartbeatGet Signals the Websocket connection to send and request heartbeats. Heartbeats can be used to detect stale connections. When heartbeats have been set up, the API server will send &#x60;heartbeat&#x60; messages and &#x60;test_request&#x60; messages. Your software should respond to &#x60;test_request&#x60; messages by sending a &#x60;/api/v2/public/test&#x60; request. If your software fails to do so, the API server will immediately close the connection. If your account is configured to cancel on disconnect, any orders opened over the connection will be cancelled.
-#'
-#'
-#' PublicSubscribeGet Subscribe to one or more channels.
 #'
 #'
 #' PublicTestGet Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
@@ -173,29 +161,6 @@ PublicApi <- R6::R6Class(
       queryParams['scope'] <- scope
 
       urlPath <- "/public/auth"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PublicDisableHeartbeatGet = function(...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      urlPath <- "/public/disable_heartbeat"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",
@@ -821,99 +786,6 @@ PublicApi <- R6::R6Class(
       queryParams['end_timestamp'] <- end.timestamp
 
       urlPath <- "/public/get_tradingview_chart_data"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PublicHelloGet = function(client.name, client.version, ...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      if (missing(`client.name`)) {
-        stop("Missing required parameter `client.name`.")
-      }
-
-      if (missing(`client.version`)) {
-        stop("Missing required parameter `client.version`.")
-      }
-
-      queryParams['client_name'] <- client.name
-
-      queryParams['client_version'] <- client.version
-
-      urlPath <- "/public/hello"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PublicSetHeartbeatGet = function(interval, ...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      if (missing(`interval`)) {
-        stop("Missing required parameter `interval`.")
-      }
-
-      queryParams['interval'] <- interval
-
-      urlPath <- "/public/set_heartbeat"
-
-      resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
-                                 method = "GET",
-                                 queryParams = queryParams,
-                                 headerParams = headerParams,
-                                 body = body,
-                                 ...)
-
-      if (httr::status_code(resp) >= 200 && httr::status_code(resp) <= 299) {
-        object$new()$fromJSONString(httr::content(resp, "text", encoding = "UTF-8"))
-      } else if (httr::status_code(resp) >= 400 && httr::status_code(resp) <= 499) {
-        ApiResponse$new("API client error", resp)
-      } else if (httr::status_code(resp) >= 500 && httr::status_code(resp) <= 599) {
-        ApiResponse$new("API server error", resp)
-      }
-
-    },
-    PublicSubscribeGet = function(channels, ...){
-      args <- list(...)
-      queryParams <- list()
-      headerParams <- c()
-
-      if (missing(`channels`)) {
-        stop("Missing required parameter `channels`.")
-      }
-
-      queryParams['channels'] <- channels
-
-      urlPath <- "/public/subscribe"
 
       resp <- self$apiClient$CallApi(url = paste0(self$apiClient$basePath, urlPath),
                                  method = "GET",

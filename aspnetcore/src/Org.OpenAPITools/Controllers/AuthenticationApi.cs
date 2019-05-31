@@ -27,28 +27,6 @@ namespace Org.OpenAPITools.Controllers
     public class AuthenticationApiController : ControllerBase
     { 
         /// <summary>
-        /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-        /// </summary>
-        /// <response code="200">closes WS connection</response>
-        /// <response code="400">result when used via rest/HTTP</response>
-        [HttpGet]
-        [Route("/api/v2/private/logout")]
-        [ValidateModelState]
-        [SwaggerOperation("PrivateLogoutGet")]
-        [SwaggerResponse(statusCode: 400, type: typeof(Object), description: "result when used via rest/HTTP")]
-        public virtual IActionResult PrivateLogoutGet()
-        { 
-            //TODO: Uncomment the next line to return response 200 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(200);
-
-            //TODO: Uncomment the next line to return response 400 or use other options such as return this.NotFound(), return this.BadRequest(..), ...
-            // return StatusCode(400, default(Object));
-
-
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Authenticate
         /// </summary>
         /// <remarks>Retrieve an Oauth access token, to be used for authentication of &#39;private&#39; requests.  Three methods of authentication are supported:  - &lt;code&gt;password&lt;/code&gt; - using email and and password as when logging on to the website - &lt;code&gt;client_credentials&lt;/code&gt; - using the access key and access secret that can be found on the API page on the website - &lt;code&gt;client_signature&lt;/code&gt; - using the access key that can be found on the API page on the website and user generated signature. The signature is calculated using some fields provided in the request, using formula described here [Deribit signature credentials](#additional-authorization-method-deribit-signature-credentials) - &lt;code&gt;refresh_token&lt;/code&gt; - using a refresh token that was received from an earlier invocation  The response will contain an access token, expiration period (number of seconds that the token is valid) and a refresh token that can be used to get a new set of tokens. </remarks>

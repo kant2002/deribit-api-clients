@@ -5,7 +5,6 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**publicGetTimeGet**](SupportingAPI.md#publicgettimeget) | **GET** /public/get_time | Retrieves the current time (in milliseconds). This API endpoint can be used to check the clock skew between your software and Deribit&#39;s systems.
-[**publicHelloGet**](SupportingAPI.md#publichelloget) | **GET** /public/hello | Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
 [**publicTestGet**](SupportingAPI.md#publictestget) | **GET** /public/test | Tests the connection to the API server, and returns its version. You can use this to make sure the API is reachable, and matches the expected version.
 
 
@@ -37,56 +36,6 @@ SupportingAPI.publicGetTimeGet() { (response, error) in
 
 ### Parameters
 This endpoint does not need any parameter.
-
-### Return type
-
-**Any**
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **publicHelloGet**
-```swift
-    open class func publicHelloGet(clientName: String, clientVersion: String, completion: @escaping (_ data: Any?, _ error: Error?) -> Void)
-```
-
-Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-
-### Example 
-```swift
-// The following code samples are still beta. For any issue, please report via http://github.com/OpenAPITools/openapi-generator/issues/new
-import OpenAPIClient
-
-let clientName = "clientName_example" // String | Client software name
-let clientVersion = "clientVersion_example" // String | Client software version
-
-// Method used to introduce the client software connected to Deribit platform over websocket. Provided data may have an impact on the maintained connection and will be collected for internal statistical purposes. In response, Deribit will also introduce itself.
-SupportingAPI.publicHelloGet(clientName: clientName, clientVersion: clientVersion) { (response, error) in
-    guard error == nil else {
-        print(error)
-        return
-    }
-
-    if (response) {
-        dump(response)
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **clientName** | **String** | Client software name | 
- **clientVersion** | **String** | Client software version | 
 
 ### Return type
 

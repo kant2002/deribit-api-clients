@@ -4,44 +4,7 @@ All URIs are relative to *https://www.deribit.com/api/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**PrivateLogoutGet**](AuthenticationApi.md#PrivateLogoutGet) | **GET** /private/logout | Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
 [**PublicAuthGet**](AuthenticationApi.md#PublicAuthGet) | **GET** /public/auth | Authenticate
-
-
-# **PrivateLogoutGet**
-> PrivateLogoutGet()
-
-Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-
-### Example
-```R
-library(openapi)
-
-
-#Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-api.instance <- AuthenticationApi$new()
-# Configure HTTP basic authorization: bearerAuth
-api.instance$apiClient$username <- 'TODO_YOUR_USERNAME';
-api.instance$apiClient$password <- 'TODO_YOUR_PASSWORD';
-api.instance$PrivateLogoutGet()
-```
-
-### Parameters
-This endpoint does not need any parameter.
-
-### Return type
-
-void (empty response body)
-
-### Authorization
-
-[bearerAuth](../README.md#bearerAuth)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
 
 
 # **PublicAuthGet**

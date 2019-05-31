@@ -45,14 +45,6 @@ public:
     virtual ~AuthenticationApi();
 
     /// <summary>
-    /// Gracefully close websocket connection, when COD (Cancel On Disconnect) is enabled orders are not cancelled
-    /// </summary>
-    /// <remarks>
-    /// 
-    /// </remarks>
-    pplx::task<void> privateLogoutGet(
-    );
-    /// <summary>
     /// Authenticate
     /// </summary>
     /// <remarks>
