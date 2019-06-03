@@ -32,7 +32,6 @@ Change the user name for a subaccount
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -42,13 +41,14 @@ namespace Example
 {
     public class PrivateChangeSubaccountNameGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var name = newUserName;  // string | The new user name
 
@@ -58,9 +58,11 @@ namespace Example
                 Object result = apiInstance.PrivateChangeSubaccountNameGet(sid, name);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateChangeSubaccountNameGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -103,7 +105,6 @@ Create a new subaccount
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -113,13 +114,14 @@ namespace Example
 {
     public class PrivateCreateSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
 
             try
             {
@@ -127,9 +129,11 @@ namespace Example
                 Object result = apiInstance.PrivateCreateSubaccountGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateCreateSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -168,7 +172,6 @@ Disable two factor authentication for a subaccount.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -178,13 +181,14 @@ namespace Example
 {
     public class PrivateDisableTfaForSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
 
             try
@@ -193,9 +197,11 @@ namespace Example
                 Object result = apiInstance.PrivateDisableTfaForSubaccountGet(sid);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateDisableTfaForSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -237,7 +243,6 @@ Retrieves user account summary.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -247,13 +252,14 @@ namespace Example
 {
     public class PrivateGetAccountSummaryGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var extended = false;  // bool? | Include additional fields (optional) 
 
@@ -263,9 +269,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetAccountSummaryGet(currency, extended);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateGetAccountSummaryGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -308,7 +316,6 @@ Retrieves the language to be used for emails.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -318,13 +325,14 @@ namespace Example
 {
     public class PrivateGetEmailLanguageGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
 
             try
             {
@@ -332,9 +340,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetEmailLanguageGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateGetEmailLanguageGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -373,7 +383,6 @@ Retrieves announcements that have not been marked read by the user.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -383,13 +392,14 @@ namespace Example
 {
     public class PrivateGetNewAnnouncementsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
 
             try
             {
@@ -397,9 +407,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetNewAnnouncementsGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateGetNewAnnouncementsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -438,7 +450,6 @@ Retrieve user position.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -448,13 +459,14 @@ namespace Example
 {
     public class PrivateGetPositionGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
 
             try
@@ -463,9 +475,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetPositionGet(instrumentName);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateGetPositionGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -507,7 +521,6 @@ Retrieve user positions.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -517,13 +530,14 @@ namespace Example
 {
     public class PrivateGetPositionsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var currency = currency_example;  // string | 
             var kind = kind_example;  // string | Kind filter on positions (optional) 
 
@@ -533,9 +547,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetPositionsGet(currency, kind);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateGetPositionsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -578,7 +594,6 @@ Get information about subaccounts
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -588,13 +603,14 @@ namespace Example
 {
     public class PrivateGetSubaccountsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var withPortfolio = true;  // bool? |  (optional) 
 
             try
@@ -603,9 +619,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetSubaccountsGet(withPortfolio);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateGetSubaccountsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -647,7 +665,6 @@ Marks an announcement as read, so it will not be shown in `get_new_announcements
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -657,13 +674,14 @@ namespace Example
 {
     public class PrivateSetAnnouncementAsReadGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var announcementId = 8.14;  // decimal? | the ID of the announcement
 
             try
@@ -672,9 +690,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetAnnouncementAsReadGet(announcementId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateSetAnnouncementAsReadGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -716,7 +736,6 @@ Assign an email address to a subaccount. User will receive an email with confirm
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -726,13 +745,14 @@ namespace Example
 {
     public class PrivateSetEmailForSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var email = subaccount_1@email.com;  // string | The email address for the subaccount
 
@@ -742,9 +762,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetEmailForSubaccountGet(sid, email);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateSetEmailForSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -787,7 +809,6 @@ Changes the language to be used for emails.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -797,13 +818,14 @@ namespace Example
 {
     public class PrivateSetEmailLanguageGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var language = en;  // string | The abbreviated language name. Valid values include `\"en\"`, `\"ko\"`, `\"zh\"`
 
             try
@@ -812,9 +834,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetEmailLanguageGet(language);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateSetEmailLanguageGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -856,7 +880,6 @@ Set the password for the subaccount
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -866,13 +889,14 @@ namespace Example
 {
     public class PrivateSetPasswordForSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var password = password_example;  // string | The password for the subaccount
 
@@ -882,9 +906,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetPasswordForSubaccountGet(sid, password);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateSetPasswordForSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -927,7 +953,6 @@ Enable or disable sending of notifications for the subaccount.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -937,13 +962,14 @@ namespace Example
 {
     public class PrivateToggleNotificationsFromSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var state = true;  // bool? | enable (`true`) or disable (`false`) notifications
 
@@ -953,9 +979,11 @@ namespace Example
                 Object result = apiInstance.PrivateToggleNotificationsFromSubaccountGet(sid, state);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateToggleNotificationsFromSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -998,7 +1026,6 @@ Enable or disable login for a subaccount. If login is disabled and a session for
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1008,13 +1035,14 @@ namespace Example
 {
     public class PrivateToggleSubaccountLoginGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var state = state_example;  // string | enable or disable login.
 
@@ -1024,9 +1052,11 @@ namespace Example
                 Object result = apiInstance.PrivateToggleSubaccountLoginGet(sid, state);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateToggleSubaccountLoginGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1069,7 +1099,6 @@ Retrieves announcements from the last 30 days.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1079,13 +1108,14 @@ namespace Example
 {
     public class PublicGetAnnouncementsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
 
             try
             {
@@ -1093,9 +1123,11 @@ namespace Example
                 Object result = apiInstance.PublicGetAnnouncementsGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PublicGetAnnouncementsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

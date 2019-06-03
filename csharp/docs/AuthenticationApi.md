@@ -19,7 +19,6 @@ Retrieve an Oauth access token, to be used for authentication of 'private' reque
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -29,13 +28,14 @@ namespace Example
 {
     public class PublicAuthGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AuthenticationApi();
+            var apiInstance = new AuthenticationApi(Configuration.Default);
             var grantType = grantType_example;  // string | Method of authentication
             var username = your_email@mail.com;  // string | Required for grant type `password`
             var password = your_password;  // string | Required for grant type `password`
@@ -54,9 +54,11 @@ namespace Example
                 Object result = apiInstance.PublicAuthGet(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AuthenticationApi.PublicAuthGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

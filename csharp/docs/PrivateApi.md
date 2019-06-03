@@ -68,7 +68,6 @@ Adds new entry to address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -78,13 +77,14 @@ namespace Example
 {
     public class PrivateAddToAddressBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Address book type
             var address = address_example;  // string | Address in currency format, it must be in address book
@@ -97,9 +97,11 @@ namespace Example
                 Object result = apiInstance.PrivateAddToAddressBookGet(currency, type, address, name, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateAddToAddressBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -145,7 +147,6 @@ Places a buy order for an instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -155,13 +156,14 @@ namespace Example
 {
     public class PrivateBuyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var amount = 8.14;  // decimal? | It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH
             var type = type_example;  // string | The order type, default: `\"limit\"` (optional) 
@@ -181,9 +183,11 @@ namespace Example
                 Object result = apiInstance.PrivateBuyGet(instrumentName, amount, type, label, price, timeInForce, maxShow, postOnly, reduceOnly, stopPrice, trigger, advanced);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateBuyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -236,7 +240,6 @@ Cancels all orders by currency, optionally filtered by instrument kind and/or or
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -246,13 +249,14 @@ namespace Example
 {
     public class PrivateCancelAllByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var type = type_example;  // string | Order type - limit, stop or all, default - `all` (optional) 
@@ -263,9 +267,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelAllByCurrencyGet(currency, kind, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCancelAllByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -309,7 +315,6 @@ Cancels all orders by instrument, optionally filtered by order type.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -319,13 +324,14 @@ namespace Example
 {
     public class PrivateCancelAllByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Order type - limit, stop or all, default - `all` (optional) 
 
@@ -335,9 +341,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelAllByInstrumentGet(instrumentName, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCancelAllByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -380,7 +388,6 @@ This method cancels all users orders and stop orders within all currencies and i
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -390,13 +397,14 @@ namespace Example
 {
     public class PrivateCancelAllGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
 
             try
             {
@@ -404,9 +412,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelAllGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCancelAllGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -445,7 +455,6 @@ Cancel an order, specified by order id
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -455,13 +464,14 @@ namespace Example
 {
     public class PrivateCancelGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
 
             try
@@ -470,9 +480,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelGet(orderId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCancelGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -514,7 +526,6 @@ Cancel transfer
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -524,13 +535,14 @@ namespace Example
 {
     public class PrivateCancelTransferByIdGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var id = 12;  // int? | Id of transfer
             var tfa = tfa_example;  // string | TFA code, required when TFA is enabled for current account (optional) 
@@ -541,9 +553,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelTransferByIdGet(currency, id, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCancelTransferByIdGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -587,7 +601,6 @@ Cancels withdrawal request
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -597,13 +610,14 @@ namespace Example
 {
     public class PrivateCancelWithdrawalGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var id = 1;  // decimal? | The withdrawal id
 
@@ -613,9 +627,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelWithdrawalGet(currency, id);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCancelWithdrawalGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -658,7 +674,6 @@ Change the user name for a subaccount
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -668,13 +683,14 @@ namespace Example
 {
     public class PrivateChangeSubaccountNameGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var name = newUserName;  // string | The new user name
 
@@ -684,9 +700,11 @@ namespace Example
                 Object result = apiInstance.PrivateChangeSubaccountNameGet(sid, name);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateChangeSubaccountNameGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -729,7 +747,6 @@ Makes closing position reduce only order .
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -739,13 +756,14 @@ namespace Example
 {
     public class PrivateClosePositionGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | The order type
             var price = 8.14;  // decimal? | Optional price for limit order. (optional) 
@@ -756,9 +774,11 @@ namespace Example
                 Object result = apiInstance.PrivateClosePositionGet(instrumentName, type, price);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateClosePositionGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -802,7 +822,6 @@ Creates deposit address in currency
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -812,13 +831,14 @@ namespace Example
 {
     public class PrivateCreateDepositAddressGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
 
             try
@@ -827,9 +847,11 @@ namespace Example
                 Object result = apiInstance.PrivateCreateDepositAddressGet(currency);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCreateDepositAddressGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -871,7 +893,6 @@ Create a new subaccount
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -881,13 +902,14 @@ namespace Example
 {
     public class PrivateCreateSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
 
             try
             {
@@ -895,9 +917,11 @@ namespace Example
                 Object result = apiInstance.PrivateCreateSubaccountGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateCreateSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -936,7 +960,6 @@ Disable two factor authentication for a subaccount.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -946,13 +969,14 @@ namespace Example
 {
     public class PrivateDisableTfaForSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
 
             try
@@ -961,9 +985,11 @@ namespace Example
                 Object result = apiInstance.PrivateDisableTfaForSubaccountGet(sid);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateDisableTfaForSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1005,7 +1031,6 @@ Disables TFA with one time recovery code
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1015,13 +1040,14 @@ namespace Example
 {
     public class PrivateDisableTfaWithRecoveryCodeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var password = password_example;  // string | The password for the subaccount
             var code = code_example;  // string | One time recovery code
 
@@ -1031,9 +1057,11 @@ namespace Example
                 Object result = apiInstance.PrivateDisableTfaWithRecoveryCodeGet(password, code);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateDisableTfaWithRecoveryCodeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1076,7 +1104,6 @@ Change price, amount and/or other properties of an order.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1086,13 +1113,14 @@ namespace Example
 {
     public class PrivateEditGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
             var amount = 8.14;  // decimal? | It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH
             var price = 8.14;  // decimal? | <p>The order price in base currency.</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p>
@@ -1106,9 +1134,11 @@ namespace Example
                 Object result = apiInstance.PrivateEditGet(orderId, amount, price, postOnly, advanced, stopPrice);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateEditGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1155,7 +1185,6 @@ Retrieves user account summary.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1165,13 +1194,14 @@ namespace Example
 {
     public class PrivateGetAccountSummaryGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var extended = false;  // bool? | Include additional fields (optional) 
 
@@ -1181,9 +1211,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetAccountSummaryGet(currency, extended);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetAccountSummaryGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1226,7 +1258,6 @@ Retrieves address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1236,13 +1267,14 @@ namespace Example
 {
     public class PrivateGetAddressBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Address book type
 
@@ -1252,9 +1284,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetAddressBookGet(currency, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetAddressBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1297,7 +1331,6 @@ Retrieve deposit address for currency
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1307,13 +1340,14 @@ namespace Example
 {
     public class PrivateGetCurrentDepositAddressGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
 
             try
@@ -1322,9 +1356,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetCurrentDepositAddressGet(currency);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetCurrentDepositAddressGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1366,7 +1402,6 @@ Retrieve the latest users deposits
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1376,13 +1411,14 @@ namespace Example
 {
     public class PrivateGetDepositsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var count = 56;  // int? | Number of requested items, default - `10` (optional) 
             var offset = 10;  // int? | The offset for pagination, default - `0` (optional) 
@@ -1393,9 +1429,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetDepositsGet(currency, count, offset);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetDepositsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1439,7 +1477,6 @@ Retrieves the language to be used for emails.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1449,13 +1486,14 @@ namespace Example
 {
     public class PrivateGetEmailLanguageGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
 
             try
             {
@@ -1463,9 +1501,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetEmailLanguageGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetEmailLanguageGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1504,7 +1544,6 @@ Get margins for given instrument, amount and price.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1514,13 +1553,14 @@ namespace Example
 {
     public class PrivateGetMarginsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var amount = 1;  // decimal? | Amount, integer for future, float for option. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH.
             var price = 8.14;  // decimal? | Price
@@ -1531,9 +1571,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetMarginsGet(instrumentName, amount, price);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetMarginsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1577,7 +1619,6 @@ Retrieves announcements that have not been marked read by the user.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1587,13 +1628,14 @@ namespace Example
 {
     public class PrivateGetNewAnnouncementsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
 
             try
             {
@@ -1601,9 +1643,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetNewAnnouncementsGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetNewAnnouncementsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1642,7 +1686,6 @@ Retrieves list of user's open orders.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1652,13 +1695,14 @@ namespace Example
 {
     public class PrivateGetOpenOrdersByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var type = type_example;  // string | Order type, default - `all` (optional) 
@@ -1669,9 +1713,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOpenOrdersByCurrencyGet(currency, kind, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetOpenOrdersByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1715,7 +1761,6 @@ Retrieves list of user's open orders within given Instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1725,13 +1770,14 @@ namespace Example
 {
     public class PrivateGetOpenOrdersByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Order type, default - `all` (optional) 
 
@@ -1741,9 +1787,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOpenOrdersByInstrumentGet(instrumentName, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetOpenOrdersByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1786,7 +1834,6 @@ Retrieves history of orders that have been partially or fully filled.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1796,13 +1843,14 @@ namespace Example
 {
     public class PrivateGetOrderHistoryByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -1816,9 +1864,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderHistoryByCurrencyGet(currency, kind, count, offset, includeOld, includeUnfilled);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetOrderHistoryByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1865,7 +1915,6 @@ Retrieves history of orders that have been partially or fully filled.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1875,13 +1924,14 @@ namespace Example
 {
     public class PrivateGetOrderHistoryByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
             var offset = 10;  // int? | The offset for pagination, default - `0` (optional) 
@@ -1894,9 +1944,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderHistoryByInstrumentGet(instrumentName, count, offset, includeOld, includeUnfilled);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetOrderHistoryByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1942,7 +1994,6 @@ Retrieves initial margins of given orders
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1952,13 +2003,14 @@ namespace Example
 {
     public class PrivateGetOrderMarginByIdsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var ids = new List<string>(); // List<string> | Ids of orders
 
             try
@@ -1967,9 +2019,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderMarginByIdsGet(ids);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetOrderMarginByIdsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2011,7 +2065,6 @@ Retrieve the current state of an order.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2021,13 +2074,14 @@ namespace Example
 {
     public class PrivateGetOrderStateGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
 
             try
@@ -2036,9 +2090,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderStateGet(orderId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetOrderStateGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2080,7 +2136,6 @@ Retrieve user position.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2090,13 +2145,14 @@ namespace Example
 {
     public class PrivateGetPositionGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
 
             try
@@ -2105,9 +2161,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetPositionGet(instrumentName);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetPositionGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2149,7 +2207,6 @@ Retrieve user positions.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2159,13 +2216,14 @@ namespace Example
 {
     public class PrivateGetPositionsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | 
             var kind = kind_example;  // string | Kind filter on positions (optional) 
 
@@ -2175,9 +2233,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetPositionsGet(currency, kind);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetPositionsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2220,7 +2280,6 @@ Retrieves settlement, delivery and bankruptcy events that have affected your acc
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2230,13 +2289,14 @@ namespace Example
 {
     public class PrivateGetSettlementHistoryByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Settlement type (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -2247,9 +2307,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetSettlementHistoryByCurrencyGet(currency, type, count);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetSettlementHistoryByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2293,7 +2355,6 @@ Retrieves public settlement, delivery and bankruptcy events filtered by instrume
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2303,13 +2364,14 @@ namespace Example
 {
     public class PrivateGetSettlementHistoryByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Settlement type (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -2320,9 +2382,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetSettlementHistoryByInstrumentGet(instrumentName, type, count);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetSettlementHistoryByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2366,7 +2430,6 @@ Get information about subaccounts
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2376,13 +2439,14 @@ namespace Example
 {
     public class PrivateGetSubaccountsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var withPortfolio = true;  // bool? |  (optional) 
 
             try
@@ -2391,9 +2455,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetSubaccountsGet(withPortfolio);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetSubaccountsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2435,7 +2501,6 @@ Adds new entry to address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2445,13 +2510,14 @@ namespace Example
 {
     public class PrivateGetTransfersGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var count = 56;  // int? | Number of requested items, default - `10` (optional) 
             var offset = 10;  // int? | The offset for pagination, default - `0` (optional) 
@@ -2462,9 +2528,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetTransfersGet(currency, count, offset);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetTransfersGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2508,7 +2576,6 @@ Retrieve the latest user trades that have occurred for instruments in a specific
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2518,13 +2585,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByCurrencyAndTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -2539,9 +2607,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByCurrencyAndTimeGet(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetUserTradesByCurrencyAndTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2589,7 +2659,6 @@ Retrieve the latest user trades that have occurred for instruments in a specific
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2599,13 +2668,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var startId = startId_example;  // string | The ID number of the first trade to be returned (optional) 
@@ -2620,9 +2690,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByCurrencyGet(currency, kind, startId, endId, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetUserTradesByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2670,7 +2742,6 @@ Retrieve the latest user trades that have occurred for a specific instrument and
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2680,13 +2751,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByInstrumentAndTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -2700,9 +2772,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByInstrumentAndTimeGet(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetUserTradesByInstrumentAndTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2749,7 +2823,6 @@ Retrieve the latest user trades that have occurred for a specific instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2759,13 +2832,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startSeq = 56;  // int? | The sequence number of the first trade to be returned (optional) 
             var endSeq = 56;  // int? | The sequence number of the last trade to be returned (optional) 
@@ -2779,9 +2853,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByInstrumentGet(instrumentName, startSeq, endSeq, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetUserTradesByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2828,7 +2904,6 @@ Retrieve the list of user trades that was created for given order
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2838,13 +2913,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByOrderGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
             var sorting = sorting_example;  // string | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) (optional) 
 
@@ -2854,9 +2930,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByOrderGet(orderId, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetUserTradesByOrderGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2899,7 +2977,6 @@ Retrieve the latest users withdrawals
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2909,13 +2986,14 @@ namespace Example
 {
     public class PrivateGetWithdrawalsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var count = 56;  // int? | Number of requested items, default - `10` (optional) 
             var offset = 10;  // int? | The offset for pagination, default - `0` (optional) 
@@ -2926,9 +3004,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetWithdrawalsGet(currency, count, offset);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateGetWithdrawalsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -2972,7 +3052,6 @@ Adds new entry to address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -2982,13 +3061,14 @@ namespace Example
 {
     public class PrivateRemoveFromAddressBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Address book type
             var address = address_example;  // string | Address in currency format, it must be in address book
@@ -3000,9 +3080,11 @@ namespace Example
                 Object result = apiInstance.PrivateRemoveFromAddressBookGet(currency, type, address, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateRemoveFromAddressBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3047,7 +3129,6 @@ Places a sell order for an instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3057,13 +3138,14 @@ namespace Example
 {
     public class PrivateSellGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var amount = 8.14;  // decimal? | It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH
             var type = type_example;  // string | The order type, default: `\"limit\"` (optional) 
@@ -3083,9 +3165,11 @@ namespace Example
                 Object result = apiInstance.PrivateSellGet(instrumentName, amount, type, label, price, timeInForce, maxShow, postOnly, reduceOnly, stopPrice, trigger, advanced);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSellGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3138,7 +3222,6 @@ Marks an announcement as read, so it will not be shown in `get_new_announcements
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3148,13 +3231,14 @@ namespace Example
 {
     public class PrivateSetAnnouncementAsReadGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var announcementId = 8.14;  // decimal? | the ID of the announcement
 
             try
@@ -3163,9 +3247,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetAnnouncementAsReadGet(announcementId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSetAnnouncementAsReadGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3207,7 +3293,6 @@ Assign an email address to a subaccount. User will receive an email with confirm
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3217,13 +3302,14 @@ namespace Example
 {
     public class PrivateSetEmailForSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var email = subaccount_1@email.com;  // string | The email address for the subaccount
 
@@ -3233,9 +3319,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetEmailForSubaccountGet(sid, email);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSetEmailForSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3278,7 +3366,6 @@ Changes the language to be used for emails.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3288,13 +3375,14 @@ namespace Example
 {
     public class PrivateSetEmailLanguageGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var language = en;  // string | The abbreviated language name. Valid values include `\"en\"`, `\"ko\"`, `\"zh\"`
 
             try
@@ -3303,9 +3391,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetEmailLanguageGet(language);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSetEmailLanguageGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3347,7 +3437,6 @@ Set the password for the subaccount
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3357,13 +3446,14 @@ namespace Example
 {
     public class PrivateSetPasswordForSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var password = password_example;  // string | The password for the subaccount
 
@@ -3373,9 +3463,11 @@ namespace Example
                 Object result = apiInstance.PrivateSetPasswordForSubaccountGet(sid, password);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSetPasswordForSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3418,7 +3510,6 @@ Transfer funds to a subaccount.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3428,13 +3519,14 @@ namespace Example
 {
     public class PrivateSubmitTransferToSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var amount = 8.14;  // decimal? | Amount of funds to be transferred
             var destination = 1;  // int? | Id of destination subaccount
@@ -3445,9 +3537,11 @@ namespace Example
                 Object result = apiInstance.PrivateSubmitTransferToSubaccountGet(currency, amount, destination);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSubmitTransferToSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3491,7 +3585,6 @@ Transfer funds to a another user.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3501,13 +3594,14 @@ namespace Example
 {
     public class PrivateSubmitTransferToUserGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var amount = 8.14;  // decimal? | Amount of funds to be transferred
             var destination = destination_example;  // string | Destination address from address book
@@ -3519,9 +3613,11 @@ namespace Example
                 Object result = apiInstance.PrivateSubmitTransferToUserGet(currency, amount, destination, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateSubmitTransferToUserGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3566,7 +3662,6 @@ Enable or disable deposit address creation
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3576,13 +3671,14 @@ namespace Example
 {
     public class PrivateToggleDepositAddressCreationGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var state = true;  // bool? | 
 
@@ -3592,9 +3688,11 @@ namespace Example
                 Object result = apiInstance.PrivateToggleDepositAddressCreationGet(currency, state);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateToggleDepositAddressCreationGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3637,7 +3735,6 @@ Enable or disable sending of notifications for the subaccount.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3647,13 +3744,14 @@ namespace Example
 {
     public class PrivateToggleNotificationsFromSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var state = true;  // bool? | enable (`true`) or disable (`false`) notifications
 
@@ -3663,9 +3761,11 @@ namespace Example
                 Object result = apiInstance.PrivateToggleNotificationsFromSubaccountGet(sid, state);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateToggleNotificationsFromSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3708,7 +3808,6 @@ Enable or disable login for a subaccount. If login is disabled and a session for
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3718,13 +3817,14 @@ namespace Example
 {
     public class PrivateToggleSubaccountLoginGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var state = state_example;  // string | enable or disable login.
 
@@ -3734,9 +3834,11 @@ namespace Example
                 Object result = apiInstance.PrivateToggleSubaccountLoginGet(sid, state);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateToggleSubaccountLoginGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -3779,7 +3881,6 @@ Creates a new withdrawal request
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -3789,13 +3890,14 @@ namespace Example
 {
     public class PrivateWithdrawGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new PrivateApi();
+            var apiInstance = new PrivateApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var address = address_example;  // string | Address in currency format, it must be in address book
             var amount = 8.14;  // decimal? | Amount of funds to be withdrawn
@@ -3808,9 +3910,11 @@ namespace Example
                 Object result = apiInstance.PrivateWithdrawGet(currency, address, amount, priority, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling PrivateApi.PrivateWithdrawGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

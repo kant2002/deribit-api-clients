@@ -16,6 +16,7 @@ The access token is valid for a certain time, read more about the scope of acces
 * ASP.NET Core
 * C
 * Clojure
+* C++ Qt5
 * C++ REST SDK
 * C#
 * Erlang

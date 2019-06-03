@@ -34,7 +34,6 @@ Retrieves the summary information such as open interest, 24h volume, etc. for al
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -44,13 +43,14 @@ namespace Example
 {
     public class PublicGetBookSummaryByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
 
@@ -60,9 +60,11 @@ namespace Example
                 Object result = apiInstance.PublicGetBookSummaryByCurrencyGet(currency, kind);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetBookSummaryByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -105,7 +107,6 @@ Retrieves the summary information such as open interest, 24h volume, etc. for a 
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -115,13 +116,14 @@ namespace Example
 {
     public class PublicGetBookSummaryByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
 
             try
@@ -130,9 +132,11 @@ namespace Example
                 Object result = apiInstance.PublicGetBookSummaryByInstrumentGet(instrumentName);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetBookSummaryByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -174,7 +178,6 @@ Retrieves contract size of provided instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -184,13 +187,14 @@ namespace Example
 {
     public class PublicGetContractSizeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
 
             try
@@ -199,9 +203,11 @@ namespace Example
                 Object result = apiInstance.PublicGetContractSizeGet(instrumentName);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetContractSizeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -243,7 +249,6 @@ Retrieves all cryptocurrencies supported by the API.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -253,13 +258,14 @@ namespace Example
 {
     public class PublicGetCurrenciesGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
 
             try
             {
@@ -267,9 +273,11 @@ namespace Example
                 Object result = apiInstance.PublicGetCurrenciesGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetCurrenciesGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -308,7 +316,6 @@ Retrieve the latest user trades that have occurred for PERPETUAL instruments in 
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -318,13 +325,14 @@ namespace Example
 {
     public class PublicGetFundingChartDataGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var length = length_example;  // string | Specifies time period. `8h` - 8 hours, `24h` - 24 hours (optional) 
 
@@ -334,9 +342,11 @@ namespace Example
                 Object result = apiInstance.PublicGetFundingChartDataGet(instrumentName, length);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetFundingChartDataGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -379,7 +389,6 @@ Provides information about historical volatility for given cryptocurrency.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -389,13 +398,14 @@ namespace Example
 {
     public class PublicGetHistoricalVolatilityGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
 
             try
@@ -404,9 +414,11 @@ namespace Example
                 Object result = apiInstance.PublicGetHistoricalVolatilityGet(currency);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetHistoricalVolatilityGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -448,7 +460,6 @@ Retrieves the current index price for the instruments, for the selected currency
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -458,13 +469,14 @@ namespace Example
 {
     public class PublicGetIndexGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
 
             try
@@ -473,9 +485,11 @@ namespace Example
                 Object result = apiInstance.PublicGetIndexGet(currency);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetIndexGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -517,7 +531,6 @@ Retrieves available trading instruments. This method can be used to see which in
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -527,13 +540,14 @@ namespace Example
 {
     public class PublicGetInstrumentsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var expired = true;  // bool? | Set to true to show expired instruments instead of active ones. (optional)  (default to false)
@@ -544,9 +558,11 @@ namespace Example
                 Object result = apiInstance.PublicGetInstrumentsGet(currency, kind, expired);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetInstrumentsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -590,7 +606,6 @@ Retrieves historical settlement, delivery and bankruptcy events coming from all 
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -600,13 +615,14 @@ namespace Example
 {
     public class PublicGetLastSettlementsByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Settlement type (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -619,9 +635,11 @@ namespace Example
                 Object result = apiInstance.PublicGetLastSettlementsByCurrencyGet(currency, type, count, continuation, searchStartTimestamp);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetLastSettlementsByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -667,7 +685,6 @@ Retrieves historical public settlement, delivery and bankruptcy events filtered 
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -677,13 +694,14 @@ namespace Example
 {
     public class PublicGetLastSettlementsByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Settlement type (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -696,9 +714,11 @@ namespace Example
                 Object result = apiInstance.PublicGetLastSettlementsByInstrumentGet(instrumentName, type, count, continuation, searchStartTimestamp);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetLastSettlementsByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -744,7 +764,6 @@ Retrieve the latest trades that have occurred for instruments in a specific curr
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -754,13 +773,14 @@ namespace Example
 {
     public class PublicGetLastTradesByCurrencyAndTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -775,9 +795,11 @@ namespace Example
                 Object result = apiInstance.PublicGetLastTradesByCurrencyAndTimeGet(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetLastTradesByCurrencyAndTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -825,7 +847,6 @@ Retrieve the latest trades that have occurred for instruments in a specific curr
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -835,13 +856,14 @@ namespace Example
 {
     public class PublicGetLastTradesByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var startId = startId_example;  // string | The ID number of the first trade to be returned (optional) 
@@ -856,9 +878,11 @@ namespace Example
                 Object result = apiInstance.PublicGetLastTradesByCurrencyGet(currency, kind, startId, endId, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetLastTradesByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -906,7 +930,6 @@ Retrieve the latest trades that have occurred for a specific instrument and with
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -916,13 +939,14 @@ namespace Example
 {
     public class PublicGetLastTradesByInstrumentAndTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -936,9 +960,11 @@ namespace Example
                 Object result = apiInstance.PublicGetLastTradesByInstrumentAndTimeGet(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetLastTradesByInstrumentAndTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -985,7 +1011,6 @@ Retrieve the latest trades that have occurred for a specific instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -995,13 +1020,14 @@ namespace Example
 {
     public class PublicGetLastTradesByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startSeq = 56;  // int? | The sequence number of the first trade to be returned (optional) 
             var endSeq = 56;  // int? | The sequence number of the last trade to be returned (optional) 
@@ -1015,9 +1041,11 @@ namespace Example
                 Object result = apiInstance.PublicGetLastTradesByInstrumentGet(instrumentName, startSeq, endSeq, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetLastTradesByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1064,7 +1092,6 @@ Retrieves the order book, along with other market values for a given instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1074,13 +1101,14 @@ namespace Example
 {
     public class PublicGetOrderBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = instrumentName_example;  // string | The instrument name for which to retrieve the order book, see [`getinstruments`](#getinstruments) to obtain instrument names.
             var depth = 8.14;  // decimal? | The number of entries to return for bids and asks. (optional) 
 
@@ -1090,9 +1118,11 @@ namespace Example
                 Object result = apiInstance.PublicGetOrderBookGet(instrumentName, depth);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetOrderBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1135,7 +1165,6 @@ Retrieves aggregated 24h trade volumes for different instrument types and curren
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1145,13 +1174,14 @@ namespace Example
 {
     public class PublicGetTradeVolumesGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
 
             try
             {
@@ -1159,9 +1189,11 @@ namespace Example
                 Object result = apiInstance.PublicGetTradeVolumesGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetTradeVolumesGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1200,7 +1232,6 @@ Publicly available market data used to generate a TradingView candle chart.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1210,13 +1241,14 @@ namespace Example
 {
     public class PublicGetTradingviewChartDataGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -1227,9 +1259,11 @@ namespace Example
                 Object result = apiInstance.PublicGetTradingviewChartDataGet(instrumentName, startTimestamp, endTimestamp);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicGetTradingviewChartDataGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1273,7 +1307,6 @@ Get ticker for an instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1283,13 +1316,14 @@ namespace Example
 {
     public class PublicTickerGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new MarketDataApi();
+            var apiInstance = new MarketDataApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
 
             try
@@ -1298,9 +1332,11 @@ namespace Example
                 Object result = apiInstance.PublicTickerGet(instrumentName);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling MarketDataApi.PublicTickerGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

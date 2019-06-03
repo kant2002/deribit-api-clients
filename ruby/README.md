@@ -402,9 +402,8 @@ require 'openapi_client'
 
 # Setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::AccountManagementApi.new
@@ -616,5 +615,5 @@ Class | Method | HTTP request | Description
 
 ### bearerAuth
 
-- **Type**: HTTP basic authentication
+- **Type**: Bearer authentication (Auth. Token)
 

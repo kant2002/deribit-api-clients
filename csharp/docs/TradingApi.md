@@ -38,7 +38,6 @@ Places a buy order for an instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -48,13 +47,14 @@ namespace Example
 {
     public class PrivateBuyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var amount = 8.14;  // decimal? | It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH
             var type = type_example;  // string | The order type, default: `\"limit\"` (optional) 
@@ -74,9 +74,11 @@ namespace Example
                 Object result = apiInstance.PrivateBuyGet(instrumentName, amount, type, label, price, timeInForce, maxShow, postOnly, reduceOnly, stopPrice, trigger, advanced);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateBuyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -129,7 +131,6 @@ Cancels all orders by currency, optionally filtered by instrument kind and/or or
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -139,13 +140,14 @@ namespace Example
 {
     public class PrivateCancelAllByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var type = type_example;  // string | Order type - limit, stop or all, default - `all` (optional) 
@@ -156,9 +158,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelAllByCurrencyGet(currency, kind, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateCancelAllByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -202,7 +206,6 @@ Cancels all orders by instrument, optionally filtered by order type.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -212,13 +215,14 @@ namespace Example
 {
     public class PrivateCancelAllByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Order type - limit, stop or all, default - `all` (optional) 
 
@@ -228,9 +232,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelAllByInstrumentGet(instrumentName, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateCancelAllByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -273,7 +279,6 @@ This method cancels all users orders and stop orders within all currencies and i
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -283,13 +288,14 @@ namespace Example
 {
     public class PrivateCancelAllGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
 
             try
             {
@@ -297,9 +303,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelAllGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateCancelAllGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -338,7 +346,6 @@ Cancel an order, specified by order id
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -348,13 +355,14 @@ namespace Example
 {
     public class PrivateCancelGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
 
             try
@@ -363,9 +371,11 @@ namespace Example
                 Object result = apiInstance.PrivateCancelGet(orderId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateCancelGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -407,7 +417,6 @@ Makes closing position reduce only order .
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -417,13 +426,14 @@ namespace Example
 {
     public class PrivateClosePositionGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | The order type
             var price = 8.14;  // decimal? | Optional price for limit order. (optional) 
@@ -434,9 +444,11 @@ namespace Example
                 Object result = apiInstance.PrivateClosePositionGet(instrumentName, type, price);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateClosePositionGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -480,7 +492,6 @@ Change price, amount and/or other properties of an order.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -490,13 +501,14 @@ namespace Example
 {
     public class PrivateEditGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
             var amount = 8.14;  // decimal? | It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH
             var price = 8.14;  // decimal? | <p>The order price in base currency.</p> <p>When editing an option order with advanced=usd, the field price should be the option price value in USD.</p> <p>When editing an option order with advanced=implv, the field price should be a value of implied volatility in percentages. For example,  price=100, means implied volatility of 100%</p>
@@ -510,9 +522,11 @@ namespace Example
                 Object result = apiInstance.PrivateEditGet(orderId, amount, price, postOnly, advanced, stopPrice);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateEditGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -559,7 +573,6 @@ Get margins for given instrument, amount and price.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -569,13 +582,14 @@ namespace Example
 {
     public class PrivateGetMarginsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var amount = 1;  // decimal? | Amount, integer for future, float for option. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH.
             var price = 8.14;  // decimal? | Price
@@ -586,9 +600,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetMarginsGet(instrumentName, amount, price);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetMarginsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -632,7 +648,6 @@ Retrieves list of user's open orders.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -642,13 +657,14 @@ namespace Example
 {
     public class PrivateGetOpenOrdersByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var type = type_example;  // string | Order type, default - `all` (optional) 
@@ -659,9 +675,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOpenOrdersByCurrencyGet(currency, kind, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetOpenOrdersByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -705,7 +723,6 @@ Retrieves list of user's open orders within given Instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -715,13 +732,14 @@ namespace Example
 {
     public class PrivateGetOpenOrdersByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Order type, default - `all` (optional) 
 
@@ -731,9 +749,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOpenOrdersByInstrumentGet(instrumentName, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetOpenOrdersByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -776,7 +796,6 @@ Retrieves history of orders that have been partially or fully filled.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -786,13 +805,14 @@ namespace Example
 {
     public class PrivateGetOrderHistoryByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -806,9 +826,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderHistoryByCurrencyGet(currency, kind, count, offset, includeOld, includeUnfilled);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetOrderHistoryByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -855,7 +877,6 @@ Retrieves history of orders that have been partially or fully filled.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -865,13 +886,14 @@ namespace Example
 {
     public class PrivateGetOrderHistoryByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
             var offset = 10;  // int? | The offset for pagination, default - `0` (optional) 
@@ -884,9 +906,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderHistoryByInstrumentGet(instrumentName, count, offset, includeOld, includeUnfilled);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetOrderHistoryByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -932,7 +956,6 @@ Retrieves initial margins of given orders
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -942,13 +965,14 @@ namespace Example
 {
     public class PrivateGetOrderMarginByIdsGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var ids = new List<string>(); // List<string> | Ids of orders
 
             try
@@ -957,9 +981,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderMarginByIdsGet(ids);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetOrderMarginByIdsGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1001,7 +1027,6 @@ Retrieve the current state of an order.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1011,13 +1036,14 @@ namespace Example
 {
     public class PrivateGetOrderStateGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
 
             try
@@ -1026,9 +1052,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetOrderStateGet(orderId);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetOrderStateGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1070,7 +1098,6 @@ Retrieves settlement, delivery and bankruptcy events that have affected your acc
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1080,13 +1107,14 @@ namespace Example
 {
     public class PrivateGetSettlementHistoryByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Settlement type (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -1097,9 +1125,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetSettlementHistoryByCurrencyGet(currency, type, count);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetSettlementHistoryByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1143,7 +1173,6 @@ Retrieves public settlement, delivery and bankruptcy events filtered by instrume
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1153,13 +1182,14 @@ namespace Example
 {
     public class PrivateGetSettlementHistoryByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var type = type_example;  // string | Settlement type (optional) 
             var count = 56;  // int? | Number of requested items, default - `20` (optional) 
@@ -1170,9 +1200,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetSettlementHistoryByInstrumentGet(instrumentName, type, count);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetSettlementHistoryByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1216,7 +1248,6 @@ Retrieve the latest user trades that have occurred for instruments in a specific
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1226,13 +1257,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByCurrencyAndTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -1247,9 +1279,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByCurrencyAndTimeGet(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetUserTradesByCurrencyAndTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1297,7 +1331,6 @@ Retrieve the latest user trades that have occurred for instruments in a specific
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1307,13 +1340,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByCurrencyGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var kind = kind_example;  // string | Instrument kind, if not provided instruments of all kinds are considered (optional) 
             var startId = startId_example;  // string | The ID number of the first trade to be returned (optional) 
@@ -1328,9 +1362,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByCurrencyGet(currency, kind, startId, endId, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetUserTradesByCurrencyGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1378,7 +1414,6 @@ Retrieve the latest user trades that have occurred for a specific instrument and
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1388,13 +1423,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByInstrumentAndTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startTimestamp = 1536569522277;  // int? | The earliest timestamp to return result for
             var endTimestamp = 1536569522277;  // int? | The most recent timestamp to return result for
@@ -1408,9 +1444,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByInstrumentAndTimeGet(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetUserTradesByInstrumentAndTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1457,7 +1495,6 @@ Retrieve the latest user trades that have occurred for a specific instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1467,13 +1504,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByInstrumentGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var startSeq = 56;  // int? | The sequence number of the first trade to be returned (optional) 
             var endSeq = 56;  // int? | The sequence number of the last trade to be returned (optional) 
@@ -1487,9 +1525,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByInstrumentGet(instrumentName, startSeq, endSeq, count, includeOld, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetUserTradesByInstrumentGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1536,7 +1576,6 @@ Retrieve the list of user trades that was created for given order
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1546,13 +1585,14 @@ namespace Example
 {
     public class PrivateGetUserTradesByOrderGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var orderId = ETH-100234;  // string | The order id
             var sorting = sorting_example;  // string | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database) (optional) 
 
@@ -1562,9 +1602,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetUserTradesByOrderGet(orderId, sorting);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateGetUserTradesByOrderGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -1607,7 +1649,6 @@ Places a sell order for an instrument.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -1617,13 +1658,14 @@ namespace Example
 {
     public class PrivateSellGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new TradingApi();
+            var apiInstance = new TradingApi(Configuration.Default);
             var instrumentName = BTC-PERPETUAL;  // string | Instrument name
             var amount = 8.14;  // decimal? | It represents the requested order size. For perpetual and futures the amount is in USD units, for options it is amount of corresponding cryptocurrency contracts, e.g., BTC or ETH
             var type = type_example;  // string | The order type, default: `\"limit\"` (optional) 
@@ -1643,9 +1685,11 @@ namespace Example
                 Object result = apiInstance.PrivateSellGet(instrumentName, amount, type, label, price, timeInForce, maxShow, postOnly, reduceOnly, stopPrice, trigger, advanced);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling TradingApi.PrivateSellGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -43,7 +42,7 @@ type PrivateAddToAddressBookGetOpts struct {
 
 func (a *PrivateApiService) PrivateAddToAddressBookGet(ctx context.Context, currency string, type_ string, address string, name string, localVarOptionals *PrivateAddToAddressBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -162,7 +161,7 @@ type PrivateBuyGetOpts struct {
 
 func (a *PrivateApiService) PrivateBuyGet(ctx context.Context, instrumentName string, amount float32, localVarOptionals *PrivateBuyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -289,7 +288,7 @@ type PrivateCancelAllByCurrencyGetOpts struct {
 
 func (a *PrivateApiService) PrivateCancelAllByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateCancelAllByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -389,7 +388,7 @@ type PrivateCancelAllByInstrumentGetOpts struct {
 
 func (a *PrivateApiService) PrivateCancelAllByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateCancelAllByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -478,7 +477,7 @@ PrivateApiService This method cancels all users orders and stop orders within al
 */
 func (a *PrivateApiService) PrivateCancelAllGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -564,7 +563,7 @@ PrivateApiService Cancel an order, specified by order id
 */
 func (a *PrivateApiService) PrivateCancelGet(ctx context.Context, orderId string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -659,7 +658,7 @@ type PrivateCancelTransferByIdGetOpts struct {
 
 func (a *PrivateApiService) PrivateCancelTransferByIdGet(ctx context.Context, currency string, id int32, localVarOptionals *PrivateCancelTransferByIdGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -751,7 +750,7 @@ PrivateApiService Cancels withdrawal request
 */
 func (a *PrivateApiService) PrivateCancelWithdrawalGet(ctx context.Context, currency string, id float32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -840,7 +839,7 @@ PrivateApiService Change the user name for a subaccount
 */
 func (a *PrivateApiService) PrivateChangeSubaccountNameGet(ctx context.Context, sid int32, name string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -936,7 +935,7 @@ type PrivateClosePositionGetOpts struct {
 
 func (a *PrivateApiService) PrivateClosePositionGet(ctx context.Context, instrumentName string, type_ string, localVarOptionals *PrivateClosePositionGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1027,7 +1026,7 @@ PrivateApiService Creates deposit address in currency
 */
 func (a *PrivateApiService) PrivateCreateDepositAddressGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1113,7 +1112,7 @@ PrivateApiService Create a new subaccount
 */
 func (a *PrivateApiService) PrivateCreateSubaccountGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1199,7 +1198,7 @@ PrivateApiService Disable two factor authentication for a subaccount.
 */
 func (a *PrivateApiService) PrivateDisableTfaForSubaccountGet(ctx context.Context, sid int32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1287,7 +1286,7 @@ PrivateApiService Disables TFA with one time recovery code
 */
 func (a *PrivateApiService) PrivateDisableTfaWithRecoveryCodeGet(ctx context.Context, password string, code string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1388,7 +1387,7 @@ type PrivateEditGetOpts struct {
 
 func (a *PrivateApiService) PrivateEditGet(ctx context.Context, orderId string, amount float32, price float32, localVarOptionals *PrivateEditGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1493,7 +1492,7 @@ type PrivateGetAccountSummaryGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetAccountSummaryGet(ctx context.Context, currency string, localVarOptionals *PrivateGetAccountSummaryGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1584,7 +1583,7 @@ PrivateApiService Retrieves address book of given type
 */
 func (a *PrivateApiService) PrivateGetAddressBookGet(ctx context.Context, currency string, type_ string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1672,7 +1671,7 @@ PrivateApiService Retrieve deposit address for currency
 */
 func (a *PrivateApiService) PrivateGetCurrentDepositAddressGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1768,7 +1767,7 @@ type PrivateGetDepositsGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetDepositsGet(ctx context.Context, currency string, localVarOptionals *PrivateGetDepositsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1860,7 +1859,7 @@ PrivateApiService Retrieves the language to be used for emails.
 */
 func (a *PrivateApiService) PrivateGetEmailLanguageGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1948,7 +1947,7 @@ PrivateApiService Get margins for given instrument, amount and price.
 */
 func (a *PrivateApiService) PrivateGetMarginsGet(ctx context.Context, instrumentName string, amount float32, price float32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2036,7 +2035,7 @@ PrivateApiService Retrieves announcements that have not been marked read by the 
 */
 func (a *PrivateApiService) PrivateGetNewAnnouncementsGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2131,7 +2130,7 @@ type PrivateGetOpenOrdersByCurrencyGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetOpenOrdersByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetOpenOrdersByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2231,7 +2230,7 @@ type PrivateGetOpenOrdersByInstrumentGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetOpenOrdersByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetOpenOrdersByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2336,7 +2335,7 @@ type PrivateGetOrderHistoryByCurrencyGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetOrderHistoryByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetOrderHistoryByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2451,7 +2450,7 @@ type PrivateGetOrderHistoryByInstrumentGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetOrderHistoryByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetOrderHistoryByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2550,7 +2549,7 @@ PrivateApiService Retrieves initial margins of given orders
 */
 func (a *PrivateApiService) PrivateGetOrderMarginByIdsGet(ctx context.Context, ids []string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2637,7 +2636,7 @@ PrivateApiService Retrieve the current state of an order.
 */
 func (a *PrivateApiService) PrivateGetOrderStateGet(ctx context.Context, orderId string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2734,7 +2733,7 @@ PrivateApiService Retrieve user position.
 */
 func (a *PrivateApiService) PrivateGetPositionGet(ctx context.Context, instrumentName string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2838,7 +2837,7 @@ type PrivateGetPositionsGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetPositionsGet(ctx context.Context, currency string, localVarOptionals *PrivateGetPositionsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2947,7 +2946,7 @@ type PrivateGetSettlementHistoryByCurrencyGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetSettlementHistoryByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetSettlementHistoryByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3049,7 +3048,7 @@ type PrivateGetSettlementHistoryByInstrumentGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetSettlementHistoryByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetSettlementHistoryByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3148,7 +3147,7 @@ type PrivateGetSubaccountsGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetSubaccountsGet(ctx context.Context, localVarOptionals *PrivateGetSubaccountsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3256,7 +3255,7 @@ type PrivateGetTransfersGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetTransfersGet(ctx context.Context, currency string, localVarOptionals *PrivateGetTransfersGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3364,7 +3363,7 @@ type PrivateGetUserTradesByCurrencyAndTimeGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetUserTradesByCurrencyAndTimeGet(ctx context.Context, currency string, startTimestamp int32, endTimestamp int32, localVarOptionals *PrivateGetUserTradesByCurrencyAndTimeGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3482,7 +3481,7 @@ type PrivateGetUserTradesByCurrencyGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetUserTradesByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetUserTradesByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3600,7 +3599,7 @@ type PrivateGetUserTradesByInstrumentAndTimeGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetUserTradesByInstrumentAndTimeGet(ctx context.Context, instrumentName string, startTimestamp int32, endTimestamp int32, localVarOptionals *PrivateGetUserTradesByInstrumentAndTimeGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3713,7 +3712,7 @@ type PrivateGetUserTradesByInstrumentGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetUserTradesByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetUserTradesByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3822,7 +3821,7 @@ type PrivateGetUserTradesByOrderGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetUserTradesByOrderGet(ctx context.Context, orderId string, localVarOptionals *PrivateGetUserTradesByOrderGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -3921,7 +3920,7 @@ type PrivateGetWithdrawalsGetOpts struct {
 
 func (a *PrivateApiService) PrivateGetWithdrawalsGet(ctx context.Context, currency string, localVarOptionals *PrivateGetWithdrawalsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4023,7 +4022,7 @@ type PrivateRemoveFromAddressBookGetOpts struct {
 
 func (a *PrivateApiService) PrivateRemoveFromAddressBookGet(ctx context.Context, currency string, type_ string, address string, localVarOptionals *PrivateRemoveFromAddressBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4141,7 +4140,7 @@ type PrivateSellGetOpts struct {
 
 func (a *PrivateApiService) PrivateSellGet(ctx context.Context, instrumentName string, amount float32, localVarOptionals *PrivateSellGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4259,7 +4258,7 @@ PrivateApiService Marks an announcement as read, so it will not be shown in `get
 */
 func (a *PrivateApiService) PrivateSetAnnouncementAsReadGet(ctx context.Context, announcementId float32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4347,7 +4346,7 @@ PrivateApiService Assign an email address to a subaccount. User will receive an 
 */
 func (a *PrivateApiService) PrivateSetEmailForSubaccountGet(ctx context.Context, sid int32, email string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4435,7 +4434,7 @@ PrivateApiService Changes the language to be used for emails.
 */
 func (a *PrivateApiService) PrivateSetEmailLanguageGet(ctx context.Context, language string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4523,7 +4522,7 @@ PrivateApiService Set the password for the subaccount
 */
 func (a *PrivateApiService) PrivateSetPasswordForSubaccountGet(ctx context.Context, sid int32, password string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4613,7 +4612,7 @@ PrivateApiService Transfer funds to a subaccount.
 */
 func (a *PrivateApiService) PrivateSubmitTransferToSubaccountGet(ctx context.Context, currency string, amount float32, destination int32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4711,7 +4710,7 @@ type PrivateSubmitTransferToUserGetOpts struct {
 
 func (a *PrivateApiService) PrivateSubmitTransferToUserGet(ctx context.Context, currency string, amount float32, destination string, localVarOptionals *PrivateSubmitTransferToUserGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4804,7 +4803,7 @@ PrivateApiService Enable or disable deposit address creation
 */
 func (a *PrivateApiService) PrivateToggleDepositAddressCreationGet(ctx context.Context, currency string, state bool) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4893,7 +4892,7 @@ PrivateApiService Enable or disable sending of notifications for the subaccount.
 */
 func (a *PrivateApiService) PrivateToggleNotificationsFromSubaccountGet(ctx context.Context, sid int32, state bool) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -4982,7 +4981,7 @@ PrivateApiService Enable or disable login for a subaccount. If login is disabled
 */
 func (a *PrivateApiService) PrivateToggleSubaccountLoginGet(ctx context.Context, sid int32, state string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -5081,7 +5080,7 @@ type PrivateWithdrawGetOpts struct {
 
 func (a *PrivateApiService) PrivateWithdrawGet(ctx context.Context, currency string, address string, amount float32, localVarOptionals *PrivateWithdrawGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

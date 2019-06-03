@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -34,7 +33,7 @@ AccountManagementApiService Change the user name for a subaccount
 */
 func (a *AccountManagementApiService) PrivateChangeSubaccountNameGet(ctx context.Context, sid int32, name string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -121,7 +120,7 @@ AccountManagementApiService Create a new subaccount
 */
 func (a *AccountManagementApiService) PrivateCreateSubaccountGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -207,7 +206,7 @@ AccountManagementApiService Disable two factor authentication for a subaccount.
 */
 func (a *AccountManagementApiService) PrivateDisableTfaForSubaccountGet(ctx context.Context, sid int32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -301,7 +300,7 @@ type PrivateGetAccountSummaryGetOpts struct {
 
 func (a *AccountManagementApiService) PrivateGetAccountSummaryGet(ctx context.Context, currency string, localVarOptionals *PrivateGetAccountSummaryGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -390,7 +389,7 @@ AccountManagementApiService Retrieves the language to be used for emails.
 */
 func (a *AccountManagementApiService) PrivateGetEmailLanguageGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -475,7 +474,7 @@ AccountManagementApiService Retrieves announcements that have not been marked re
 */
 func (a *AccountManagementApiService) PrivateGetNewAnnouncementsGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -561,7 +560,7 @@ AccountManagementApiService Retrieve user position.
 */
 func (a *AccountManagementApiService) PrivateGetPositionGet(ctx context.Context, instrumentName string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -665,7 +664,7 @@ type PrivateGetPositionsGetOpts struct {
 
 func (a *AccountManagementApiService) PrivateGetPositionsGet(ctx context.Context, currency string, localVarOptionals *PrivateGetPositionsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -771,7 +770,7 @@ type PrivateGetSubaccountsGetOpts struct {
 
 func (a *AccountManagementApiService) PrivateGetSubaccountsGet(ctx context.Context, localVarOptionals *PrivateGetSubaccountsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -870,7 +869,7 @@ AccountManagementApiService Marks an announcement as read, so it will not be sho
 */
 func (a *AccountManagementApiService) PrivateSetAnnouncementAsReadGet(ctx context.Context, announcementId float32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -958,7 +957,7 @@ AccountManagementApiService Assign an email address to a subaccount. User will r
 */
 func (a *AccountManagementApiService) PrivateSetEmailForSubaccountGet(ctx context.Context, sid int32, email string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1046,7 +1045,7 @@ AccountManagementApiService Changes the language to be used for emails.
 */
 func (a *AccountManagementApiService) PrivateSetEmailLanguageGet(ctx context.Context, language string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1134,7 +1133,7 @@ AccountManagementApiService Set the password for the subaccount
 */
 func (a *AccountManagementApiService) PrivateSetPasswordForSubaccountGet(ctx context.Context, sid int32, password string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1223,7 +1222,7 @@ AccountManagementApiService Enable or disable sending of notifications for the s
 */
 func (a *AccountManagementApiService) PrivateToggleNotificationsFromSubaccountGet(ctx context.Context, sid int32, state bool) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1312,7 +1311,7 @@ AccountManagementApiService Enable or disable login for a subaccount. If login i
 */
 func (a *AccountManagementApiService) PrivateToggleSubaccountLoginGet(ctx context.Context, sid int32, state string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1399,7 +1398,7 @@ AccountManagementApiService Retrieves announcements from the last 30 days.
 */
 func (a *AccountManagementApiService) PublicGetAnnouncementsGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

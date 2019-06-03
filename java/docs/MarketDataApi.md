@@ -33,28 +33,37 @@ Retrieves the summary information such as open interest, 24h volume, etc. for al
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
-try {
-    Object result = apiInstance.publicGetBookSummaryByCurrencyGet(currency, kind);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetBookSummaryByCurrencyGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
+    try {
+      Object result = apiInstance.publicGetBookSummaryByCurrencyGet(currency, kind);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetBookSummaryByCurrencyGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -78,6 +87,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetBookSummaryByInstrumentGet"></a>
 # **publicGetBookSummaryByInstrumentGet**
 > Object publicGetBookSummaryByInstrumentGet(instrumentName)
@@ -87,27 +101,36 @@ Retrieves the summary information such as open interest, 24h volume, etc. for a 
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-try {
-    Object result = apiInstance.publicGetBookSummaryByInstrumentGet(instrumentName);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetBookSummaryByInstrumentGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    try {
+      Object result = apiInstance.publicGetBookSummaryByInstrumentGet(instrumentName);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetBookSummaryByInstrumentGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -129,6 +152,11 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
 
 <a name="publicGetContractSizeGet"></a>
 # **publicGetContractSizeGet**
@@ -139,27 +167,36 @@ Retrieves contract size of provided instrument.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-try {
-    Object result = apiInstance.publicGetContractSizeGet(instrumentName);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetContractSizeGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    try {
+      Object result = apiInstance.publicGetContractSizeGet(instrumentName);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetContractSizeGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -182,6 +219,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | ok response |  -  |
+
 <a name="publicGetCurrenciesGet"></a>
 # **publicGetCurrenciesGet**
 > Object publicGetCurrenciesGet()
@@ -191,26 +233,35 @@ Retrieves all cryptocurrencies supported by the API.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-try {
-    Object result = apiInstance.publicGetCurrenciesGet();
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetCurrenciesGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    try {
+      Object result = apiInstance.publicGetCurrenciesGet();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetCurrenciesGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -230,6 +281,11 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | ok response |  -  |
+
 <a name="publicGetFundingChartDataGet"></a>
 # **publicGetFundingChartDataGet**
 > Object publicGetFundingChartDataGet(instrumentName, length)
@@ -239,28 +295,37 @@ Retrieve the latest user trades that have occurred for PERPETUAL instruments in 
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-String length = "length_example"; // String | Specifies time period. `8h` - 8 hours, `24h` - 24 hours
-try {
-    Object result = apiInstance.publicGetFundingChartDataGet(instrumentName, length);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetFundingChartDataGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    String length = "length_example"; // String | Specifies time period. `8h` - 8 hours, `24h` - 24 hours
+    try {
+      Object result = apiInstance.publicGetFundingChartDataGet(instrumentName, length);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetFundingChartDataGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -284,6 +349,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetHistoricalVolatilityGet"></a>
 # **publicGetHistoricalVolatilityGet**
 > Object publicGetHistoricalVolatilityGet(currency)
@@ -293,27 +363,36 @@ Provides information about historical volatility for given cryptocurrency.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-try {
-    Object result = apiInstance.publicGetHistoricalVolatilityGet(currency);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetHistoricalVolatilityGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    try {
+      Object result = apiInstance.publicGetHistoricalVolatilityGet(currency);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetHistoricalVolatilityGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -335,6 +414,11 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | ok response |  -  |
 
 <a name="publicGetIndexGet"></a>
 # **publicGetIndexGet**
@@ -345,27 +429,36 @@ Retrieves the current index price for the instruments, for the selected currency
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-try {
-    Object result = apiInstance.publicGetIndexGet(currency);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetIndexGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    try {
+      Object result = apiInstance.publicGetIndexGet(currency);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetIndexGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -388,6 +481,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetInstrumentsGet"></a>
 # **publicGetInstrumentsGet**
 > Object publicGetInstrumentsGet(currency, kind, expired)
@@ -397,29 +495,38 @@ Retrieves available trading instruments. This method can be used to see which in
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
-Boolean expired = false; // Boolean | Set to true to show expired instruments instead of active ones.
-try {
-    Object result = apiInstance.publicGetInstrumentsGet(currency, kind, expired);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetInstrumentsGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
+    Boolean expired = false; // Boolean | Set to true to show expired instruments instead of active ones.
+    try {
+      Object result = apiInstance.publicGetInstrumentsGet(currency, kind, expired);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetInstrumentsGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -444,6 +551,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | ok response |  -  |
+
 <a name="publicGetLastSettlementsByCurrencyGet"></a>
 # **publicGetLastSettlementsByCurrencyGet**
 > Object publicGetLastSettlementsByCurrencyGet(currency, type, count, continuation, searchStartTimestamp)
@@ -453,31 +565,40 @@ Retrieves historical settlement, delivery and bankruptcy events coming from all 
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-String type = "type_example"; // String | Settlement type
-Integer count = 56; // Integer | Number of requested items, default - `20`
-String continuation = xY7T6cutS3t2B9YtaDkE6TS379oKnkzTvmEDUnEUP2Msa9xKWNNaT; // String | Continuation token for pagination
-Integer searchStartTimestamp = 1536569522277; // Integer | The latest timestamp to return result for
-try {
-    Object result = apiInstance.publicGetLastSettlementsByCurrencyGet(currency, type, count, continuation, searchStartTimestamp);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetLastSettlementsByCurrencyGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    String type = "type_example"; // String | Settlement type
+    Integer count = 56; // Integer | Number of requested items, default - `20`
+    String continuation = xY7T6cutS3t2B9YtaDkE6TS379oKnkzTvmEDUnEUP2Msa9xKWNNaT; // String | Continuation token for pagination
+    Integer searchStartTimestamp = 1536569522277; // Integer | The latest timestamp to return result for
+    try {
+      Object result = apiInstance.publicGetLastSettlementsByCurrencyGet(currency, type, count, continuation, searchStartTimestamp);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetLastSettlementsByCurrencyGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -504,6 +625,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetLastSettlementsByInstrumentGet"></a>
 # **publicGetLastSettlementsByInstrumentGet**
 > Object publicGetLastSettlementsByInstrumentGet(instrumentName, type, count, continuation, searchStartTimestamp)
@@ -513,31 +639,40 @@ Retrieves historical public settlement, delivery and bankruptcy events filtered 
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-String type = "type_example"; // String | Settlement type
-Integer count = 56; // Integer | Number of requested items, default - `20`
-String continuation = xY7T6cutS3t2B9YtaDkE6TS379oKnkzTvmEDUnEUP2Msa9xKWNNaT; // String | Continuation token for pagination
-Integer searchStartTimestamp = 1536569522277; // Integer | The latest timestamp to return result for
-try {
-    Object result = apiInstance.publicGetLastSettlementsByInstrumentGet(instrumentName, type, count, continuation, searchStartTimestamp);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetLastSettlementsByInstrumentGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    String type = "type_example"; // String | Settlement type
+    Integer count = 56; // Integer | Number of requested items, default - `20`
+    String continuation = xY7T6cutS3t2B9YtaDkE6TS379oKnkzTvmEDUnEUP2Msa9xKWNNaT; // String | Continuation token for pagination
+    Integer searchStartTimestamp = 1536569522277; // Integer | The latest timestamp to return result for
+    try {
+      Object result = apiInstance.publicGetLastSettlementsByInstrumentGet(instrumentName, type, count, continuation, searchStartTimestamp);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetLastSettlementsByInstrumentGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -564,6 +699,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetLastTradesByCurrencyAndTimeGet"></a>
 # **publicGetLastTradesByCurrencyAndTimeGet**
 > Object publicGetLastTradesByCurrencyAndTimeGet(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting)
@@ -573,33 +713,42 @@ Retrieve the latest trades that have occurred for instruments in a specific curr
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-Integer startTimestamp = 1536569522277; // Integer | The earliest timestamp to return result for
-Integer endTimestamp = 1536569522277; // Integer | The most recent timestamp to return result for
-String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
-Integer count = 56; // Integer | Number of requested items, default - `10`
-Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
-String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
-try {
-    Object result = apiInstance.publicGetLastTradesByCurrencyAndTimeGet(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByCurrencyAndTimeGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    Integer startTimestamp = 1536569522277; // Integer | The earliest timestamp to return result for
+    Integer endTimestamp = 1536569522277; // Integer | The most recent timestamp to return result for
+    String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
+    Integer count = 56; // Integer | Number of requested items, default - `10`
+    Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
+    String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
+    try {
+      Object result = apiInstance.publicGetLastTradesByCurrencyAndTimeGet(currency, startTimestamp, endTimestamp, kind, count, includeOld, sorting);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByCurrencyAndTimeGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -628,6 +777,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetLastTradesByCurrencyGet"></a>
 # **publicGetLastTradesByCurrencyGet**
 > Object publicGetLastTradesByCurrencyGet(currency, kind, startId, endId, count, includeOld, sorting)
@@ -637,33 +791,42 @@ Retrieve the latest trades that have occurred for instruments in a specific curr
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String currency = "currency_example"; // String | The currency symbol
-String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
-String startId = "startId_example"; // String | The ID number of the first trade to be returned
-String endId = "endId_example"; // String | The ID number of the last trade to be returned
-Integer count = 56; // Integer | Number of requested items, default - `10`
-Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
-String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
-try {
-    Object result = apiInstance.publicGetLastTradesByCurrencyGet(currency, kind, startId, endId, count, includeOld, sorting);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByCurrencyGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String currency = "currency_example"; // String | The currency symbol
+    String kind = "kind_example"; // String | Instrument kind, if not provided instruments of all kinds are considered
+    String startId = "startId_example"; // String | The ID number of the first trade to be returned
+    String endId = "endId_example"; // String | The ID number of the last trade to be returned
+    Integer count = 56; // Integer | Number of requested items, default - `10`
+    Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
+    String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
+    try {
+      Object result = apiInstance.publicGetLastTradesByCurrencyGet(currency, kind, startId, endId, count, includeOld, sorting);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByCurrencyGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -692,6 +855,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetLastTradesByInstrumentAndTimeGet"></a>
 # **publicGetLastTradesByInstrumentAndTimeGet**
 > Object publicGetLastTradesByInstrumentAndTimeGet(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting)
@@ -701,32 +869,41 @@ Retrieve the latest trades that have occurred for a specific instrument and with
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-Integer startTimestamp = 1536569522277; // Integer | The earliest timestamp to return result for
-Integer endTimestamp = 1536569522277; // Integer | The most recent timestamp to return result for
-Integer count = 56; // Integer | Number of requested items, default - `10`
-Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
-String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
-try {
-    Object result = apiInstance.publicGetLastTradesByInstrumentAndTimeGet(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByInstrumentAndTimeGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    Integer startTimestamp = 1536569522277; // Integer | The earliest timestamp to return result for
+    Integer endTimestamp = 1536569522277; // Integer | The most recent timestamp to return result for
+    Integer count = 56; // Integer | Number of requested items, default - `10`
+    Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
+    String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
+    try {
+      Object result = apiInstance.publicGetLastTradesByInstrumentAndTimeGet(instrumentName, startTimestamp, endTimestamp, count, includeOld, sorting);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByInstrumentAndTimeGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -754,6 +931,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetLastTradesByInstrumentGet"></a>
 # **publicGetLastTradesByInstrumentGet**
 > Object publicGetLastTradesByInstrumentGet(instrumentName, startSeq, endSeq, count, includeOld, sorting)
@@ -763,32 +945,41 @@ Retrieve the latest trades that have occurred for a specific instrument.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-Integer startSeq = 56; // Integer | The sequence number of the first trade to be returned
-Integer endSeq = 56; // Integer | The sequence number of the last trade to be returned
-Integer count = 56; // Integer | Number of requested items, default - `10`
-Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
-String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
-try {
-    Object result = apiInstance.publicGetLastTradesByInstrumentGet(instrumentName, startSeq, endSeq, count, includeOld, sorting);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByInstrumentGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    Integer startSeq = 56; // Integer | The sequence number of the first trade to be returned
+    Integer endSeq = 56; // Integer | The sequence number of the last trade to be returned
+    Integer count = 56; // Integer | Number of requested items, default - `10`
+    Boolean includeOld = true; // Boolean | Include trades older than 7 days, default - `false`
+    String sorting = "sorting_example"; // String | Direction of results sorting (`default` value means no sorting, results will be returned in order in which they left the database)
+    try {
+      Object result = apiInstance.publicGetLastTradesByInstrumentGet(instrumentName, startSeq, endSeq, count, includeOld, sorting);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetLastTradesByInstrumentGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -816,6 +1007,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetOrderBookGet"></a>
 # **publicGetOrderBookGet**
 > Object publicGetOrderBookGet(instrumentName, depth)
@@ -825,28 +1021,37 @@ Retrieves the order book, along with other market values for a given instrument.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = "instrumentName_example"; // String | The instrument name for which to retrieve the order book, see [`getinstruments`](#getinstruments) to obtain instrument names.
-BigDecimal depth = new BigDecimal(); // BigDecimal | The number of entries to return for bids and asks.
-try {
-    Object result = apiInstance.publicGetOrderBookGet(instrumentName, depth);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetOrderBookGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = "instrumentName_example"; // String | The instrument name for which to retrieve the order book, see [`getinstruments`](#getinstruments) to obtain instrument names.
+    BigDecimal depth = new BigDecimal(); // BigDecimal | The number of entries to return for bids and asks.
+    try {
+      Object result = apiInstance.publicGetOrderBookGet(instrumentName, depth);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetOrderBookGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -870,6 +1075,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetTradeVolumesGet"></a>
 # **publicGetTradeVolumesGet**
 > Object publicGetTradeVolumesGet()
@@ -879,26 +1089,35 @@ Retrieves aggregated 24h trade volumes for different instrument types and curren
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-try {
-    Object result = apiInstance.publicGetTradeVolumesGet();
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetTradeVolumesGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    try {
+      Object result = apiInstance.publicGetTradeVolumesGet();
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetTradeVolumesGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -918,6 +1137,11 @@ This endpoint does not need any parameter.
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicGetTradingviewChartDataGet"></a>
 # **publicGetTradingviewChartDataGet**
 > Object publicGetTradingviewChartDataGet(instrumentName, startTimestamp, endTimestamp)
@@ -927,29 +1151,38 @@ Publicly available market data used to generate a TradingView candle chart.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-Integer startTimestamp = 1536569522277; // Integer | The earliest timestamp to return result for
-Integer endTimestamp = 1536569522277; // Integer | The most recent timestamp to return result for
-try {
-    Object result = apiInstance.publicGetTradingviewChartDataGet(instrumentName, startTimestamp, endTimestamp);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicGetTradingviewChartDataGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    Integer startTimestamp = 1536569522277; // Integer | The earliest timestamp to return result for
+    Integer endTimestamp = 1536569522277; // Integer | The most recent timestamp to return result for
+    try {
+      Object result = apiInstance.publicGetTradingviewChartDataGet(instrumentName, startTimestamp, endTimestamp);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicGetTradingviewChartDataGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -974,6 +1207,11 @@ Name | Type | Description  | Notes
  - **Content-Type**: Not defined
  - **Accept**: application/json
 
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** |  |  -  |
+
 <a name="publicTickerGet"></a>
 # **publicTickerGet**
 > Object publicTickerGet(instrumentName)
@@ -983,27 +1221,36 @@ Get ticker for an instrument.
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.MarketDataApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.MarketDataApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-MarketDataApi apiInstance = new MarketDataApi();
-String instrumentName = BTC-PERPETUAL; // String | Instrument name
-try {
-    Object result = apiInstance.publicTickerGet(instrumentName);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling MarketDataApi#publicTickerGet");
-    e.printStackTrace();
+    MarketDataApi apiInstance = new MarketDataApi(defaultClient);
+    String instrumentName = BTC-PERPETUAL; // String | Instrument name
+    try {
+      Object result = apiInstance.publicTickerGet(instrumentName);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling MarketDataApi#publicTickerGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -1025,4 +1272,9 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | ok response |  -  |
 
