@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -43,7 +42,7 @@ type PrivateAddToAddressBookGetOpts struct {
 
 func (a *WalletApiService) PrivateAddToAddressBookGet(ctx context.Context, currency string, type_ string, address string, name string, localVarOptionals *PrivateAddToAddressBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -144,7 +143,7 @@ type PrivateCancelTransferByIdGetOpts struct {
 
 func (a *WalletApiService) PrivateCancelTransferByIdGet(ctx context.Context, currency string, id int32, localVarOptionals *PrivateCancelTransferByIdGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -236,7 +235,7 @@ WalletApiService Cancels withdrawal request
 */
 func (a *WalletApiService) PrivateCancelWithdrawalGet(ctx context.Context, currency string, id float32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -324,7 +323,7 @@ WalletApiService Creates deposit address in currency
 */
 func (a *WalletApiService) PrivateCreateDepositAddressGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -412,7 +411,7 @@ WalletApiService Retrieves address book of given type
 */
 func (a *WalletApiService) PrivateGetAddressBookGet(ctx context.Context, currency string, type_ string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -500,7 +499,7 @@ WalletApiService Retrieve deposit address for currency
 */
 func (a *WalletApiService) PrivateGetCurrentDepositAddressGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -596,7 +595,7 @@ type PrivateGetDepositsGetOpts struct {
 
 func (a *WalletApiService) PrivateGetDepositsGet(ctx context.Context, currency string, localVarOptionals *PrivateGetDepositsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -698,7 +697,7 @@ type PrivateGetTransfersGetOpts struct {
 
 func (a *WalletApiService) PrivateGetTransfersGet(ctx context.Context, currency string, localVarOptionals *PrivateGetTransfersGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -800,7 +799,7 @@ type PrivateGetWithdrawalsGetOpts struct {
 
 func (a *WalletApiService) PrivateGetWithdrawalsGet(ctx context.Context, currency string, localVarOptionals *PrivateGetWithdrawalsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -902,7 +901,7 @@ type PrivateRemoveFromAddressBookGetOpts struct {
 
 func (a *WalletApiService) PrivateRemoveFromAddressBookGet(ctx context.Context, currency string, type_ string, address string, localVarOptionals *PrivateRemoveFromAddressBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -996,7 +995,7 @@ WalletApiService Transfer funds to a subaccount.
 */
 func (a *WalletApiService) PrivateSubmitTransferToSubaccountGet(ctx context.Context, currency string, amount float32, destination int32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1094,7 +1093,7 @@ type PrivateSubmitTransferToUserGetOpts struct {
 
 func (a *WalletApiService) PrivateSubmitTransferToUserGet(ctx context.Context, currency string, amount float32, destination string, localVarOptionals *PrivateSubmitTransferToUserGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1187,7 +1186,7 @@ WalletApiService Enable or disable deposit address creation
 */
 func (a *WalletApiService) PrivateToggleDepositAddressCreationGet(ctx context.Context, currency string, state bool) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1286,7 +1285,7 @@ type PrivateWithdrawGetOpts struct {
 
 func (a *WalletApiService) PrivateWithdrawGet(ctx context.Context, currency string, address string, amount float32, localVarOptionals *PrivateWithdrawGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

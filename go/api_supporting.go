@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -32,7 +31,7 @@ SupportingApiService Retrieves the current time (in milliseconds). This API endp
 */
 func (a *SupportingApiService) PublicGetTimeGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -124,7 +123,7 @@ type PublicTestGetOpts struct {
 
 func (a *SupportingApiService) PublicTestGet(ctx context.Context, localVarOptionals *PublicTestGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

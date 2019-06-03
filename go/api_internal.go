@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -43,7 +42,7 @@ type PrivateAddToAddressBookGetOpts struct {
 
 func (a *InternalApiService) PrivateAddToAddressBookGet(ctx context.Context, currency string, type_ string, address string, name string, localVarOptionals *PrivateAddToAddressBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -137,7 +136,7 @@ InternalApiService Disables TFA with one time recovery code
 */
 func (a *InternalApiService) PrivateDisableTfaWithRecoveryCodeGet(ctx context.Context, password string, code string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -226,7 +225,7 @@ InternalApiService Retrieves address book of given type
 */
 func (a *InternalApiService) PrivateGetAddressBookGet(ctx context.Context, currency string, type_ string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -323,7 +322,7 @@ type PrivateRemoveFromAddressBookGetOpts struct {
 
 func (a *InternalApiService) PrivateRemoveFromAddressBookGet(ctx context.Context, currency string, type_ string, address string, localVarOptionals *PrivateRemoveFromAddressBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -417,7 +416,7 @@ InternalApiService Transfer funds to a subaccount.
 */
 func (a *InternalApiService) PrivateSubmitTransferToSubaccountGet(ctx context.Context, currency string, amount float32, destination int32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -515,7 +514,7 @@ type PrivateSubmitTransferToUserGetOpts struct {
 
 func (a *InternalApiService) PrivateSubmitTransferToUserGet(ctx context.Context, currency string, amount float32, destination string, localVarOptionals *PrivateSubmitTransferToUserGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -608,7 +607,7 @@ InternalApiService Enable or disable deposit address creation
 */
 func (a *InternalApiService) PrivateToggleDepositAddressCreationGet(ctx context.Context, currency string, state bool) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -695,7 +694,7 @@ InternalApiService Get information to be displayed in the footer of the website.
 */
 func (a *InternalApiService) PublicGetFooterGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -781,7 +780,7 @@ InternalApiService Retrives market prices and its implied volatility of options 
 */
 func (a *InternalApiService) PublicGetOptionMarkPricesGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -876,7 +875,7 @@ type PublicValidateFieldGetOpts struct {
 
 func (a *InternalApiService) PublicValidateFieldGet(ctx context.Context, field string, value string, localVarOptionals *PublicValidateFieldGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

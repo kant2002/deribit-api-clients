@@ -18,37 +18,46 @@ Retrieve an Oauth access token, to be used for authentication of &#39;private&#3
 ### Example
 ```java
 // Import classes:
-//import org.openapitools.client.ApiClient;
-//import org.openapitools.client.ApiException;
-//import org.openapitools.client.Configuration;
-//import org.openapitools.client.auth.*;
-//import org.openapitools.client.api.AuthenticationApi;
+import org.openapitools.client.ApiClient;
+import org.openapitools.client.ApiException;
+import org.openapitools.client.Configuration;
+import org.openapitools.client.auth.*;
+import org.openapitools.client.models.*;
+import org.openapitools.client.api.AuthenticationApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://www.deribit.com/api/v2");
+    
+    // Configure HTTP basic authorization: bearerAuth
+    HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
+    bearerAuth.setUsername("YOUR USERNAME");
+    bearerAuth.setPassword("YOUR PASSWORD");
 
-// Configure HTTP basic authorization: bearerAuth
-HttpBasicAuth bearerAuth = (HttpBasicAuth) defaultClient.getAuthentication("bearerAuth");
-bearerAuth.setUsername("YOUR USERNAME");
-bearerAuth.setPassword("YOUR PASSWORD");
-
-AuthenticationApi apiInstance = new AuthenticationApi();
-String grantType = "grantType_example"; // String | Method of authentication
-String username = your_email@mail.com; // String | Required for grant type `password`
-String password = your_password; // String | Required for grant type `password`
-String clientId = "clientId_example"; // String | Required for grant type `client_credentials` and `client_signature`
-String clientSecret = "clientSecret_example"; // String | Required for grant type `client_credentials`
-String refreshToken = "refreshToken_example"; // String | Required for grant type `refresh_token`
-String timestamp = "timestamp_example"; // String | Required for grant type `client_signature`, provides time when request has been generated
-String signature = "signature_example"; // String | Required for grant type `client_signature`; it's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `SHA256` hash algorithm
-String nonce = "nonce_example"; // String | Optional for grant type `client_signature`; delivers user generated initialization vector for the server token
-String state = "state_example"; // String | Will be passed back in the response
-String scope = connection; // String | Describes type of the access for assigned token, possible values: `connection`, `session`, `session:name`, `trade:[read, read_write, none]`, `wallet:[read, read_write, none]`, `account:[read, read_write, none]`, `expires:NUMBER` (token will expire after `NUMBER` of seconds).</BR></BR> **NOTICE:** Depending on choosing an authentication method (```grant type```) some scopes could be narrowed by the server. e.g. when ```grant_type = client_credentials``` and ```scope = wallet:read_write``` it's modified by the server as ```scope = wallet:read```
-try {
-    Object result = apiInstance.publicAuthGet(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling AuthenticationApi#publicAuthGet");
-    e.printStackTrace();
+    AuthenticationApi apiInstance = new AuthenticationApi(defaultClient);
+    String grantType = "grantType_example"; // String | Method of authentication
+    String username = your_email@mail.com; // String | Required for grant type `password`
+    String password = your_password; // String | Required for grant type `password`
+    String clientId = "clientId_example"; // String | Required for grant type `client_credentials` and `client_signature`
+    String clientSecret = "clientSecret_example"; // String | Required for grant type `client_credentials`
+    String refreshToken = "refreshToken_example"; // String | Required for grant type `refresh_token`
+    String timestamp = "timestamp_example"; // String | Required for grant type `client_signature`, provides time when request has been generated
+    String signature = "signature_example"; // String | Required for grant type `client_signature`; it's a cryptographic signature calculated over provided fields using user **secret key**. The signature should be calculated as an HMAC (Hash-based Message Authentication Code) with `SHA256` hash algorithm
+    String nonce = "nonce_example"; // String | Optional for grant type `client_signature`; delivers user generated initialization vector for the server token
+    String state = "state_example"; // String | Will be passed back in the response
+    String scope = connection; // String | Describes type of the access for assigned token, possible values: `connection`, `session`, `session:name`, `trade:[read, read_write, none]`, `wallet:[read, read_write, none]`, `account:[read, read_write, none]`, `expires:NUMBER` (token will expire after `NUMBER` of seconds).</BR></BR> **NOTICE:** Depending on choosing an authentication method (```grant type```) some scopes could be narrowed by the server. e.g. when ```grant_type = client_credentials``` and ```scope = wallet:read_write``` it's modified by the server as ```scope = wallet:read```
+    try {
+      Object result = apiInstance.publicAuthGet(grantType, username, password, clientId, clientSecret, refreshToken, timestamp, signature, nonce, state, scope);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling AuthenticationApi#publicAuthGet");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -80,4 +89,10 @@ Name | Type | Description  | Notes
 
  - **Content-Type**: Not defined
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | ok response |  -  |
+**429** | over limit |  -  |
 

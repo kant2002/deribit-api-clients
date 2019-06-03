@@ -64,7 +64,6 @@ Then, publish to a [local feed](https://docs.microsoft.com/en-us/nuget/hosting-p
 ## Getting Started
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -74,14 +73,15 @@ namespace Example
 {
     public class Example
     {
-        public void main()
+        public static void Main()
         {
 
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new AccountManagementApi();
+            var apiInstance = new AccountManagementApi(Configuration.Default);
             var sid = 56;  // int? | The user id for the subaccount
             var name = newUserName;  // string | The new user name
 
@@ -91,9 +91,11 @@ namespace Example
                 Object result = apiInstance.PrivateChangeSubaccountNameGet(sid, name);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling AccountManagementApi.PrivateChangeSubaccountNameGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
 
         }

@@ -45,9 +45,8 @@ Retrieve an Oauth access token, to be used for authentication of 'private' reque
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -118,9 +117,8 @@ Retrieves announcements from the last 30 days.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -165,9 +163,8 @@ Retrieves the summary information such as open interest, 24h volume, etc. for al
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -220,9 +217,8 @@ Retrieves the summary information such as open interest, 24h volume, etc. for a 
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -271,9 +267,8 @@ Retrieves contract size of provided instrument.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -322,9 +317,8 @@ Retrieves all cryptocurrencies supported by the API.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -369,9 +363,8 @@ Retrieve the latest user trades that have occurred for PERPETUAL instruments in 
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -424,9 +417,8 @@ Provides information about historical volatility for given cryptocurrency.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -475,9 +467,8 @@ Retrieves the current index price for the instruments, for the selected currency
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -526,9 +517,8 @@ Retrieves available trading instruments. This method can be used to see which in
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -583,9 +573,8 @@ Retrieves historical settlement, delivery and bankruptcy events coming from all 
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -644,9 +633,8 @@ Retrieves historical public settlement, delivery and bankruptcy events filtered 
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -705,9 +693,8 @@ Retrieve the latest trades that have occurred for instruments in a specific curr
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -770,9 +757,8 @@ Retrieve the latest trades that have occurred for instruments in a specific curr
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -835,9 +821,8 @@ Retrieve the latest trades that have occurred for a specific instrument and with
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -898,9 +883,8 @@ Retrieve the latest trades that have occurred for a specific instrument.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -961,9 +945,8 @@ Retrieves the order book, along with other market values for a given instrument.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -1016,9 +999,8 @@ Retrieves the current time (in milliseconds). This API endpoint can be used to c
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -1063,9 +1045,8 @@ Retrieves aggregated 24h trade volumes for different instrument types and curren
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -1110,9 +1091,8 @@ Publicly available market data used to generate a TradingView candle chart.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -1165,9 +1145,8 @@ Tests the connection to the API server, and returns its version. You can use thi
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -1218,9 +1197,8 @@ Get ticker for an instrument.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new
@@ -1269,9 +1247,8 @@ Method used to introduce the client software connected to Deribit platform over 
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::PublicApi.new

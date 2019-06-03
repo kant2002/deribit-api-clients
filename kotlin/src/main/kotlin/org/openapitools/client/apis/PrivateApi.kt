@@ -2,7 +2,7 @@
 * Deribit API
 * #Overview  Deribit provides three different interfaces to access the API:  * [JSON-RPC over Websocket](#json-rpc) * [JSON-RPC over HTTP](#json-rpc) * [FIX](#fix-api) (Financial Information eXchange)  With the API Console you can use and test the JSON-RPC API, both via HTTP and  via Websocket. To visit the API console, go to __Account > API tab >  API Console tab.__   ##Naming Deribit tradeable assets or instruments use the following system of naming:  |Kind|Examples|Template|Comments| |----|--------|--------|--------| |Future|<code>BTC-25MAR16</code>, <code>BTC-5AUG16</code>|<code>BTC-DMMMYY</code>|<code>BTC</code> is currency, <code>DMMMYY</code> is expiration date, <code>D</code> stands for day of month (1 or 2 digits), <code>MMM</code> - month (3 first letters in English), <code>YY</code> stands for year.| |Perpetual|<code>BTC-PERPETUAL</code>                        ||Perpetual contract for currency <code>BTC</code>.| |Option|<code>BTC-25MAR16-420-C</code>, <code>BTC-5AUG16-580-P</code>|<code>BTC-DMMMYY-STRIKE-K</code>|<code>STRIKE</code> is option strike price in USD. Template <code>K</code> is option kind: <code>C</code> for call options or <code>P</code> for put options.|   # JSON-RPC JSON-RPC is a light-weight remote procedure call (RPC) protocol. The  [JSON-RPC specification](https://www.jsonrpc.org/specification) defines the data structures that are used for the messages that are exchanged between client and server, as well as the rules around their processing. JSON-RPC uses JSON (RFC 4627) as data format.  JSON-RPC is transport agnostic: it does not specify which transport mechanism must be used. The Deribit API supports both Websocket (preferred) and HTTP (with limitations: subscriptions are not supported over HTTP).  ## Request messages > An example of a request message:  ```json {     \"jsonrpc\": \"2.0\",     \"id\": 8066,     \"method\": \"public/ticker\",     \"params\": {         \"instrument\": \"BTC-24AUG18-6500-P\"     } } ```  According to the JSON-RPC sepcification the requests must be JSON objects with the following fields.  |Name|Type|Description| |----|----|-----------| |jsonrpc|string|The version of the JSON-RPC spec: \"2.0\"| |id|integer or string|An identifier of the request. If it is included, then the response will contain the same identifier| |method|string|The method to be invoked| |params|object|The parameters values for the method. The field names must match with the expected parameter names. The parameters that are expected are described in the documentation for the methods, below.|  <aside class=\"warning\"> The JSON-RPC specification describes two features that are currently not supported by the API:  <ul> <li>Specification of parameter values by position</li> <li>Batch requests</li> </ul>  </aside>   ## Response messages > An example of a response message:  ```json {     \"jsonrpc\": \"2.0\",     \"id\": 5239,     \"testnet\": false,     \"result\": [         {             \"currency\": \"BTC\",             \"currencyLong\": \"Bitcoin\",             \"minConfirmation\": 2,             \"txFee\": 0.0006,             \"isActive\": true,             \"coinType\": \"BITCOIN\",             \"baseAddress\": null         }     ],     \"usIn\": 1535043730126248,     \"usOut\": 1535043730126250,     \"usDiff\": 2 } ```  The JSON-RPC API always responds with a JSON object with the following fields.   |Name|Type|Description| |----|----|-----------| |id|integer|This is the same id that was sent in the request.| |result|any|If successful, the result of the API call. The format for the result is described with each method.| |error|error object|Only present if there was an error invoking the method. The error object is described below.| |testnet|boolean|Indicates whether the API in use is actually the test API.  <code>false</code> for production server, <code>true</code> for test server.| |usIn|integer|The timestamp when the requests was received (microseconds since the Unix epoch)| |usOut|integer|The timestamp when the response was sent (microseconds since the Unix epoch)| |usDiff|integer|The number of microseconds that was spent handling the request|  <aside class=\"notice\"> The fields <code>testnet</code>, <code>usIn</code>, <code>usOut</code> and <code>usDiff</code> are not part of the JSON-RPC standard.  <p>In order not to clutter the examples they will generally be omitted from the example code.</p> </aside>  > An example of a response with an error:  ```json {     \"jsonrpc\": \"2.0\",     \"id\": 8163,     \"error\": {         \"code\": 11050,         \"message\": \"bad_request\"     },     \"testnet\": false,     \"usIn\": 1535037392434763,     \"usOut\": 1535037392448119,     \"usDiff\": 13356 } ``` In case of an error the response message will contain the error field, with as value an object with the following with the following fields:  |Name|Type|Description |----|----|-----------| |code|integer|A number that indicates the kind of error.| |message|string|A short description that indicates the kind of error.| |data|any|Additional data about the error. This field may be omitted.|  ## Notifications  > An example of a notification:  ```json {     \"jsonrpc\": \"2.0\",     \"method\": \"subscription\",     \"params\": {         \"channel\": \"deribit_price_index.btc_usd\",         \"data\": {             \"timestamp\": 1535098298227,             \"price\": 6521.17,             \"index_name\": \"btc_usd\"         }     } } ```  API users can subscribe to certain types of notifications. This means that they will receive JSON-RPC notification-messages from the server when certain events occur, such as changes to the index price or changes to the order book for a certain instrument.   The API methods [public/subscribe](#public-subscribe) and [private/subscribe](#private-subscribe) are used to set up a subscription. Since HTTP does not support the sending of messages from server to client, these methods are only availble when using the Websocket transport mechanism.  At the moment of subscription a \"channel\" must be specified. The channel determines the type of events that will be received.  See [Subscriptions](#subscriptions) for more details about the channels.  In accordance with the JSON-RPC specification, the format of a notification  is that of a request message without an <code>id</code> field. The value of the <code>method</code> field will always be <code>\"subscription\"</code>. The <code>params</code> field will always be an object with 2 members: <code>channel</code> and <code>data</code>. The value of the <code>channel</code> member is the name of the channel (a string). The value of the <code>data</code> member is an object that contains data  that is specific for the channel.   ## Authentication  > An example of a JSON request with token:  ```json {     \"id\": 5647,     \"method\": \"private/get_subaccounts\",     \"params\": {         \"access_token\": \"67SVutDoVZSzkUStHSuk51WntMNBJ5mh5DYZhwzpiqDF\"     } } ```  The API consists of `public` and `private` methods. The public methods do not require authentication. The private methods use OAuth 2.0 authentication. This means that a valid OAuth access token must be included in the request, which can get achived by calling method [public/auth](#public-auth).  When the token was assigned to the user, it should be passed along, with other request parameters, back to the server:  |Connection type|Access token placement |----|-----------| |**Websocket**|Inside request JSON parameters, as an `access_token` field| |**HTTP (REST)**|Header `Authorization: bearer ```Token``` ` value|  ### Additional authorization method - basic user credentials  <span style=\"color:red\"><b> ! Not recommended - however, it could be useful for quick testing API</b></span></br>  Every `private` method could be accessed by providing, inside HTTP `Authorization: Basic XXX` header, values with user `ClientId` and assigned `ClientSecret` (both values can be found on the API page on the Deribit website) encoded with `Base64`:  <code>Authorization: Basic BASE64(`ClientId` + `:` + `ClientSecret`)</code>   ### Additional authorization method - Deribit signature credentials  The Derbit service provides dedicated authorization method, which harness user generated signature to increase security level for passing request data. Generated value is passed inside `Authorization` header, coded as:  <code>Authorization: deri-hmac-sha256 id=```ClientId```,ts=```Timestamp```,sig=```Signature```,nonce=```Nonce```</code>  where:  |Deribit credential|Description |----|-----------| |*ClientId*|Can be found on the API page on the Deribit website| |*Timestamp*|Time when the request was generated - given as **miliseconds**. It's valid for **60 seconds** since generation, after that time any request with an old timestamp will be rejected.| |*Signature*|Value for signature calculated as described below | |*Nonce*|Single usage, user generated initialization vector for the server token|  The signature is generated by the following formula:  <code> Signature = HEX_STRING( HMAC-SHA256( ClientSecret, StringToSign ) );</code></br>  <code> StringToSign =  Timestamp + \"\\n\" + Nonce + \"\\n\" + RequestData;</code></br>  <code> RequestData =  UPPERCASE(HTTP_METHOD())  + \"\\n\" + URI() + \"\\n\" + RequestBody + \"\\n\";</code></br>   e.g. (using shell with ```openssl``` tool):  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientId=AAAAAAAAAAA</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientSecret=ABCD</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Timestamp=$( date +%s000 )</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Nonce=$( cat /dev/urandom | tr -dc 'a-z0-9' | head -c8 )</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;URI=\"/api/v2/private/get_account_summary?currency=BTC\"</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;HttpMethod=GET</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Body=\"\"</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Signature=$( echo -ne \"${Timestamp}\\n${Nonce}\\n${HttpMethod}\\n${URI}\\n${Body}\\n\" | openssl sha256 -r -hmac \"$ClientSecret\" | cut -f1 -d' ' )</code></br></br> <code>&nbsp;&nbsp;&nbsp;&nbsp;echo $Signature</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;shell output> ea40d5e5e4fae235ab22b61da98121fbf4acdc06db03d632e23c66bcccb90d2c  (**WARNING**: Exact value depends on current timestamp and client credentials</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;curl -s -X ${HttpMethod} -H \"Authorization: deri-hmac-sha256 id=${ClientId},ts=${Timestamp},nonce=${Nonce},sig=${Signature}\" \"https://www.deribit.com${URI}\"</code></br></br>    ### Additional authorization method - signature credentials (WebSocket API)  When connecting through Websocket, user can request for authorization using ```client_credential``` method, which requires providing following parameters (as a part of JSON request):  |JSON parameter|Description |----|-----------| |*grant_type*|Must be **client_signature**| |*client_id*|Can be found on the API page on the Deribit website| |*timestamp*|Time when the request was generated - given as **miliseconds**. It's valid for **60 seconds** since generation, after that time any request with an old timestamp will be rejected.| |*signature*|Value for signature calculated as described below | |*nonce*|Single usage, user generated initialization vector for the server token| |*data*|**Optional** field, which contains any user specific value|  The signature is generated by the following formula:  <code> StringToSign =  Timestamp + \"\\n\" + Nonce + \"\\n\" + Data;</code></br>  <code> Signature = HEX_STRING( HMAC-SHA256( ClientSecret, StringToSign ) );</code></br>   e.g. (using shell with ```openssl``` tool):  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientId=AAAAAAAAAAA</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;ClientSecret=ABCD</code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Timestamp=$( date +%s000 ) # e.g. 1554883365000 </code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Nonce=$( cat /dev/urandom | tr -dc 'a-z0-9' | head -c8 ) # e.g. fdbmmz79 </code></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Data=\"\"</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;Signature=$( echo -ne \"${Timestamp}\\n${Nonce}\\n${Data}\\n\" | openssl sha256 -r -hmac \"$ClientSecret\" | cut -f1 -d' ' )</code></br></br> <code>&nbsp;&nbsp;&nbsp;&nbsp;echo $Signature</code></br></br>  <code>&nbsp;&nbsp;&nbsp;&nbsp;shell output> e20c9cd5639d41f8bbc88f4d699c4baf94a4f0ee320e9a116b72743c449eb994  (**WARNING**: Exact value depends on current timestamp and client credentials</code></br></br>   You can also check the signature value using some online tools like, e.g: [https://codebeautify.org/hmac-generator](https://codebeautify.org/hmac-generator) (but don't forget about adding *newline* after each part of the hashed text and remember that you **should use** it only with your **test credentials**).   Here's a sample JSON request created using the values from the example above:  <code> {                            </br> &nbsp;&nbsp;\"jsonrpc\" : \"2.0\",         </br> &nbsp;&nbsp;\"id\" : 9929,               </br> &nbsp;&nbsp;\"method\" : \"public/auth\",  </br> &nbsp;&nbsp;\"params\" :                 </br> &nbsp;&nbsp;{                        </br> &nbsp;&nbsp;&nbsp;&nbsp;\"grant_type\" : \"client_signature\",   </br> &nbsp;&nbsp;&nbsp;&nbsp;\"client_id\" : \"AAAAAAAAAAA\",         </br> &nbsp;&nbsp;&nbsp;&nbsp;\"timestamp\": \"1554883365000\",        </br> &nbsp;&nbsp;&nbsp;&nbsp;\"nonce\": \"fdbmmz79\",                 </br> &nbsp;&nbsp;&nbsp;&nbsp;\"data\": \"\",                          </br> &nbsp;&nbsp;&nbsp;&nbsp;\"signature\" : \"e20c9cd5639d41f8bbc88f4d699c4baf94a4f0ee320e9a116b72743c449eb994\"  </br> &nbsp;&nbsp;}                        </br> }                            </br> </code>   ### Access scope  When asking for `access token` user can provide the required access level (called `scope`) which defines what type of functionality he/she wants to use, and whether requests are only going to check for some data or also to update them.  Scopes are required and checked for `private` methods, so if you plan to use only `public` information you can stay with values assigned by default.  |Scope|Description |----|-----------| |*account:read*|Access to **account** methods - read only data| |*account:read_write*|Access to **account** methods - allows to manage account settings, add subaccounts, etc.| |*trade:read*|Access to **trade** methods - read only data| |*trade:read_write*|Access to **trade** methods - required to create and modify orders| |*wallet:read*|Access to **wallet** methods - read only data| |*wallet:read_write*|Access to **wallet** methods - allows to withdraw, generate new deposit address, etc.| |*wallet:none*, *account:none*, *trade:none*|Blocked access to specified functionality|    <span style=\"color:red\">**NOTICE:**</span> Depending on choosing an authentication method (```grant type```) some scopes could be narrowed by the server. e.g. when ```grant_type = client_credentials``` and ```scope = wallet:read_write``` it's modified by the server as ```scope = wallet:read```\"   ## JSON-RPC over websocket Websocket is the prefered transport mechanism for the JSON-RPC API, because it is faster and because it can support [subscriptions](#subscriptions) and [cancel on disconnect](#private-enable_cancel_on_disconnect). The code examples that can be found next to each of the methods show how websockets can be used from Python or Javascript/node.js.  ## JSON-RPC over HTTP Besides websockets it is also possible to use the API via HTTP. The code examples for 'shell' show how this can be done using curl. Note that subscriptions and cancel on disconnect are not supported via HTTP.  #Methods 
 *
-* OpenAPI spec version: 2.0.0
+* The version of the OpenAPI document: 2.0.0
 * 
 *
 * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
@@ -12,7 +12,17 @@
 package org.openapitools.client.apis
 
 
-import org.openapitools.client.infrastructure.*
+import org.openapitools.client.infrastructure.ApiClient
+import org.openapitools.client.infrastructure.ClientException
+import org.openapitools.client.infrastructure.ClientError
+import org.openapitools.client.infrastructure.ServerException
+import org.openapitools.client.infrastructure.ServerError
+import org.openapitools.client.infrastructure.MultiValueMap
+import org.openapitools.client.infrastructure.RequestConfig
+import org.openapitools.client.infrastructure.RequestMethod
+import org.openapitools.client.infrastructure.ResponseType
+import org.openapitools.client.infrastructure.Success
+import org.openapitools.client.infrastructure.toMultiValue
 
 class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : ApiClient(basePath) {
 
@@ -30,7 +40,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateAddToAddressBookGet(currency: kotlin.String, type: kotlin.String, address: kotlin.String, name: kotlin.String, tfa: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "type" to listOf("$type"), "address" to listOf("$address"), "name" to listOf("$name"), "tfa" to listOf("$tfa"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/add_to_address_book",
@@ -72,7 +82,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateBuyGet(instrumentName: kotlin.String, amount: java.math.BigDecimal, type: kotlin.String?, label: kotlin.String?, price: java.math.BigDecimal?, timeInForce: kotlin.String?, maxShow: java.math.BigDecimal?, postOnly: kotlin.Boolean?, reduceOnly: kotlin.Boolean?, stopPrice: java.math.BigDecimal?, trigger: kotlin.String?, advanced: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "amount" to listOf("$amount"), "type" to listOf("$type"), "label" to listOf("$label"), "price" to listOf("$price"), "timeInForce" to listOf("$timeInForce"), "maxShow" to listOf("$maxShow"), "postOnly" to listOf("$postOnly"), "reduceOnly" to listOf("$reduceOnly"), "stopPrice" to listOf("$stopPrice"), "trigger" to listOf("$trigger"), "advanced" to listOf("$advanced"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/buy",
@@ -105,7 +115,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCancelAllByCurrencyGet(currency: kotlin.String, kind: kotlin.String?, type: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "kind" to listOf("$kind"), "type" to listOf("$type"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/cancel_all_by_currency",
@@ -137,7 +147,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCancelAllByInstrumentGet(instrumentName: kotlin.String, type: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "type" to listOf("$type"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/cancel_all_by_instrument",
@@ -167,7 +177,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCancelAllGet() : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/cancel_all",
@@ -198,7 +208,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCancelGet(orderId: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("orderId" to listOf("$orderId"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/cancel",
@@ -231,7 +241,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCancelTransferByIdGet(currency: kotlin.String, id: kotlin.Int, tfa: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "id" to listOf("$id"), "tfa" to listOf("$tfa"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/cancel_transfer_by_id",
@@ -263,7 +273,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCancelWithdrawalGet(currency: kotlin.String, id: java.math.BigDecimal) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "id" to listOf("$id"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/cancel_withdrawal",
@@ -295,7 +305,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateChangeSubaccountNameGet(sid: kotlin.Int, name: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("sid" to listOf("$sid"), "name" to listOf("$name"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/change_subaccount_name",
@@ -328,7 +338,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateClosePositionGet(instrumentName: kotlin.String, type: kotlin.String, price: java.math.BigDecimal?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "type" to listOf("$type"), "price" to listOf("$price"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/close_position",
@@ -359,7 +369,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCreateDepositAddressGet(currency: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/create_deposit_address",
@@ -389,7 +399,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateCreateSubaccountGet() : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/create_subaccount",
@@ -420,7 +430,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateDisableTfaForSubaccountGet(sid: kotlin.Int) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("sid" to listOf("$sid"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/disable_tfa_for_subaccount",
@@ -452,7 +462,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateDisableTfaWithRecoveryCodeGet(password: kotlin.String, code: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("password" to listOf("$password"), "code" to listOf("$code"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/disable_tfa_with_recovery_code",
@@ -488,7 +498,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateEditGet(orderId: kotlin.String, amount: java.math.BigDecimal, price: java.math.BigDecimal, postOnly: kotlin.Boolean?, advanced: kotlin.String?, stopPrice: java.math.BigDecimal?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("orderId" to listOf("$orderId"), "amount" to listOf("$amount"), "price" to listOf("$price"), "postOnly" to listOf("$postOnly"), "advanced" to listOf("$advanced"), "stopPrice" to listOf("$stopPrice"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/edit",
@@ -520,7 +530,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetAccountSummaryGet(currency: kotlin.String, extended: kotlin.Boolean?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "extended" to listOf("$extended"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_account_summary",
@@ -552,7 +562,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetAddressBookGet(currency: kotlin.String, type: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "type" to listOf("$type"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_address_book",
@@ -583,7 +593,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetCurrentDepositAddressGet(currency: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_current_deposit_address",
@@ -616,7 +626,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetDepositsGet(currency: kotlin.String, count: kotlin.Int?, offset: kotlin.Int?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "count" to listOf("$count"), "offset" to listOf("$offset"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_deposits",
@@ -646,7 +656,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetEmailLanguageGet() : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_email_language",
@@ -679,7 +689,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetMarginsGet(instrumentName: kotlin.String, amount: java.math.BigDecimal, price: java.math.BigDecimal) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "amount" to listOf("$amount"), "price" to listOf("$price"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_margins",
@@ -709,7 +719,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetNewAnnouncementsGet() : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf()
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_new_announcements",
@@ -742,7 +752,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetOpenOrdersByCurrencyGet(currency: kotlin.String, kind: kotlin.String?, type: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "kind" to listOf("$kind"), "type" to listOf("$type"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_open_orders_by_currency",
@@ -774,7 +784,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetOpenOrdersByInstrumentGet(instrumentName: kotlin.String, type: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "type" to listOf("$type"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_open_orders_by_instrument",
@@ -810,7 +820,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetOrderHistoryByCurrencyGet(currency: kotlin.String, kind: kotlin.String?, count: kotlin.Int?, offset: kotlin.Int?, includeOld: kotlin.Boolean?, includeUnfilled: kotlin.Boolean?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "kind" to listOf("$kind"), "count" to listOf("$count"), "offset" to listOf("$offset"), "includeOld" to listOf("$includeOld"), "includeUnfilled" to listOf("$includeUnfilled"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_order_history_by_currency",
@@ -845,7 +855,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetOrderHistoryByInstrumentGet(instrumentName: kotlin.String, count: kotlin.Int?, offset: kotlin.Int?, includeOld: kotlin.Boolean?, includeUnfilled: kotlin.Boolean?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "count" to listOf("$count"), "offset" to listOf("$offset"), "includeOld" to listOf("$includeOld"), "includeUnfilled" to listOf("$includeUnfilled"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_order_history_by_instrument",
@@ -876,7 +886,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetOrderMarginByIdsGet(ids: kotlin.Array<kotlin.String>) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("ids" to toMultiValue(ids.toList(), "multi"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_order_margin_by_ids",
@@ -907,7 +917,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetOrderStateGet(orderId: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("orderId" to listOf("$orderId"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_order_state",
@@ -938,7 +948,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetPositionGet(instrumentName: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_position",
@@ -970,7 +980,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetPositionsGet(currency: kotlin.String, kind: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "kind" to listOf("$kind"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_positions",
@@ -1003,7 +1013,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetSettlementHistoryByCurrencyGet(currency: kotlin.String, type: kotlin.String?, count: kotlin.Int?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "type" to listOf("$type"), "count" to listOf("$count"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_settlement_history_by_currency",
@@ -1036,7 +1046,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetSettlementHistoryByInstrumentGet(instrumentName: kotlin.String, type: kotlin.String?, count: kotlin.Int?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "type" to listOf("$type"), "count" to listOf("$count"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_settlement_history_by_instrument",
@@ -1067,7 +1077,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetSubaccountsGet(withPortfolio: kotlin.Boolean?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("withPortfolio" to listOf("$withPortfolio"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_subaccounts",
@@ -1100,7 +1110,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetTransfersGet(currency: kotlin.String, count: kotlin.Int?, offset: kotlin.Int?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "count" to listOf("$count"), "offset" to listOf("$offset"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_transfers",
@@ -1137,7 +1147,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetUserTradesByCurrencyAndTimeGet(currency: kotlin.String, startTimestamp: kotlin.Int, endTimestamp: kotlin.Int, kind: kotlin.String?, count: kotlin.Int?, includeOld: kotlin.Boolean?, sorting: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "kind" to listOf("$kind"), "startTimestamp" to listOf("$startTimestamp"), "endTimestamp" to listOf("$endTimestamp"), "count" to listOf("$count"), "includeOld" to listOf("$includeOld"), "sorting" to listOf("$sorting"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_user_trades_by_currency_and_time",
@@ -1174,7 +1184,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetUserTradesByCurrencyGet(currency: kotlin.String, kind: kotlin.String?, startId: kotlin.String?, endId: kotlin.String?, count: kotlin.Int?, includeOld: kotlin.Boolean?, sorting: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "kind" to listOf("$kind"), "startId" to listOf("$startId"), "endId" to listOf("$endId"), "count" to listOf("$count"), "includeOld" to listOf("$includeOld"), "sorting" to listOf("$sorting"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_user_trades_by_currency",
@@ -1210,7 +1220,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetUserTradesByInstrumentAndTimeGet(instrumentName: kotlin.String, startTimestamp: kotlin.Int, endTimestamp: kotlin.Int, count: kotlin.Int?, includeOld: kotlin.Boolean?, sorting: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "startTimestamp" to listOf("$startTimestamp"), "endTimestamp" to listOf("$endTimestamp"), "count" to listOf("$count"), "includeOld" to listOf("$includeOld"), "sorting" to listOf("$sorting"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_user_trades_by_instrument_and_time",
@@ -1246,7 +1256,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetUserTradesByInstrumentGet(instrumentName: kotlin.String, startSeq: kotlin.Int?, endSeq: kotlin.Int?, count: kotlin.Int?, includeOld: kotlin.Boolean?, sorting: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "startSeq" to listOf("$startSeq"), "endSeq" to listOf("$endSeq"), "count" to listOf("$count"), "includeOld" to listOf("$includeOld"), "sorting" to listOf("$sorting"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_user_trades_by_instrument",
@@ -1278,7 +1288,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetUserTradesByOrderGet(orderId: kotlin.String, sorting: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("orderId" to listOf("$orderId"), "sorting" to listOf("$sorting"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_user_trades_by_order",
@@ -1311,7 +1321,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateGetWithdrawalsGet(currency: kotlin.String, count: kotlin.Int?, offset: kotlin.Int?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "count" to listOf("$count"), "offset" to listOf("$offset"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/get_withdrawals",
@@ -1345,7 +1355,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateRemoveFromAddressBookGet(currency: kotlin.String, type: kotlin.String, address: kotlin.String, tfa: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "type" to listOf("$type"), "address" to listOf("$address"), "tfa" to listOf("$tfa"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/remove_from_address_book",
@@ -1387,7 +1397,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSellGet(instrumentName: kotlin.String, amount: java.math.BigDecimal, type: kotlin.String?, label: kotlin.String?, price: java.math.BigDecimal?, timeInForce: kotlin.String?, maxShow: java.math.BigDecimal?, postOnly: kotlin.Boolean?, reduceOnly: kotlin.Boolean?, stopPrice: java.math.BigDecimal?, trigger: kotlin.String?, advanced: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("instrumentName" to listOf("$instrumentName"), "amount" to listOf("$amount"), "type" to listOf("$type"), "label" to listOf("$label"), "price" to listOf("$price"), "timeInForce" to listOf("$timeInForce"), "maxShow" to listOf("$maxShow"), "postOnly" to listOf("$postOnly"), "reduceOnly" to listOf("$reduceOnly"), "stopPrice" to listOf("$stopPrice"), "trigger" to listOf("$trigger"), "advanced" to listOf("$advanced"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/sell",
@@ -1418,7 +1428,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSetAnnouncementAsReadGet(announcementId: java.math.BigDecimal) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("announcementId" to listOf("$announcementId"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/set_announcement_as_read",
@@ -1450,7 +1460,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSetEmailForSubaccountGet(sid: kotlin.Int, email: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("sid" to listOf("$sid"), "email" to listOf("$email"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/set_email_for_subaccount",
@@ -1481,7 +1491,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSetEmailLanguageGet(language: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("language" to listOf("$language"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/set_email_language",
@@ -1513,7 +1523,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSetPasswordForSubaccountGet(sid: kotlin.Int, password: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("sid" to listOf("$sid"), "password" to listOf("$password"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/set_password_for_subaccount",
@@ -1546,7 +1556,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSubmitTransferToSubaccountGet(currency: kotlin.String, amount: java.math.BigDecimal, destination: kotlin.Int) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "amount" to listOf("$amount"), "destination" to listOf("$destination"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/submit_transfer_to_subaccount",
@@ -1580,7 +1590,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateSubmitTransferToUserGet(currency: kotlin.String, amount: java.math.BigDecimal, destination: kotlin.String, tfa: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "amount" to listOf("$amount"), "destination" to listOf("$destination"), "tfa" to listOf("$tfa"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/submit_transfer_to_user",
@@ -1612,7 +1622,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateToggleDepositAddressCreationGet(currency: kotlin.String, state: kotlin.Boolean) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "state" to listOf("$state"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/toggle_deposit_address_creation",
@@ -1644,7 +1654,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateToggleNotificationsFromSubaccountGet(sid: kotlin.Int, state: kotlin.Boolean) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("sid" to listOf("$sid"), "state" to listOf("$state"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/toggle_notifications_from_subaccount",
@@ -1676,7 +1686,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateToggleSubaccountLoginGet(sid: kotlin.Int, state: kotlin.String) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("sid" to listOf("$sid"), "state" to listOf("$state"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/toggle_subaccount_login",
@@ -1711,7 +1721,7 @@ class PrivateApi(basePath: kotlin.String = "https://www.deribit.com/api/v2") : A
     fun privateWithdrawGet(currency: kotlin.String, address: kotlin.String, amount: java.math.BigDecimal, priority: kotlin.String?, tfa: kotlin.String?) : kotlin.Any {
         val localVariableBody: kotlin.Any? = null
         val localVariableQuery: MultiValueMap = mapOf("currency" to listOf("$currency"), "address" to listOf("$address"), "amount" to listOf("$amount"), "priority" to listOf("$priority"), "tfa" to listOf("$tfa"))
-        val localVariableHeaders: kotlin.collections.Map<kotlin.String,kotlin.String> = mapOf()
+        val localVariableHeaders: MutableMap<String, String> = mutableMapOf()
         val localVariableConfig = RequestConfig(
             RequestMethod.GET,
             "/private/withdraw",

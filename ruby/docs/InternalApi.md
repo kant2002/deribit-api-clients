@@ -30,9 +30,8 @@ Adds new entry to address book of given type
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -91,9 +90,8 @@ Disables TFA with one time recovery code
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -144,9 +142,8 @@ Retrieves address book of given type
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -197,9 +194,8 @@ Adds new entry to address book of given type
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -256,9 +252,8 @@ Transfer funds to a subaccount.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -311,9 +306,8 @@ Transfer funds to a another user.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -370,9 +364,8 @@ Enable or disable deposit address creation
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -423,9 +416,8 @@ Get information to be displayed in the footer of the website.
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -470,9 +462,8 @@ Retrives market prices and its implied volatility of options instruments
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new
@@ -521,9 +512,8 @@ Method used to introduce the client software connected to Deribit platform over 
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::InternalApi.new

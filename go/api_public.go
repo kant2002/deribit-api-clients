@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -52,7 +51,7 @@ type PublicAuthGetOpts struct {
 
 func (a *PublicApiService) PublicAuthGet(ctx context.Context, grantType string, username string, password string, clientId string, clientSecret string, refreshToken string, timestamp string, signature string, localVarOptionals *PublicAuthGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -164,7 +163,7 @@ PublicApiService Retrieves announcements from the last 30 days.
 */
 func (a *PublicApiService) PublicGetAnnouncementsGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -257,7 +256,7 @@ type PublicGetBookSummaryByCurrencyGetOpts struct {
 
 func (a *PublicApiService) PublicGetBookSummaryByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PublicGetBookSummaryByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -347,7 +346,7 @@ PublicApiService Retrieves the summary information such as open interest, 24h vo
 */
 func (a *PublicApiService) PublicGetBookSummaryByInstrumentGet(ctx context.Context, instrumentName string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -434,7 +433,7 @@ PublicApiService Retrieves contract size of provided instrument.
 */
 func (a *PublicApiService) PublicGetContractSizeGet(ctx context.Context, instrumentName string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -520,7 +519,7 @@ PublicApiService Retrieves all cryptocurrencies supported by the API.
 */
 func (a *PublicApiService) PublicGetCurrenciesGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -613,7 +612,7 @@ type PublicGetFundingChartDataGetOpts struct {
 
 func (a *PublicApiService) PublicGetFundingChartDataGet(ctx context.Context, instrumentName string, localVarOptionals *PublicGetFundingChartDataGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -703,7 +702,7 @@ PublicApiService Provides information about historical volatility for given cryp
 */
 func (a *PublicApiService) PublicGetHistoricalVolatilityGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -790,7 +789,7 @@ PublicApiService Retrieves the current index price for the instruments, for the 
 */
 func (a *PublicApiService) PublicGetIndexGet(ctx context.Context, currency string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -886,7 +885,7 @@ type PublicGetInstrumentsGetOpts struct {
 
 func (a *PublicApiService) PublicGetInstrumentsGet(ctx context.Context, currency string, localVarOptionals *PublicGetInstrumentsGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -992,7 +991,7 @@ type PublicGetLastSettlementsByCurrencyGetOpts struct {
 
 func (a *PublicApiService) PublicGetLastSettlementsByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PublicGetLastSettlementsByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1104,7 +1103,7 @@ type PublicGetLastSettlementsByInstrumentGetOpts struct {
 
 func (a *PublicApiService) PublicGetLastSettlementsByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PublicGetLastSettlementsByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1218,7 +1217,7 @@ type PublicGetLastTradesByCurrencyAndTimeGetOpts struct {
 
 func (a *PublicApiService) PublicGetLastTradesByCurrencyAndTimeGet(ctx context.Context, currency string, startTimestamp int32, endTimestamp int32, localVarOptionals *PublicGetLastTradesByCurrencyAndTimeGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1336,7 +1335,7 @@ type PublicGetLastTradesByCurrencyGetOpts struct {
 
 func (a *PublicApiService) PublicGetLastTradesByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PublicGetLastTradesByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1454,7 +1453,7 @@ type PublicGetLastTradesByInstrumentAndTimeGetOpts struct {
 
 func (a *PublicApiService) PublicGetLastTradesByInstrumentAndTimeGet(ctx context.Context, instrumentName string, startTimestamp int32, endTimestamp int32, localVarOptionals *PublicGetLastTradesByInstrumentAndTimeGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1567,7 +1566,7 @@ type PublicGetLastTradesByInstrumentGetOpts struct {
 
 func (a *PublicApiService) PublicGetLastTradesByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PublicGetLastTradesByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1676,7 +1675,7 @@ type PublicGetOrderBookGetOpts struct {
 
 func (a *PublicApiService) PublicGetOrderBookGet(ctx context.Context, instrumentName string, localVarOptionals *PublicGetOrderBookGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1765,7 +1764,7 @@ PublicApiService Retrieves the current time (in milliseconds). This API endpoint
 */
 func (a *PublicApiService) PublicGetTimeGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1850,7 +1849,7 @@ PublicApiService Retrieves aggregated 24h trade volumes for different instrument
 */
 func (a *PublicApiService) PublicGetTradeVolumesGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1938,7 +1937,7 @@ PublicApiService Publicly available market data used to generate a TradingView c
 */
 func (a *PublicApiService) PublicGetTradingviewChartDataGet(ctx context.Context, instrumentName string, startTimestamp int32, endTimestamp int32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2033,7 +2032,7 @@ type PublicTestGetOpts struct {
 
 func (a *PublicApiService) PublicTestGet(ctx context.Context, localVarOptionals *PublicTestGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2122,7 +2121,7 @@ PublicApiService Get ticker for an instrument.
 */
 func (a *PublicApiService) PublicTickerGet(ctx context.Context, instrumentName string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2217,7 +2216,7 @@ type PublicValidateFieldGetOpts struct {
 
 func (a *PublicApiService) PublicValidateFieldGet(ctx context.Context, field string, value string, localVarOptionals *PublicValidateFieldGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

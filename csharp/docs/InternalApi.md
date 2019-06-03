@@ -26,7 +26,6 @@ Adds new entry to address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -36,13 +35,14 @@ namespace Example
 {
     public class PrivateAddToAddressBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Address book type
             var address = address_example;  // string | Address in currency format, it must be in address book
@@ -55,9 +55,11 @@ namespace Example
                 Object result = apiInstance.PrivateAddToAddressBookGet(currency, type, address, name, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateAddToAddressBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -103,7 +105,6 @@ Disables TFA with one time recovery code
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -113,13 +114,14 @@ namespace Example
 {
     public class PrivateDisableTfaWithRecoveryCodeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var password = password_example;  // string | The password for the subaccount
             var code = code_example;  // string | One time recovery code
 
@@ -129,9 +131,11 @@ namespace Example
                 Object result = apiInstance.PrivateDisableTfaWithRecoveryCodeGet(password, code);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateDisableTfaWithRecoveryCodeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -174,7 +178,6 @@ Retrieves address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -184,13 +187,14 @@ namespace Example
 {
     public class PrivateGetAddressBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Address book type
 
@@ -200,9 +204,11 @@ namespace Example
                 Object result = apiInstance.PrivateGetAddressBookGet(currency, type);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateGetAddressBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -245,7 +251,6 @@ Adds new entry to address book of given type
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -255,13 +260,14 @@ namespace Example
 {
     public class PrivateRemoveFromAddressBookGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var type = type_example;  // string | Address book type
             var address = address_example;  // string | Address in currency format, it must be in address book
@@ -273,9 +279,11 @@ namespace Example
                 Object result = apiInstance.PrivateRemoveFromAddressBookGet(currency, type, address, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateRemoveFromAddressBookGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -320,7 +328,6 @@ Transfer funds to a subaccount.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -330,13 +337,14 @@ namespace Example
 {
     public class PrivateSubmitTransferToSubaccountGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var amount = 8.14;  // decimal? | Amount of funds to be transferred
             var destination = 1;  // int? | Id of destination subaccount
@@ -347,9 +355,11 @@ namespace Example
                 Object result = apiInstance.PrivateSubmitTransferToSubaccountGet(currency, amount, destination);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateSubmitTransferToSubaccountGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -393,7 +403,6 @@ Transfer funds to a another user.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -403,13 +412,14 @@ namespace Example
 {
     public class PrivateSubmitTransferToUserGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var amount = 8.14;  // decimal? | Amount of funds to be transferred
             var destination = destination_example;  // string | Destination address from address book
@@ -421,9 +431,11 @@ namespace Example
                 Object result = apiInstance.PrivateSubmitTransferToUserGet(currency, amount, destination, tfa);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateSubmitTransferToUserGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -468,7 +480,6 @@ Enable or disable deposit address creation
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -478,13 +489,14 @@ namespace Example
 {
     public class PrivateToggleDepositAddressCreationGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
             var state = true;  // bool? | 
 
@@ -494,9 +506,11 @@ namespace Example
                 Object result = apiInstance.PrivateToggleDepositAddressCreationGet(currency, state);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PrivateToggleDepositAddressCreationGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -539,7 +553,6 @@ Get information to be displayed in the footer of the website.
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -549,13 +562,14 @@ namespace Example
 {
     public class PublicGetFooterGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
 
             try
             {
@@ -563,9 +577,11 @@ namespace Example
                 Object result = apiInstance.PublicGetFooterGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PublicGetFooterGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -604,7 +620,6 @@ Retrives market prices and its implied volatility of options instruments
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -614,13 +629,14 @@ namespace Example
 {
     public class PublicGetOptionMarkPricesGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var currency = currency_example;  // string | The currency symbol
 
             try
@@ -629,9 +645,11 @@ namespace Example
                 Object result = apiInstance.PublicGetOptionMarkPricesGet(currency);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PublicGetOptionMarkPricesGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -673,7 +691,6 @@ Method used to introduce the client software connected to Deribit platform over 
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -683,13 +700,14 @@ namespace Example
 {
     public class PublicValidateFieldGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new InternalApi();
+            var apiInstance = new InternalApi(Configuration.Default);
             var field = field_example;  // string | Name of the field to be validated, examples: postal_code, date_of_birth
             var value = value_example;  // string | Value to be checked
             var value2 = value2_example;  // string | Additional value to be compared with (optional) 
@@ -700,9 +718,11 @@ namespace Example
                 Object result = apiInstance.PublicValidateFieldGet(field, value, value2);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling InternalApi.PublicValidateFieldGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

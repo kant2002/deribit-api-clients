@@ -18,7 +18,6 @@ Retrieves the current time (in milliseconds). This API endpoint can be used to c
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -28,13 +27,14 @@ namespace Example
 {
     public class PublicGetTimeGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new SupportingApi();
+            var apiInstance = new SupportingApi(Configuration.Default);
 
             try
             {
@@ -42,9 +42,11 @@ namespace Example
                 Object result = apiInstance.PublicGetTimeGet();
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling SupportingApi.PublicGetTimeGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }
@@ -83,7 +85,6 @@ Tests the connection to the API server, and returns its version. You can use thi
 ### Example
 
 ```csharp
-using System;
 using System.Diagnostics;
 using Org.OpenAPITools.Api;
 using Org.OpenAPITools.Client;
@@ -93,13 +94,14 @@ namespace Example
 {
     public class PublicTestGetExample
     {
-        public void main()
+        public static void Main()
         {
+            Configuration.Default.BasePath = "https://www.deribit.com/api/v2";
             // Configure HTTP basic authorization: bearerAuth
             Configuration.Default.Username = "YOUR_USERNAME";
             Configuration.Default.Password = "YOUR_PASSWORD";
 
-            var apiInstance = new SupportingApi();
+            var apiInstance = new SupportingApi(Configuration.Default);
             var expectedResult = expectedResult_example;  // string | The value \"exception\" will trigger an error response. This may be useful for testing wrapper libraries. (optional) 
 
             try
@@ -108,9 +110,11 @@ namespace Example
                 Object result = apiInstance.PublicTestGet(expectedResult);
                 Debug.WriteLine(result);
             }
-            catch (Exception e)
+            catch (ApiException e)
             {
                 Debug.Print("Exception when calling SupportingApi.PublicTestGet: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
             }
         }
     }

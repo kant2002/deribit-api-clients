@@ -23,9 +23,8 @@ Retrieve an Oauth access token, to be used for authentication of 'private' reque
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::AuthenticationApi.new

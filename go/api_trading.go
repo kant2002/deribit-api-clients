@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -59,7 +58,7 @@ type PrivateBuyGetOpts struct {
 
 func (a *TradingApiService) PrivateBuyGet(ctx context.Context, instrumentName string, amount float32, localVarOptionals *PrivateBuyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -186,7 +185,7 @@ type PrivateCancelAllByCurrencyGetOpts struct {
 
 func (a *TradingApiService) PrivateCancelAllByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateCancelAllByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -286,7 +285,7 @@ type PrivateCancelAllByInstrumentGetOpts struct {
 
 func (a *TradingApiService) PrivateCancelAllByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateCancelAllByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -375,7 +374,7 @@ TradingApiService This method cancels all users orders and stop orders within al
 */
 func (a *TradingApiService) PrivateCancelAllGet(ctx context.Context) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -461,7 +460,7 @@ TradingApiService Cancel an order, specified by order id
 */
 func (a *TradingApiService) PrivateCancelGet(ctx context.Context, orderId string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -556,7 +555,7 @@ type PrivateClosePositionGetOpts struct {
 
 func (a *TradingApiService) PrivateClosePositionGet(ctx context.Context, instrumentName string, type_ string, localVarOptionals *PrivateClosePositionGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -660,7 +659,7 @@ type PrivateEditGetOpts struct {
 
 func (a *TradingApiService) PrivateEditGet(ctx context.Context, orderId string, amount float32, price float32, localVarOptionals *PrivateEditGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -760,7 +759,7 @@ TradingApiService Get margins for given instrument, amount and price.
 */
 func (a *TradingApiService) PrivateGetMarginsGet(ctx context.Context, instrumentName string, amount float32, price float32) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -858,7 +857,7 @@ type PrivateGetOpenOrdersByCurrencyGetOpts struct {
 
 func (a *TradingApiService) PrivateGetOpenOrdersByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetOpenOrdersByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -958,7 +957,7 @@ type PrivateGetOpenOrdersByInstrumentGetOpts struct {
 
 func (a *TradingApiService) PrivateGetOpenOrdersByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetOpenOrdersByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1063,7 +1062,7 @@ type PrivateGetOrderHistoryByCurrencyGetOpts struct {
 
 func (a *TradingApiService) PrivateGetOrderHistoryByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetOrderHistoryByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1178,7 +1177,7 @@ type PrivateGetOrderHistoryByInstrumentGetOpts struct {
 
 func (a *TradingApiService) PrivateGetOrderHistoryByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetOrderHistoryByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1277,7 +1276,7 @@ TradingApiService Retrieves initial margins of given orders
 */
 func (a *TradingApiService) PrivateGetOrderMarginByIdsGet(ctx context.Context, ids []string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1364,7 +1363,7 @@ TradingApiService Retrieve the current state of an order.
 */
 func (a *TradingApiService) PrivateGetOrderStateGet(ctx context.Context, orderId string) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1470,7 +1469,7 @@ type PrivateGetSettlementHistoryByCurrencyGetOpts struct {
 
 func (a *TradingApiService) PrivateGetSettlementHistoryByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetSettlementHistoryByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1572,7 +1571,7 @@ type PrivateGetSettlementHistoryByInstrumentGetOpts struct {
 
 func (a *TradingApiService) PrivateGetSettlementHistoryByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetSettlementHistoryByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1680,7 +1679,7 @@ type PrivateGetUserTradesByCurrencyAndTimeGetOpts struct {
 
 func (a *TradingApiService) PrivateGetUserTradesByCurrencyAndTimeGet(ctx context.Context, currency string, startTimestamp int32, endTimestamp int32, localVarOptionals *PrivateGetUserTradesByCurrencyAndTimeGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1798,7 +1797,7 @@ type PrivateGetUserTradesByCurrencyGetOpts struct {
 
 func (a *TradingApiService) PrivateGetUserTradesByCurrencyGet(ctx context.Context, currency string, localVarOptionals *PrivateGetUserTradesByCurrencyGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -1916,7 +1915,7 @@ type PrivateGetUserTradesByInstrumentAndTimeGetOpts struct {
 
 func (a *TradingApiService) PrivateGetUserTradesByInstrumentAndTimeGet(ctx context.Context, instrumentName string, startTimestamp int32, endTimestamp int32, localVarOptionals *PrivateGetUserTradesByInstrumentAndTimeGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2029,7 +2028,7 @@ type PrivateGetUserTradesByInstrumentGetOpts struct {
 
 func (a *TradingApiService) PrivateGetUserTradesByInstrumentGet(ctx context.Context, instrumentName string, localVarOptionals *PrivateGetUserTradesByInstrumentGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2138,7 +2137,7 @@ type PrivateGetUserTradesByOrderGetOpts struct {
 
 func (a *TradingApiService) PrivateGetUserTradesByOrderGet(ctx context.Context, orderId string, localVarOptionals *PrivateGetUserTradesByOrderGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
@@ -2254,7 +2253,7 @@ type PrivateSellGetOpts struct {
 
 func (a *TradingApiService) PrivateSellGet(ctx context.Context, instrumentName string, amount float32, localVarOptionals *PrivateSellGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string

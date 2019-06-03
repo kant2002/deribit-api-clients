@@ -22,9 +22,8 @@ Retrieves the current time (in milliseconds). This API endpoint can be used to c
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::SupportingApi.new
@@ -69,9 +68,8 @@ Tests the connection to the API server, and returns its version. You can use thi
 require 'openapi_client'
 # setup authorization
 OpenapiClient.configure do |config|
-  # Configure HTTP basic authorization: bearerAuth
-  config.username = 'YOUR USERNAME'
-  config.password = 'YOUR PASSWORD'
+  # Configure Bearer authorization (Auth. Token): bearerAuth
+  config.access_token = 'YOUR_BEARER_TOKEN'
 end
 
 api_instance = OpenapiClient::SupportingApi.new

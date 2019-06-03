@@ -14,7 +14,6 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"strings"
 	"github.com/antihax/optional"
 )
 
@@ -52,7 +51,7 @@ type PublicAuthGetOpts struct {
 
 func (a *AuthenticationApiService) PublicAuthGet(ctx context.Context, grantType string, username string, password string, clientId string, clientSecret string, refreshToken string, timestamp string, signature string, localVarOptionals *PublicAuthGetOpts) (map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHttpMethod   = strings.ToUpper("Get")
+		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
